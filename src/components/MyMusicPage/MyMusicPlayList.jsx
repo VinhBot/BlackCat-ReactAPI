@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { useOutletContext } from "react-router";
+import { useOutletContext } from "react-router-dom";
 import EmptyContent from "../Bottom/EmptyContent";
 import { LoadingSvg } from "../loading/LoadingSvg";
 import CarouselItem from "../Selection/CarouselItem";

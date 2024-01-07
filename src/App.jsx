@@ -71,27 +71,27 @@ const App = memo(() => {
         // eslint-disable-next-line
     }, []);
     // Sự kiện chặn f12 và contextmenu
-    // useEffect(() => {
-    //     const handleKeyDown = (e) => {
-    //         if (e.key === 'F12' || e.keyCode === 123) {
-    //             e.preventDefault();
-    //         };
-    //     };
-    //     const handleContextMenu = (e) => {
-    //         e.preventDefault();
-    //         console.log("%cBạn không thể click chuột phải ở đây", "color: red;");
-    //     };
-    //     if (!users.isAdmin) {
-    //         window.addEventListener("contextmenu", handleContextMenu);
-    //         window.addEventListener("keydown", handleKeyDown);
-    //     };
-    //     // Hủy đăng ký sự kiện khi component unmount
-    //     return () => {
-    //         window.removeEventListener("contextmenu", handleContextMenu);
-    //         window.removeEventListener("keydown", handleKeyDown);
-    //     };
-    //     // Không làm gì nếu không phải admin
-    // }, [users.isAdmin]);
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === 'F12' || e.keyCode === 123) {
+                e.preventDefault();
+            };
+        };
+        const handleContextMenu = (e) => {
+            e.preventDefault();
+            console.log("%cBạn không thể click chuột phải ở đây", "color: red;");
+        };
+        if (!users.isAdmin) {
+            window.addEventListener("contextmenu", handleContextMenu);
+            window.addEventListener("keydown", handleKeyDown);
+        };
+        // Hủy đăng ký sự kiện khi component unmount
+        return () => {
+            window.removeEventListener("contextmenu", handleContextMenu);
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+        // Không làm gì nếu không phải admin
+    }, [users.isAdmin]);
     // JSX trả về cho component
     return (
         <>

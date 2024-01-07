@@ -1,9 +1,9 @@
-import React from "react"
-import { useOutletContext } from "react-router"
-import EmptyContent from "../Bottom/EmptyContent"
-import { LoadingSvg } from "../loading/LoadingSvg"
-import PlayListSelector from "../Selection/PlayListSelector"
-import ItemChartList from "../TopChartPage/ItemChartList"
+import React from "react";
+import { useOutletContext } from "react-router-dom";
+import EmptyContent from "../Bottom/EmptyContent";
+import { LoadingSvg } from "../loading/LoadingSvg";
+import PlayListSelector from "../Selection/PlayListSelector";
+import ItemChartList from "../TopChartPage/ItemChartList";
 
 const MyMusicSong = () => {
    const { docs } = useOutletContext();
@@ -26,7 +26,7 @@ const MyMusicSong = () => {
             </PlayListSelector>
          )}
       </div>
-   )
-}
+   );
+};
 
-export default MyMusicSong
+export default MyMusicSong;

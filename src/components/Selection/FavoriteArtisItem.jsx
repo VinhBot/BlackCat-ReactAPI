@@ -1,6 +1,6 @@
 import React, { memo } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from "react-router"
+import { useNavigate } from "react-router-dom"
 import { fetchPlayList } from "../../assets/redux/Features/QueueFeatures.js";
 import { setPlay, setReady } from "../../assets/redux/Features/settingPlayFeatures.js";
 import ActionIcon from "../Icon/ActionIcon"

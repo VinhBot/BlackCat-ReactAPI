@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "react-router"
+import { useParams } from "react-router-dom"
 import { scrollTop } from "../../assets/functions.js"
 import { AxiosAPI } from "../../assets/api.js"
 import { LoadingSvg } from "../loading/LoadingSvg"

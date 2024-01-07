@@ -24,7 +24,7 @@ const MyInfoPage = memo(() => {
         initialValues: {
             profileImage: userInfo.profileImage,
             name: userInfo.name,
-            email: userInfo.email || ""
+            email: userInfo.email || "",
         },
         onSubmit: async (formData, formikHand) => {
             try {
@@ -81,7 +81,8 @@ const MyInfoPage = memo(() => {
             passcordNewCheck: ""
         },
         onSubmit: async (formData, formikHand) => { 
-            toast.warning("Tính năng đổi mật khẩu đang được phát triển xin vui lòng quay lại sau....")
+            toast.warning("Tính năng đổi mật khẩu đang được phát triển xin vui lòng quay lại sau....");
+            
             try {
                 // Mô phỏng việc gửi dữ liệu đến máy chủ (API) không đồng bộ
                 formikHand.setSubmitting(true);

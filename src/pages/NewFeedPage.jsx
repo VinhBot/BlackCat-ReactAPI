@@ -1,6 +1,5 @@
+import { Link, Outlet, useParams } from "react-router-dom";
 import React from "react";
-import { Outlet, useParams } from "react-router";
-import { Link } from "react-router-dom";
 
 const NewFeedPage = () => {
    const { nation } = useParams()

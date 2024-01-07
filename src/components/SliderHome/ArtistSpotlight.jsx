@@ -1,7 +1,7 @@
 import { Navigation, Autoplay, Pagination } from "swiper/modules";
 import React, { memo, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom"
 
 const dataAritsHomePage = [
    { img: "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/zma-2021/imgs/justatee.png", linkTo: "JustaTee" },

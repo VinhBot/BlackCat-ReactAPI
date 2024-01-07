@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useLayoutEffect, useCallback } from "react";
 import scrollIntoView from "smooth-scroll-into-view-if-needed";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 import PlayListSelector from "../components/Selection/PlayListSelector.jsx";

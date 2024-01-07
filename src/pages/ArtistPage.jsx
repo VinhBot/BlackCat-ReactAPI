@@ -1,6 +1,5 @@
 import React, { useState, useLayoutEffect } from "react";
-import { Outlet, useParams } from "react-router";
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet, useParams } from "react-router-dom";
 
 import ArtistInfoTop from "../components/ArtistPage/ArtistInfoTop.jsx";
 import {  LoadingSvg } from "../components/loading/LoadingSvg.jsx";

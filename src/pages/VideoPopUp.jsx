@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback, useLayoutEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ReactPlayer from "react-player";
-import axios from "axios";
 
 import { setPlayingAction } from "../assets/redux/Features/settingPlayFeatures.js";
 import { setOpenOff } from "../assets/redux/Features/toggleMainMvFeatures.js";

@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useLayoutEffect } from "react";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { LoadingSvg } from "../loading/LoadingSvg";
 import PlayListSelector from "../Selection/PlayListSelector";
