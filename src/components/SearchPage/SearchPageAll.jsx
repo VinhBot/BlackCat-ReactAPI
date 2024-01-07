@@ -13,14 +13,14 @@ import ItemChartList from "../TopChartPage/ItemChartList"
 import OutstandingItems from "./OutstandingItems"
 
 const SearchPageAll = () => {
-   const { id } = useParams()
+   const { id } = useParams();
 
-   const [datas, setData] = useState([])
+   const [datas, setData] = useState([]);
 
    const fetchData = async () => {
-      const data = await AxiosAPI.get(`/api/searchall?keyword=${id}`);
-      setData(data.data.data)
-   }
+      const data = await AxiosAPI.getSearchAllKey(id);
+      setData(data);
+   };
 
    useEffect(() => {
       scrollTop();

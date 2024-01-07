@@ -26,8 +26,8 @@ const MyMusicPage = memo(() => {
 
    useEffect(() => {
       const fetchData = async() => {
-         const data = await AxiosAPI.get(`/user/finduser/${users.username}`);
-         setDocs(data.data.data);
+         const data = await AxiosAPI.getAllDataUser(users.username);
+         setDocs(data);
       };
       fetchData();
       // eslint-disable-next-line react-hooks/exhaustive-deps

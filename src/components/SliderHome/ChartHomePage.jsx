@@ -6,12 +6,12 @@ import { toast } from "react-toastify";
 import { fetchPlayList, setCurrentIndexSong } from "../../features/QueueFeatures/QueueFeatures";
 import { setPlay, setRandomSongs, setReady } from "../../features/SettingPlay/settingPlay";
 import { pushPlayListsLogged } from "../../assets/redux/Features/loggedFeatures.js";
-import { useGetHomePage } from "../../assets/api.js";
+import { AxiosAPI } from "../../assets/api.js";
 import CharHomeItem from "../Selection/CharHomeItem";
 
 const ChartHomePage = memo(() => {
    const [datas, setData] = useState(null);
-   const { data, status } = useGetHomePage();
+   const { data, status } = AxiosAPI.useGetHomePage();
    const dataSelector = data?.data.items.find((e) => e.sectionType === "RTChart");
 
    const currentEncodeId = useSelector((state) => state.queueNowPlay.currentEncodeId);

@@ -17,8 +17,8 @@ const HubDetailPage = () => {
    const [datas, setData] = useState([])
 
    const fetchData = useCallback(async () => {
-      const data = await AxiosAPI.get(`/api/hubdetails/${id}`);
-      setData(data.data.data)
+      const data = await AxiosAPI.getHubDetail(id);
+      setData(data);
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 

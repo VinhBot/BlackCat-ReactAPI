@@ -2,8 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosAPI } from "../../api.js";
 
 export const fetchDataLyrics = createAsyncThunk("lyrics/fetchDataLyrics", async (id) => {
-    const res = await AxiosAPI.get(`/api/songlyrics/${id}`);
-    return res.data.data;
+    return AxiosAPI.getLyrics(id);
 });
 
 export const lyrics = createSlice({

@@ -1,11 +1,11 @@
 import React, { memo, useEffect, useState } from "react"
-import { useGetHomePage } from "../../assets/api.js"
+import { AxiosAPI } from "../../assets/api.js"
 import PlayListSelector from "../Selection/PlayListSelector"
 import RaidoItem from "../Selection/RaidoItem"
 
 const RadioHomePage = memo(({ isNotAll }) => {
    const [datas, setData] = useState(null);
-   const { data, status } = useGetHomePage();
+   const { data, status } = AxiosAPI.useGetHomePage();
 
    const dataSelector = data?.data.items.find((e) => e.title === "Radio Nổi bật")
 

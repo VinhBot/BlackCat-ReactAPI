@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react"
-import CharHomeItem from "../components/Selection/CharHomeItem"
-import { useGetHomeChart } from "../assets/api.js"
-import ChartList from "../components/TopChartPage/ChartList"
-import WeekList from "../components/TopChartPage/WeekList"
-import { LoadingSvg }from "../components/loading/LoadingSvg"
-import { useDispatch } from "react-redux"
-import { setPlay, setReady } from "../assets/redux/Features/settingPlayFeatures.js"
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+
+import CharHomeItem from "../components/Selection/CharHomeItem";
+import { AxiosAPI } from "../assets/api.js";
+import ChartList from "../components/TopChartPage/ChartList";
+import WeekList from "../components/TopChartPage/WeekList";
+import { LoadingSvg }from "../components/loading/LoadingSvg";
+import { setPlay, setReady } from "../assets/redux/Features/settingPlayFeatures.js";
 import { fetchPlayList } from "../assets/redux/Features/QueueFeatures.js";
 const ZingChartPage = () => {
-   const { data, status } = useGetHomeChart();
+   const { data, status } = AxiosAPI.useGetHomeChart();
    const [datas, setData] = useState([]);
    const dispatch = useDispatch();
    useEffect(() => {

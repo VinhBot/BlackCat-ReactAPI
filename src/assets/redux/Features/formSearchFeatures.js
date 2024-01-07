@@ -2,11 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosAPI } from "../../api.js";
 
 export const fetchHotKey = createAsyncThunk("formSearch/fetchHotKey", async () => {
-    return AxiosAPI.get("/api/recommendkeyword").then((data) => data.data.data);
+    return AxiosAPI.getHotKey();
 });
 
 export const fetchDataSearch = createAsyncThunk("formSearch/fetchDataSearch ", async (name) => {
-    return AxiosAPI.get(`/api/suggestionkeyword?keyword=${name}`).then((response) => response.data.data.items);
+    return AxiosAPI.getHotSuggestion(name)
 });
 
 export const formSearch = createSlice({

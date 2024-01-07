@@ -9,10 +9,10 @@ import FeaturedEpisodesRadio from "../components/RadioPage/FeaturedEpisodesRadio
 import NewProgramRaido from "../components/RadioPage/NewProgramRaido.jsx";
 import RadReplayRadio from "../components/RadioPage/RadReplayRadio.jsx";
 import SidleRadio from "../components/RadioPage/SidleRadio.jsx";
-import { useGetRadioPage } from "../assets/api.js";
+import { AxiosAPI } from "../assets/api.js";
 
 const RadioPage = () => {
-   const { data, status } = useGetRadioPage();
+   const { data, status } = AxiosAPI.useGetRadioPage();
    const [datas, setData] = useState([]);
    useEffect(() => {
       if(data) {

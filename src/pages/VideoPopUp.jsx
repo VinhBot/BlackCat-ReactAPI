@@ -24,9 +24,9 @@ const VideoPopUp = () => {
    const idOpen = useSelector((state) => state.setOpenMainMv.historyOpen)
    const infoCurrentMv = useSelector((state) => state.queueNowPlay.infoCurrentMv)
    const fetchData = useCallback(async () => {
-      const data = await AxiosAPI.get(`/api/mv/${id}`);
+      const data = await AxiosAPI.getVideoMv(id);
       if (datas.length === 0 || !datas) {
-         setData(data.data.data)
+         setData(data);
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

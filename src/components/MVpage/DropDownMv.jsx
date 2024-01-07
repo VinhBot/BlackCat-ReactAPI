@@ -15,9 +15,8 @@ const DropDownMv = memo(() => {
    const [open, setOpen] = useState(false)
 
    const fetchData = useCallback(async () => {
-      const data = await AxiosAPI.get(`/api/categorymv/${id}`);
-      const dataSelector = data.data.data
-      setData(dataSelector)
+      const dataSelector = await AxiosAPI.getCategoryMv(id);
+      setData(dataSelector);
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
 

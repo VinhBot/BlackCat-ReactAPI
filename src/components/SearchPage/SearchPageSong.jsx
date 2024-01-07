@@ -12,7 +12,7 @@ const SearchPageSong = () => {
    const [datas, setData] = useState([])
 
    const fetchData = async () => {
-      const data = await AxiosAPI.get(`/api/searchtype?keyword=${id}&type=song`);
+      const data = await AxiosAPI.getSearchByType(id, "song");
       setData(data.data.data);
    };
 

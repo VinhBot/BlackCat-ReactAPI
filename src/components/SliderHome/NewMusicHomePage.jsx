@@ -7,12 +7,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { playSongNotAlbum } from "../../assets/redux/Features/QueueFeatures.js";
 import { setPlay, setReady } from "../../assets/redux/Features/settingPlayFeatures.js";
 import PlayListSelector from "../Selection/PlayListSelector";
-import { useGetHomePage } from "../../assets/api.js";
+import { AxiosAPI } from "../../assets/api.js";
 import LoadingIcon from "../Icon/LoadingIcon";
 import ActionIcon from "../Icon/ActionIcon";
 
 const NewMusicHomePage = memo(() => {
-   const { data, status } = useGetHomePage();
+   const { data, status } = AxiosAPI.useGetHomePage();
    const [datas, setData] = useState(null);
    const dispatch = useDispatch();
    const navigate = useNavigate();

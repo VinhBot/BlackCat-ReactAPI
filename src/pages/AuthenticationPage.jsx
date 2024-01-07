@@ -8,7 +8,7 @@ import * as Yup from "yup";
 // Import file
 import { setUserInfo } from "../assets/redux/Features/authFeatures.js";
 import { SignUpStyles } from "../assets/styledComponents.js";
-import { ApiHandler as AxiosAPI } from "../assets/api.js";
+import { AxiosAPI } from "../assets/api.js";
 /*========================================================
 # Biểu mẫu đăng nhập, đăng ký
 ========================================================*/

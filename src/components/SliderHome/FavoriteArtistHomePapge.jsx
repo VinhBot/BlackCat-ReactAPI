@@ -1,11 +1,11 @@
 import React, { memo, useEffect, useState } from "react";
-import { useGetHomePage } from "../../assets/api.js";
+import { AxiosAPI } from "../../assets/api.js";
 import PlayListSelector from "../Selection/PlayListSelector";
 import FavoriteArtisItem from "../Selection/FavoriteArtisItem";
 
 const FavoriteArtistHomePapge = memo(() => {
   const [datas, setData] = useState(null);
-  const { data, status } = useGetHomePage();
+  const { data, status } = AxiosAPI.useGetHomePage();
   const dataSelector = data?.data.items.find((e) => e.title === "Nghệ Sĩ Yêu Thích");
   useEffect(() => {
     if(data && dataSelector) {

@@ -1,11 +1,11 @@
 import React, { memo, useEffect, useState } from "react"
-import { useGetHomePage } from "../../assets/api.js"
+import { AxiosAPI } from "../../assets/api.js"
 import CarouselItem from "../Selection/CarouselItem"
 import PlayListSelector from "../Selection/PlayListSelector"
 import { v4 as uuidv4 } from "uuid"
 const WantToHearHomePage = memo(() => {
    const [datas, setData] = useState(null);
-   const { data, status } = useGetHomePage();
+   const { data, status } = AxiosAPI.useGetHomePage();
 
    const dataSelector = data?.data?.items[4];
 

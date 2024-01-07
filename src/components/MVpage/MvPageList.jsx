@@ -7,16 +7,16 @@ import DropDownMv from "./DropDownMv"
 import { LoadingSvg } from "../loading/LoadingSvg"
 
 const MvPageList = memo(() => {
-   const { id } = useParams()
-   const [datas, setData] = useState([])
-   const page = useRef(1)
-   const [loading, setLoading] = useState(false)
-
+   const [loading, setLoading] = useState(false);
+   const [datas, setData] = useState([]);
+   const { id } = useParams();
+   const page = useRef(1);
+   
    const fetchData = async() => {
-      const data = await AxiosAPI.get(`/api/listmv?id=${id}&page=${page.current}&count=19`);
-      const dataSelector = data.data.data.items;
-      const tolal = data.data.data.toltal;
-      const more = data.data.data.hasMore;
+      const data = await AxiosAPI.getListMv(id, page.current);
+      const dataSelector = data.items;
+      const tolal = data.toltal;
+      const more = data.hasMore;
       page.current += 1;
       if (datas.length >= tolal || !more) {
          return setLoading(false);

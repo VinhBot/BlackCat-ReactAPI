@@ -6,10 +6,10 @@ import { setPlay, setReady } from "../assets/redux/Features/settingPlayFeatures.
 import { fetchPlayList } from "../assets/redux/Features/QueueFeatures.js";
 import ItemChartList from "../components/TopChartPage/ItemChartList.jsx";
 import { LoadingSvg } from "../components/loading/LoadingSvg.jsx";
-import { getNewSongRelease } from "../assets/api.js";
+import { AxiosAPI } from "../assets/api.js";
 
 const NewMusicPage = () => {
-   const { data, status } = getNewSongRelease();
+   const { data, status } = AxiosAPI.getNewSongRelease();
    const [datas, setData] = useState([]);
    const dispatch = useDispatch();
    useEffect(() => {

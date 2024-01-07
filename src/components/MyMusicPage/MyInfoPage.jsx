@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { setUserInfo } from "../../assets/redux/Features/authFeatures.js";
 import { UpdateProfileStyled } from "../../assets/styledComponents";
 import PlayListSelector from "../Selection/PlayListSelector";
-import { ApiHandler as AxiosAPI } from "../../assets/api.js";
+import { AxiosAPI } from "../../assets/api.js";
 
 const MyInfoPage = memo(() => {
     // Sử dụng Redux hook để lấy thông tin người dùng từ trạng thái Redux

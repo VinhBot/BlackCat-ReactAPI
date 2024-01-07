@@ -1,16 +1,16 @@
 import React, { memo, useState, useLayoutEffect, useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
-import MvItem from "./MvItem";
 
-import { AxiosAPI } from "../../assets/api.js"
-import PlayListSelector from "../Selection/PlayListSelector"
+import PlayListSelector from "../Selection/PlayListSelector";
+import { AxiosAPI } from "../../assets/api.js";
+import MvItem from "./MvItem";
 
 const MvDataList = memo(({ item }) => {
    const [datas, setData] = useState([]);
 
    const fetchData = useCallback(async () => {
-      const data = await AxiosAPI.get(`/api/artist/${item.alias}`)
-      const res = data.data.data.sections?.find((e) => e.sectionType === "video")
+      const data = await AxiosAPI.getArtistPage(item.alias);
+      const res = data.sections?.find((e) => e.sectionType === "video");
       setData(res.items);
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);

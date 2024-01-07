@@ -2,7 +2,7 @@ import { useCallback, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import { ApiHandler as AxiosAPI } from "../../assets/api.js";
+import { AxiosAPI } from "../../assets/api.js";
 // // Usage
 
 // function App() {

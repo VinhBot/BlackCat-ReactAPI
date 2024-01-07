@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosAPI } from "../../api.js";
 
 export const fetchPlayList = createAsyncThunk("queueNowPlay/fetchPlayList", async (id) => {
-   return AxiosAPI.get(`/api/playlist/${id}`).then((result) => result.data.data);
+   return AxiosAPI.getAlbumPage(id);
 });
 
 export const queueNowPlay = createSlice({

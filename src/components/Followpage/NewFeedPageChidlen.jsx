@@ -39,7 +39,7 @@ const NewFeedPageChidlen = () => {
   }, [loading])
 
   const fetchData = async () => {
-    const data = await AxiosAPI.get(`/api/newfeeds?id=${id}&page=${numer.current}`); 
+    const data = await AxiosAPI.getNewFeed(id, numer.current);
     const dataSelector = data.data.data.items;
     
     numer.current += 1

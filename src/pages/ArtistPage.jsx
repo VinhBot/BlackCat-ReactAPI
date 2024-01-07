@@ -11,12 +11,10 @@ import { AxiosAPI } from "../assets/api.js";
 const ArtistPage = () => {
    const { name } = useParams();
    const [datas, setData] = useState([]);
-   const fetchData = async () => AxiosAPI.get(`/api/artist/${name}`).then((response) => {
-      setData(response?.data?.data); // Xử lý dữ liệu khi nhận được response thành công
-   }).catch((error) => {
-      // Xử lý lỗi nếu có
-      console.error("ArtistPage:", error);
-   });
+   const fetchData = async () => {
+      const result = await AxiosAPI.getArtistPage(name);
+      setData(result);
+   };
    const project = [
      { _name: "TỔNG QUAN", _path: `/nghe-si/${name}/` },
      { _name: "BÀI HÁT", _path: `/nghe-si/${name}/song` },

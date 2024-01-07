@@ -2,13 +2,13 @@ import React, { memo, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 
-import { useGetHomePage } from "../../assets/api.js";
+import { AxiosAPI } from "../../assets/api.js";
 import CarouselItem from "../Selection/CarouselItem";
 
 const NewMusicHomePage2 = memo(() => {
-   const [datas, setData] = useState(null)
-   const { data, status } = useGetHomePage()
-
+   const { data, status } = AxiosAPI.useGetHomePage();
+   const [datas, setData] = useState(null);
+   
    const dataSelector = data?.data.items.find((e) => e.sectionId === "hAlbum")
 
    useEffect(() => {

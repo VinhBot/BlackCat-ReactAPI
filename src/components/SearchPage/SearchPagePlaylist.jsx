@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "react-router"
+import { useParams } from "react-router-dom"
 import { scrollTop } from "../../assets/functions.js"
 import { AxiosAPI } from "../../assets/api.js"
 import { LoadingSvg } from "../loading/LoadingSvg"
@@ -13,7 +13,7 @@ const SearchPagePlaylist = () => {
    const [datas, setData] = useState([])
 
    const fetchData = async () => {
-      const data = await AxiosAPI.get(`/api/searchtype?keyword=${id}&type=playlist`);
+      const data = await AxiosAPI.getSearchByType(id, "playlist");
       setData(data.data.data);
    };
 

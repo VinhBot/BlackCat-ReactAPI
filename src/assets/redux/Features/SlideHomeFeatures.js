@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosAPI } from "../../api.js";
 
 export const fetchHotKey = createAsyncThunk("formSearch/fetchHotKey", async () => {
-    return AxiosAPI.get("/api/recommendkeyword").then((data) => data.data.data);
+    return AxiosAPI.getHotKey();
 });
 
 export const formSearch = createSlice({

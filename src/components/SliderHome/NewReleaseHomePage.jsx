@@ -2,13 +2,13 @@ import React, { memo, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import NewReleaseitem from "../NewReleaseitem/NewReleaseitem";
 import PlayListSelector from "../Selection/PlayListSelector";
-import { useGetHomePage } from "../../assets/api.js";
+import { AxiosAPI } from "../../assets/api.js";
 import { NewReleaseStyle } from "../../assets/styledComponents";
 
 const NewReleaseHomePage = memo(() => {
     const [selectList, setSelectList] = useState(false);
     const [datas, setData] = useState(null);
-    const { data, status } = useGetHomePage();
+    const { data, status } = AxiosAPI.useGetHomePage();
     const dataSelector = data?.data.items.find((e) => e.sectionType === "new-release");
 
     useEffect(() => {

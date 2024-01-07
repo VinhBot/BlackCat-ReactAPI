@@ -2,12 +2,12 @@ import { Navigation, Autoplay, Pagination, Scrollbar, A11y } from "swiper/module
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import React, { memo, useState, useLayoutEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useGetHomePage } from "../../assets/api.js";
+import { AxiosAPI } from "../../assets/api.js";
 import { SlideStyle } from "../../assets/styledComponents";
 
 const SliderHomePage = memo(() => {
   const [datas, setData] = useState(null);
-  const { data, status } = useGetHomePage();
+  const { data, status } = AxiosAPI.useGetHomePage();
   const dataNice = data?.data?.items.filter((e) => e.sectionType === "banner");
   useLayoutEffect(() => {
     if (data) {

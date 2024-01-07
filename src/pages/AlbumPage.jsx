@@ -3,7 +3,6 @@ import scrollIntoView from "smooth-scroll-into-view-if-needed";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
 
 import PlayListSelector from "../components/Selection/PlayListSelector.jsx";
 import ItemChartList from "../components/TopChartPage/ItemChartList.jsx";
@@ -36,13 +35,13 @@ const AlbumPage = () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [id]);
    const fetchData = useCallback(async () => {
-      const data = await AxiosAPI.get(`/api/playlist/${id}`);
-      setData(data.data.data)
+      const data = await AxiosAPI.getAlbumPage(id);
+      setData(data)
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
    const fetchDataSuggested = useCallback(async () => {
-      const data = await AxiosAPI.get(`/api/suggestedplaylists/${id}`);
-      setDataSuggested(data.data.data);
+      const data = await AxiosAPI.getSuggestedAlbum(id);
+      setDataSuggested(data);
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
    if (datas?.length === 0 || dataSuggested?.length === 0) return <LoadingSvg/>

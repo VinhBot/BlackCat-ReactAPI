@@ -1,10 +1,10 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import React, { memo, useEffect, useState } from "react";
-import { useGetHomePage } from "../../assets/api.js";
+import { AxiosAPI } from "../../assets/api.js";
 const WeekChartHomePage = memo(() => {
+   const { data, status } = AxiosAPI.useGetHomePage();
    const [datas, setData] = useState(null);
-   const { data, status } = useGetHomePage();
-
+   
    const dataSelector = data?.data.items.find((e) => e.sectionType === "weekChart");
 
    useEffect(() => {

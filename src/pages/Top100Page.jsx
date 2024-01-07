@@ -4,11 +4,11 @@ import { v4 as uuidv4 } from "uuid";
 import PlayListSelector from "../components/Selection/PlayListSelector.jsx";
 import CarouselItem from "../components/Selection/CarouselItem.jsx";
 import { LoadingSvg } from "../components/loading/LoadingSvg.jsx";
-import { getTop100page } from "../assets/api.js";
+import { AxiosAPI } from "../assets/api.js";
 
 const Top100Page = () => {
    const [datas, setData] = useState([])
-   const { data, status } = getTop100page()
+   const { data, status } = AxiosAPI.getTop100page()
    useEffect(() => {
       if(data) {
          setData(data.data);
