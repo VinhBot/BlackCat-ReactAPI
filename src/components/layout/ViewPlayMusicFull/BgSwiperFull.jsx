@@ -1,6 +1,6 @@
 import { EffectFade, Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import React, { memo } from "react";
+import React from "react";
 
 const imgBgViewFull = [
    "https://top10tayninh.com/wp-content/uploads/2022/10/hinh-nen-phong-canh-anime-1.jpg",
@@ -16,7 +16,7 @@ const imgBgViewFull = [
    "https://vanhoadoisong.vn/wp-content/uploads/2022/05/100-hinh-nen-anh-phong-canh-anime-dep-full-hd-may-tinh-dien-thoai-01.jpg",
 ];
 
-const BgSwiperFull = memo(() => {
+const BgSwiperFull = React.memo(() => {
    return (
       <div className="image-effect ">
          <Swiper effect={"fade"} modules={[EffectFade, Navigation, Pagination, Autoplay]} autoplay={{ delay: 8800, disableOnInteraction: false }} className="mySwiper" loop={true} speed={1200}>

@@ -1,26 +1,23 @@
-import { useCallback, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import React from "react";
 
 import { AxiosAPI } from "../../assets/api.js";
-// // Usage
-
-// function App() {
-//    const size = useWindowSize()
-//    return (
-//       <div>
-//          {size.width}px / {size.height}px
-//       </div>
-//    )
-// }
-
 // Hook
 export function useWindowSize() {
-   const [windowSize, setWindowSize] = useState({
+   // function App() {
+   //    const size = useWindowSize()
+   //    return (
+   //       <div>
+   //          {size.width}px / {size.height}px
+   //       </div>
+   //    )
+   // }
+   const [windowSize, setWindowSize] = React.useState({
       width: undefined,
       height: undefined,
    });
-   useMemo(() => {
+   React.useMemo(() => {
       function handleResize() {
          setWindowSize({
             width: window.innerWidth,
@@ -42,20 +39,20 @@ export function useWindowSize() {
 // Tham số là boolean, với giá trị mặc định là "false"
 
 export const useToggle = (initialState = false) => {
-  const [state, setState] = useState(initialState);
-  const toggle = useCallback(() => setState((state) => !state), []);
-  return [state, toggle];
+   const [state, setState] = React.useState(initialState);
+   const toggle = React.useCallback(() => setState((state) => !state), []);
+   return [state, toggle];
 };
- 
+
 //==============================================================================
 // Định nghĩa một hook tùy chỉnh để quản lý việc thích dựa trên mục và loại
 export const useLikeHook = (item, type) => {
    // Lấy thông tin người dùng từ trạng thái Redux
    const users = useSelector((state) => state.auth);
    // Trạng thái để theo dõi liệu mục có được thích hay không
-   const [isLike, setLike] = useState(false);
+   const [isLike, setLike] = React.useState(false);
    // Hiệu ứng được memoize để kiểm tra xem người dùng hiện tại đã thích mục này chưa
-   useMemo(() => {
+   React.useMemo(() => {
       // Kiểm tra xem có người dùng đang hoạt động không
       if (users.activeUser) {
          // Thực hiện yêu cầu POST đến máy chủ để lấy dữ liệu người dùng
@@ -79,7 +76,7 @@ export const useLikeHook = (item, type) => {
             console.error(error);
          });
       };
-   // eslint-disable-next-line react-hooks/exhaustive-deps
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [item]);
    // Hàm để xử lý việc thích hoặc bỏ thích một mục
    const handleLike = () => {

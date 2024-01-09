@@ -5,7 +5,7 @@ const NotFound = memo(() => {
    return (
       <center>
         <Link className="cursor-pointer" to="/">
-          <p style={{ color: "red" }}>HomePage</p>
+          <p style={{ color: "red" }}>Trang chủ</p>
         </Link>
       </center>
    );

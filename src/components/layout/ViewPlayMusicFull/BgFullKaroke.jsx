@@ -1,44 +1,43 @@
-import React, { memo, useLayoutEffect, useRef, useEffect, useState } from "react"
-import { toast } from "react-toastify"
-import { useSelector, useDispatch } from "react-redux"
+import React, { memo, useLayoutEffect, useRef, useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { setPlaying, setProgressInterval } from "../../../assets/redux/Features/settingPlayFeatures.js";
 import { setIsSeek } from "../../../assets/redux/Features/LyricsFeatures.js";
-import { setPlaying, setProgressInterval } from "../../../assets/redux/Features/settingPlayFeatures.js"
-import { LoadingSvg } from "../../loading/LoadingSvg"
 import { LyricStyleds } from "../../../assets/styledComponents";
+import { LoadingSvg } from "../../loading/LoadingSvg";
 
 const Word = memo(({ data, index }) => {
-   const liRef = useRef()
-   const progressBar = useRef()
-   const current = useSelector((state) => state.queueNowPlay.currentTime)
-   const isSeek = useSelector((state) => state.lyrics.isSeek)
-   const isUp = useRef(false)
-
-   let text = data?.text
-   let startTime = data?.startTime
-   let endTime = data?.endTime
-
-   const hi = async () => {
-      isUp.current = true
-      await liRef.current?.classList.add("up")
-      index.current += 2
-   }
+   const current = useSelector((state) => state.queueNowPlay.currentTime);
+   const isSeek = useSelector((state) => state.lyrics.isSeek);
+   const progressBar = useRef();
+   const isUp = useRef(false);
+   const liRef = useRef();
+   
+   let text = data?.text;
+   let startTime = data?.startTime;
+   let endTime = data?.endTime;
 
    useLayoutEffect(() => {
       if (current >= startTime && current <= endTime && !isSeek) {
-         let duration = endTime - startTime
-         var radio = (100 / duration) * (endTime - current) - 100
-         let res = radio * -1 + 4
+         let duration = endTime - startTime;
+         var radio = (100 / duration) * (endTime - current) - 100;
+         let res = radio * -1 + 4;
          if (current < endTime) {
             if (res > 100) {
                res = 100
-            }
-            progressBar.current.style.width = res + "%"
-         }
-      }
+            };
+            progressBar.current.style.width = res + "%";
+         };
+      };
 
       if (current > endTime) {
-         hi()
-      }
+         const hi = async () => {
+            isUp.current = true;
+            await liRef.current?.classList.add("up");
+            index.current += 2;
+         };
+         hi();
+      };
 
       if (current < startTime) {
          progressBar.current.style.width = 0 + "%"
@@ -59,8 +58,8 @@ const Word = memo(({ data, index }) => {
             </span>
          </span>
       </LyricStyleds>
-   )
-})
+   );
+});
 
 const BgFullKaroke = memo(() => {
    const dispatch = useDispatch()
@@ -99,16 +98,14 @@ const BgFullKaroke = memo(() => {
    }, [lyricByLine])
 
    useLayoutEffect(() => {
-      let audio = document.querySelector("audio")
-
+      let audio = document.querySelector("audio");
       const onSeekToAudio = () => {
          dispatch(setIsSeek(true))
          dispatch(setPlaying(false))
          if (current === 0) {
-            ref0.current = 0
-            ref1.current = 1
-         }
-
+            ref0.current = 0;
+            ref1.current = 1;
+         };
          for (let i = 0; i < state?.length; i++) {
             if (current >= state[i].startTime && current <= state[i].endTime) {
                if (i % 2 === 0) {
@@ -117,34 +114,27 @@ const BgFullKaroke = memo(() => {
                } else {
                   ref0.current = i - 1
                   ref1.current = i
-               }
-            }
-         }
-         dispatch(setPlaying(true))
-         setTimeout(() => {
-            dispatch(setIsSeek(false))
-         }, 300)
-      }
-
-      audio.addEventListener("seeked", onSeekToAudio)
-
-      return () => audio.removeEventListener("seeked", onSeekToAudio)
+               };
+            };
+         };
+         dispatch(setPlaying(true));
+         setTimeout(() => dispatch(setIsSeek(false)), 300);
+      };
+      audio.addEventListener("seeked", onSeekToAudio);
+      return () => audio.removeEventListener("seeked", onSeekToAudio);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [])
+   }, []);
 
    useEffect(() => {
-      toast("Karaoke đang quá trình phát triển, sẽ có lỗi khi seeked, Vui lòng thông cảm !", {
-         type: "info",
-      })
-      dispatch(setProgressInterval(10))
-
-      return () => {
-         dispatch(setProgressInterval(500))
-      }
+      // toast("Karaoke đang quá trình phát triển, sẽ có lỗi khi seeked, Vui lòng thông cảm !", {
+      //    type: "info",
+      // });
+      dispatch(setProgressInterval(10));
+      return () => dispatch(setProgressInterval(500));
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
 
-   let isTextSize
+   let isTextSize;
    if (textSize === 1) {
       isTextSize = "s"
    }

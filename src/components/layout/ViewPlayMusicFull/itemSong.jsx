@@ -1,18 +1,17 @@
-import React, { memo } from "react"
-import { useDispatch } from "react-redux"
 
-import { useSelector } from "react-redux"
-import { setCurrentIndexSong, setCurrentIndexSongShuffle } from "../../../assets/redux/Features/QueueFeatures.js"
-import { setPlay, setReady } from "../../../assets/redux/Features/settingPlayFeatures.js"
-import ActionIcon from "../../Icon/ActionIcon"
-import LoadingIcon from "../../Icon/LoadingIcon"
+import { useDispatch, useSelector } from "react-redux";
+import React, { memo } from "react";
+import { setCurrentIndexSong, setCurrentIndexSongShuffle } from "../../../assets/redux/Features/QueueFeatures.js";
+import { setPlay, setReady } from "../../../assets/redux/Features/settingPlayFeatures.js";
+import ActionIcon from "../../Icon/ActionIcon";
+import LoadingIcon from "../../Icon/LoadingIcon";
 
 const ItemSong = memo(({ data, index }) => {
-   const dispatch = useDispatch()
+   const dispatch = useDispatch();
 
-   const currentEncodeId = useSelector((state) => state.queueNowPlay.currentEncodeId)
-   const { playing, isRandom, isReady } = useSelector((state) => state.setting)
-   let active = currentEncodeId === data?.encodeId
+   const currentEncodeId = useSelector((state) => state.queueNowPlay.currentEncodeId);
+   const { playing, isRandom, isReady } = useSelector((state) => state.setting);
+   let active = currentEncodeId === data?.encodeId;
 
    return (
       <div className={`want_list-item slick-slide ${currentEncodeId === data?.encodeId ? "swiper-slide-active-playing" : ""}`}>

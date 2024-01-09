@@ -20,22 +20,12 @@ const BgFullListMusic = memo(({ isScroll }) => {
 
    return (
       <div className="want_list  nowplaying-body_item ">
-         <button
-            ref={navigationPrevRef}
-            type="button"
-            className="slider_list-btn-left slick-prev slick-arrow "
-            style={{ display: "flex" }}
-         >
+         <button ref={navigationPrevRef} type="button" className="slider_list-btn-left slick-prev slick-arrow" style={{ display: "flex" }}>
             <span span="" className="material-icons-outlined">
                arrow_back_ios
             </span>
          </button>
-         <button
-            ref={navigationNextRef}
-            type="button"
-            className="slider_list-btn-right slick-next slick-arrow "
-            style={{ display: "flex" }}
-         >
+         <button ref={navigationNextRef} type="button" className="slider_list-btn-right slick-next slick-arrow " style={{ display: "flex" }}>
             <span className="material-icons-outlined">arrow_forward_ios</span>
          </button>
 
@@ -70,29 +60,19 @@ const BgFullListMusic = memo(({ isScroll }) => {
                },
             }}
          >
-            {!isRandom &&
-               listSong &&
-               listSong.length > 0 &&
-               listSong.map((e, index) => {
-                  return (
-                     <SwiperSlide key={e.encodeId}>
-                        <ItemSong index={index} data={e}></ItemSong>
-                     </SwiperSlide>
-                  )
-               })}
-            {isRandom &&
-               listSongShuffle &&
-               listSongShuffle.length > 0 &&
-               listSongShuffle.map((e, index) => {
-                  return (
-                     <SwiperSlide key={e.encodeId}>
-                        <ItemSong index={index} data={e}></ItemSong>
-                     </SwiperSlide>
-                  )
-               })}
+            {!isRandom && listSong && listSong.length > 0 && listSong.map((e, index) => (
+               <SwiperSlide key={e.encodeId}>
+                  <ItemSong index={index} data={e}></ItemSong>
+               </SwiperSlide>
+            ))}
+            {isRandom && listSongShuffle && listSongShuffle.length > 0 && listSongShuffle.map((e, index) => (
+               <SwiperSlide key={e.encodeId}>
+                  <ItemSong index={index} data={e}></ItemSong>
+               </SwiperSlide>
+            ))}
          </Swiper>
       </div>
-   )
-})
+   );
+});
 
-export default BgFullListMusic
+export default BgFullListMusic;

@@ -1,6 +1,6 @@
 import React, { memo, useRef, useCallback } from "react";
-import { useSelector } from "react-redux"
-import smoothScrollIntoView from "smooth-scroll-into-view-if-needed"
+import { useSelector } from "react-redux";
+import smoothScrollIntoView from "smooth-scroll-into-view-if-needed";
 import { formatTime } from "../../../assets/functions.js";
 
 const ItemLyric = memo(({ data, index }) => {
