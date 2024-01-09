@@ -33,10 +33,12 @@ const SliderHomePage = memo(() => {
             pagination={{
               clickable: true,
             }}
+            /*
             navigation={{
               prevEl: navigationPrevRef.current,
               nextEl: navigationNextRef.current,
             }}
+            */
             onBeforeInit={(swiper) => {
               swiper.params.navigation.prevEl = navigationPrevRef.current
               swiper.params.navigation.nextEl = navigationNextRef.current

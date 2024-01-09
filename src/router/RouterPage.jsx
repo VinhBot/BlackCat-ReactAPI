@@ -1,4 +1,4 @@
-import ReactDom from "react-router-dom";
+import * as ReactDom from "react-router-dom";
 import React from "react";
 import Loading from "../components/loading/Loading";
 
