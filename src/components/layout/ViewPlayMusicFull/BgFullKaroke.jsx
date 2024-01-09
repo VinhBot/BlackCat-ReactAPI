@@ -1,54 +1,47 @@
 import React, { memo, useLayoutEffect, useRef, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { toast } from "react-toastify";
 import { setPlaying, setProgressInterval } from "../../../assets/redux/Features/settingPlayFeatures.js";
 import { setIsSeek } from "../../../assets/redux/Features/LyricsFeatures.js";
 import { LyricStyleds } from "../../../assets/styledComponents";
 import { LoadingSvg } from "../../loading/LoadingSvg";
 
-const Word = memo(({ data, index }) => {
+const Word = memo(({ data, refs }) => {
+   const { text, startTime, endTime } = data || {};
+   // Lựa chọn trạng thái từ Redux
    const current = useSelector((state) => state.queueNowPlay.currentTime);
    const isSeek = useSelector((state) => state.lyrics.isSeek);
+   // Refs cho các phần tử DOM
    const progressBar = useRef();
    const isUp = useRef(false);
    const liRef = useRef();
-   
-   let text = data?.text;
-   let startTime = data?.startTime;
-   let endTime = data?.endTime;
-
+   // Hiệu ứng để cập nhật đánh dấu karaoke dựa trên thời điểm hiện tại
    useLayoutEffect(() => {
+      // Kiểm tra nếu thời điểm hiện tại nằm trong khoảng thời gian của từ và không đang thực hiện tua
       if (current >= startTime && current <= endTime && !isSeek) {
-         let duration = endTime - startTime;
-         var radio = (100 / duration) * (endTime - current) - 100;
-         let res = radio * -1 + 4;
-         if (current < endTime) {
-            if (res > 100) {
-               res = 100
-            };
-            progressBar.current.style.width = res + "%";
-         };
+         let res = ((100 / endTime - startTime) * (endTime - current) - 100) * -1 + 4;
+         progressBar.current.style.width = res > 100 ? "100%" : res + "%";
       };
-
+      // Xử lý hiệu ứng khi thời điểm hiện tại vượt quá thời điểm kết thúc
       if (current > endTime) {
-         const hi = async () => {
+         // Hàm xử lý hiệu ứng đi lên khi thời điểm hiện tại vượt quá thời điểm kết thúc
+         const handleUpAnimation = async () => {
             isUp.current = true;
             await liRef.current?.classList.add("up");
-            index.current += 2;
+            refs.current += 2;
          };
-         hi();
+         handleUpAnimation();
       };
-
+      // Đặt độ rộng của thanh tiến trình về 0 nếu thời điểm hiện tại nhỏ hơn thời điểm bắt đầu
       if (current < startTime) {
-         progressBar.current.style.width = 0 + "%"
-      }
-
+         progressBar.current.style.width = "0%";
+      };
+      // Loại bỏ hiệu ứng đi lên nếu thời điểm hiện tại nhỏ hơn thời điểm kết thúc
       if (current < endTime) {
-         liRef.current.classList.remove("up")
-      }
+         liRef.current.classList.remove("up");
+      };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [current, isSeek])
-
+   }, [current, isSeek]);
+   // Hiển thị từ với đánh dấu karaoke
    return (
       <LyricStyleds ref={liRef} className={`item`}>
          <span>
@@ -145,22 +138,20 @@ const BgFullKaroke = memo(() => {
       isTextSize = "l"
    }
 
-   if (loading) {
-      return <LoadingSvg/>
-   }
+   if(loading) return <LoadingSvg/>;
 
    return (
       <div className="nowplaying-body_item nowplaying-body_karaoke ">
-         <ul className={`scroll-content ${isTextSize} inline-flex  flex-col`}>
+         <ul className={`scroll-content ${isTextSize} inline-flex flex-col`}>
             {!loading && state && state.length > 0 && (
                <>
-                  <Word data={state[ref0.current]} index={ref0}></Word>
-                  <Word data={state[ref1.current]} index={ref1}></Word>
+                  <Word data={state[ref0.current]} refs={ref0}/>
+                  <Word data={state[ref1.current]} refs={ref1}/>
                </>
             )}
          </ul>
       </div>
-   )
-})
+   );
+});
 
-export default BgFullKaroke
+export default BgFullKaroke;

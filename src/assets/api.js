@@ -118,9 +118,9 @@ export const AxiosAPI = {
    request: async (options) => {
       // Tạo một instance của Axios với baseURL cụ thể
       const customAxios = axios.create({
-         // baseURL: "https://blackcat-api.vercel.app",
+         baseURL: "https://blackcat-api.vercel.app",
          // baseURL: "https://16bac973-a95d-403b-a6b2-a851da99cb05-00-c68sx25g7s8q.sisko.replit.dev",
-         baseURL: "http://localhost:5000",
+         // baseURL: "http://localhost:5000",
          headers: {
             Authorization: `Bearer ${localStorage.getItem("user-profile") ? JSON.parse(localStorage.getItem("user-profile")).token : ""}`, // Thêm tiêu đề Authorization vào tất cả các yêu cầu
             "Content-Type": "application/json", // xác định loại nội dung đang gửi đi là JSON.
