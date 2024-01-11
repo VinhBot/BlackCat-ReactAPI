@@ -1,11 +1,9 @@
-import Tippy from "@tippyjs/react"
-import React, { memo } from "react"
-import { useState } from "react"
-import PortalSetting from "./PortalSetting"
+import React, { useState  } from "react";
+import Tippy from "@tippyjs/react";
+import PortalSetting from "./PortalSetting";
 
-const BtnSetting = memo(() => {
-   const [open, setOpen] = useState(false)
-
+const BtnSetting = React.memo(() => {
+   const [open, setOpen] = useState(false);
    return (
       <Tippy
          animation={"perspective-extreme"}
@@ -13,7 +11,7 @@ const BtnSetting = memo(() => {
          visible={open}
          interactive={true}
          arrow={false}
-         content={<PortalSetting></PortalSetting>}
+         content={<PortalSetting/>}
          placement={"bottom-end"}
          offset={[0, 12]}
       >
@@ -23,7 +21,7 @@ const BtnSetting = memo(() => {
             </button>
          </div>
       </Tippy>
-   )
-})
+   );
+});
 
-export default BtnSetting
+export default BtnSetting;

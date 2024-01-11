@@ -10,14 +10,14 @@ import BgSwiperFull from "./BgSwiperFull";
 import BtnSetting from "./BtnSetting";
 
 const ViewPlayMusicMain = () => {
-   const dispatch = useDispatch();
-   const [open, setOpen] = useState(1);
-   const [isScroll, setIsScroll] = useState(false);
-   const bottomRef = useRef();
    const infoSongCurrent = useSelector((state) => state.queueNowPlay.infoSongCurrent);
    const currentEncodeId = useSelector((state) => state.queueNowPlay.currentEncodeId);
    const infoCurrenAlbum = useSelector((state) => state.queueNowPlay.infoCurrenAlbum);
    const isBgFull = useSelector((state) => state.setting.isBgFull);
+   const [isScroll, setIsScroll] = useState(false);
+   const [open, setOpen] = useState(1);
+   const dispatch = useDispatch();
+   const bottomRef = useRef();
    // fetch lyric
    useLayoutEffect(() => {
       dispatch(fetchDataLyrics(currentEncodeId));
@@ -47,21 +47,21 @@ const ViewPlayMusicMain = () => {
       if ((document.fullScreenElement && document.fullScreenElement !== null) || (!document.mozFullScreen && !document.webkitIsFullScreen)) {
          btn.classList.add("active")
          if (document.documentElement.requestFullScreen) {
-            document.documentElement.requestFullScreen()
+            document.documentElement.requestFullScreen();
          } else if (document.documentElement.mozRequestFullScreen) {
-            document.documentElement.mozRequestFullScreen()
+            document.documentElement.mozRequestFullScreen();
          } else if (document.documentElement.webkitRequestFullScreen) {
-            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT)
+            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
          };
       } else {
          btn.classList.remove("active")
          if (document.cancelFullScreen) {
-            document.cancelFullScreen()
+            document.cancelFullScreen();
          } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen()
+            document.mozCancelFullScreen();
          } else if (document.webkitCancelFullScreen) {
-            document.webkitCancelFullScreen()
-         }
+            document.webkitCancelFullScreen();
+         };
       };
    }, []);
 
@@ -107,9 +107,7 @@ const ViewPlayMusicMain = () => {
                      <button
                         onClick={() => {
                            dispatch(setOffClass())
-                           setTimeout(() => {
-                              dispatch(setOffMain())
-                           }, 600)
+                           setTimeout(() => dispatch(setOffMain()), 600);
                         }}
                         className="nowplaying-header_setting-btn down"
                      >

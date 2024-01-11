@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import React from "react";
 
+// import historySVG from "./history.svg";
+
 const ButtonIconHomePage = () => {
    return (
       <div className="container_btn-icon-c ">
@@ -32,18 +34,14 @@ const ButtonIconHomePage = () => {
             <div title="diamond" className="sider_menu-item col c-2-4">
                <Link to={"history/playlist"}>
                   <span className="">
-                     <img
-                        className="w-[42px] h-[42px] mb-[6px] history-icon-c"
-                        src="https://zjs.zmdcdn.me/zmp3-desktop/releases/v1.0.13/static/media/my-history.374cb625.svg"
-                        alt=""
-                     />
+                     <img className="w-[42px] h-[42px] mb-[6px] history-icon-c" src="history.svg" alt=""/>
                   </span>
                   <span className="sider_menu-item-title">Gần Đây</span>
                </Link>
             </div>
          </div>
       </div>
-   )
-}
+   );
+};
 
 export default ButtonIconHomePage

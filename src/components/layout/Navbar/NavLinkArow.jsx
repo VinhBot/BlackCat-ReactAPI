@@ -1,5 +1,5 @@
-import React from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import React from "react";
 
 const NavLinkArow = () => {
    const navigate = useNavigate()
@@ -12,7 +12,7 @@ const NavLinkArow = () => {
             <span className="material-icons-outlined"> east </span>
          </button>
       </>
-   )
-}
+   );
+};
 
 export default NavLinkArow;

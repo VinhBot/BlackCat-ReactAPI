@@ -36,7 +36,7 @@ const SettingPortalChildren = () => {
 
 const SettingPortal = () => {
    const project = [
-      { name: "Giới thiệu", icons: "icon ic-20-info", path: "/profile" },
+      { name: "Quản lý", icons: "icon ic-20-info", path: "/profile" },
       { name: "Facebook", icons: "icon ic-20-Report", path: "https://www.facebook.com/blackcat.288203/?locale=vi_VN" },
       // { name: "", icons: "", path: "" },
    ];

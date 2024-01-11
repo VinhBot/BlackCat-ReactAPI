@@ -16,6 +16,7 @@ import NewMusicHomePage2 from "../components/SliderHome/NewMusicHomePage2.jsx";
 import EventHomePage from "../components/SliderHome/EventHomePage.jsx";
 import ButtonIconHomePage from "../components/SliderHome/ButtonIconHomePage.jsx";
 
+
 const HomePage = React.memo(() => {
   React.useEffect(() => {
     scrollTop();

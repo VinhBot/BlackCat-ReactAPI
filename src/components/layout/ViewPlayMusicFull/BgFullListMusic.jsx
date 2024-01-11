@@ -1,22 +1,21 @@
-import React, { memo, useRef } from "react"
-import { useSelector } from "react-redux"
-import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation, Pagination } from "swiper/modules"
-import ItemSong from "./itemSong"
-import { useLayoutEffect } from "react"
+import React, { memo, useRef, useLayoutEffect } from "react";
+import { Navigation, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { useSelector } from "react-redux";
+import ItemSong from "./itemSong";
 
 const BgFullListMusic = memo(({ isScroll }) => {
-   const navigationPrevRef = useRef(null)
-   const navigationNextRef = useRef(null)
-   const swiperERFf = useRef(null)
-   const listSong = useSelector((state) => state.queueNowPlay.listSong)
-   const currentIndexSong = useSelector((state) => state.queueNowPlay.currentIndexSong)
-   const listSongShuffle = useSelector((state) => state.queueNowPlay.listSongShuffle)
-   const { isRandom } = useSelector((state) => state.setting)
+   const navigationPrevRef = useRef(null);
+   const navigationNextRef = useRef(null);
+   const swiperERFf = useRef(null);
+   const listSong = useSelector((state) => state.queueNowPlay.listSong);
+   const currentIndexSong = useSelector((state) => state.queueNowPlay.currentIndexSong);
+   const listSongShuffle = useSelector((state) => state.queueNowPlay.listSongShuffle);
+   const { isRandom } = useSelector((state) => state.setting);
 
    useLayoutEffect(() => {
-      swiperERFf.current.swiper.slideTo(currentIndexSong)
-   }, [currentIndexSong, isRandom, isScroll])
+      swiperERFf.current.swiper.slideTo(currentIndexSong);
+   }, [currentIndexSong, isRandom, isScroll]);
 
    return (
       <div className="want_list  nowplaying-body_item ">

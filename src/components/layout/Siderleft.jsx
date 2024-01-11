@@ -100,7 +100,7 @@ const Siderleft = memo(() => {
          <NavLink to="history/playlist" className={({ isActive }) => isActive ? "slider-history sider_menu-item sider_menu-item-acitve sider_active !mb-[2rem] !mt-[.6rem]" : "sider_menu-item sider_menu-item-acitve slider-history !mt-[.6rem] !mb-[2rem]"} title="Nhạc mới">
             <div className="cursor-pointer">
                <i className="icon">
-                  <img src="https://zjs.zmdcdn.me/zmp3-desktop/releases/v1.0.13/static/media/my-history.374cb625.svg" alt="" />
+                  <img src="history.svg" alt="" />
                </i>
                <span className="sider_menu-item-title font-normal">Gần đây</span>
             </div>

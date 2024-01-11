@@ -18,35 +18,35 @@ const NavForm = () => {
       if (inputRef.current === 0 || !value) return;
       dispatch(fetchDataSearch(value));
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [value])
+   }, [value]);
 
    const handleFocus = () => {
-      setOpen(true)
-      if (inputRef.current > 0) return
-      inputRef.current++
-      dispatch(fetchHotKey())
+      setOpen(true);
+      if (inputRef.current > 0) return;
+      inputRef.current++;
+      dispatch(fetchHotKey());
    };
 
    const handleUpdateQuery = lodash.debounce((e) => {
       if (e.target.value === "") {
-        dispatch(setValueNew())
+        dispatch(setValueNew());
       };
       dispatch(setName(e.target.value));
       if(e.target.value) setValue(e.target.value);
-   }, 500)
+   }, 500);
 
    const handleSubmit = (e) => {
-      e.preventDefault()
-      navigate(`/tim-kiem/tatca/${refinput.current.value}`)
-      setOpen(false)
-   }
+      e.preventDefault();
+      navigate(`/tim-kiem/tatca/${refinput.current.value}`);
+      setOpen(false);
+   };
    return (
       <form onSubmit={handleSubmit} className={open ? "is-collapse" : ""}>
          <Tippy
             animation={"perspective-extreme"}
             onClickOutside={() => setOpen(false)}
             visible={open}
-            content={<SuggestList refinput={refinput} value={value} setValue={setValue} setOpen={setOpen}></SuggestList>}
+            content={<SuggestList refinput={refinput} value={value} setValue={setValue} setOpen={setOpen}/>}
             interactive={true}
             arrow={false}
             offset={[0, 0]}
@@ -69,8 +69,8 @@ const NavForm = () => {
                {refinput?.current?.value?.length > 2 && open && (
                   <button
                      onClick={() => {
-                        refinput.current.value = ""
-                        dispatch(setValueNew())
+                        refinput.current.value = "";
+                        dispatch(setValueNew());
                      }}
                      type="button"
                      className="header_btn-remove "
