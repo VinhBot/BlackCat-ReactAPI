@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+import loading from "./loading.gif";
 
 export const LoadingSvg = memo(({ isLoadMore }) => {
    return (
@@ -10,13 +11,22 @@ export const LoadingSvg = memo(({ isLoadMore }) => {
 
 export const LoadingImage = memo(({ isLoadMore, image }) => {
   const loadingData = [
-    { path: "https://i.pinimg.com/originals/e8/0e/0d/e80e0dd3e9f3fea6eff0599dcc8334e5.gif" },
-    { path: "https://images.pexels.com/photos/14819864/pexels-photo-14819864.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
-    { path: "https://images.pexels.com/photos/14819864/pexels-photo-14819864.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" },
+    { path: loading },
   ];
   return (
     <div className={`loading ${isLoadMore ? "relative mt-5" : "absolute"}`}>
       <img style={{ width: "50px" }} src={loadingData[image].path} alt="" />
+    </div>
+  );
+});
+
+export const LoadingPage = memo(({ isLoadMore, pathOption }) => {
+  const optionData = [
+    { path: loading }, // 0
+  ];
+  return (
+    <div className={`loading ${isLoadMore ? "relative mt-5" : "absolute"}`}>
+      <img style={{ width: "50px" }} src={optionData[pathOption].path} alt="" />
     </div>
   );
 });
