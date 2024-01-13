@@ -130,10 +130,10 @@ const BottomRight = memo(() => {
                      <div className="empty-queue">
                         <div className="content">Khám phá thêm các bài hát mới của BlackCat-Club(MP3)</div>
                         <button
-                           onClick={async() => {
+                           onClick={() => {
                               dispatch(setReady(false))
                               dispatch(setPlay(false))
-                              await dispatch(fetchPlayList("ZO68OC68"))
+                              dispatch(fetchPlayList("ZO68OC68"))
                               dispatch(setPlay(true))
                            }}
                            className="empty-queue-btn"

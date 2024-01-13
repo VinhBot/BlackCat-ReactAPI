@@ -13,14 +13,14 @@ const BottomControlllPLayIng = React.memo(() => {
    const currentEncodeId = useSelector((state) => state.queueNowPlay.currentEncodeId);
    const infoSongCurrent = useSelector((state) => state.queueNowPlay.infoSongCurrent);
    const currentTime = useSelector((state) => state.queueNowPlay.currentTime);
+   const playlist = useSelector((state) => state.logged.recentSongs);
    const settings = useSelector((state) => state.setting);
-   const playlist = useSelector((state) => state.logged);
    const [oke, setOke] = useState(false);
    const dispatch = useDispatch();
    const progressBar = useRef();
    const progresArea = useRef();
    const audioRef = useRef();
-
+   
    const setTimeSong1 = useCallback((e) => {
       let res = (e.nativeEvent.offsetX / progresArea.current.clientWidth) * infoSongCurrent?.duration;
       progressBar.current.style.width = (res / infoSongCurrent?.duration) * 100 + "%";
@@ -61,7 +61,7 @@ const BottomControlllPLayIng = React.memo(() => {
                onProgress={(e) => dispatch(setCurrentTime(e.playedSeconds))}
                onEnded={() => {
                   // Kiểm tra xem có kích thước mảng bài hát lớn hơn 1 không để xác định có bài hát tiếp theo không
-                  if (!settings.isLoop && playlist.recentSongs.length > 1) {
+                  if (!settings.isLoop && playlist.length > 1) {
                      // Nếu không đang bật chế độ lặp và có nhiều hơn 1 bài hát trong danh sách
                      if (settings.isRandom) {
                         dispatch(setCurrentIndexSongShuffle(currentIndexSong + 1)); // Nếu đang ở chế độ phát ngẫu nhiên
@@ -76,7 +76,7 @@ const BottomControlllPLayIng = React.memo(() => {
                }}
                onError={(err) => {
                   // Check nếu có bài hát tiếp theo trong danh sách
-                  if (playlist.recentSongs.length - 1) {
+                  if (playlist.length - 1) {
                      setTimeout(() => {
                         dispatch(setCurrentIndexSong(currentIndexSong + 1));
                         dispatch(setPlay(true));

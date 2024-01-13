@@ -93,11 +93,10 @@ const ClockAlarm = React.memo(() => {
                                 onInput={(e) => {
                                   if (e.target.value > 59) {
                                     e.target.value = 59;
-                                  }
-
+                                  };
                                   if (e.target.value.length >= 2) {
                                     e.target.value = e.target.value.slice(0, 2);
-                                  }
+                                  };
                                 }}
                                 {...formik.getFieldProps("minute")}
                                 className={`input is-primary ${formik.touched.minute && formik.errors.minute ? "is-danger" : ""}`}
@@ -111,21 +110,10 @@ const ClockAlarm = React.memo(() => {
                           </div>
                         </div>
                         <h3 className="estimate-time subtitle">Chọn thời gian để dừng phát nhạc</h3>
-                        <button
-                          disabled={formik.errors.hours || formik.errors.minute || (watchHours && watchMinute)}
-                          className="w-full zm-btn active is-medium is-outlined is-fullwidth is-upper button"
-                          tabIndex={-1}
-                          type="submit"
-                        >
+                        <button disabled={formik.errors.hours || formik.errors.minute || (watchHours && watchMinute)} className="w-full zm-btn active is-medium is-outlined is-fullwidth is-upper button" tabIndex={-1} type="submit">
                           Lưu lại
                         </button>
-                        <button
-                          onClick={handleClickBackdrop}
-                          type="button"
-                          className="w-full zm-btn mar-t-10 active is-fullwidth is-upper button hover:opacity-90"
-                          tabIndex={0}
-                          id="close-block"
-                        >
+                        <button onClick={handleClickBackdrop} type="button" className="w-full zm-btn mar-t-10 active is-fullwidth is-upper button hover:opacity-90" tabIndex={0} id="close-block">
                           <i className="icon" />
                           <span>Hủy</span>
                         </button>
@@ -142,20 +130,10 @@ const ClockAlarm = React.memo(() => {
                     <h3 className="title">Xóa hẹn giờ</h3>
                     <span>Bạn có chắc chắn muốn xóa hẹn giờ?</span>
                     <div className="actions flex items-end justify-end mt-[16px]">
-                      <button
-                        onClick={() => {
-                          hide();
-                        }}
-                        className="zm-btn is-outlined is-small button"
-                        tabIndex={0}
-                      >
+                      <button onClick={() => hide()} className="zm-btn is-outlined is-small button" tabIndex={0}>
                         Không
                       </button>
-                      <button
-                        onClick={handleRemoveTimeOut}
-                        className="!ml-[16px] zm-btn is-outlined active is-small button"
-                        tabIndex={0}
-                      >
+                      <button onClick={handleRemoveTimeOut} className="!ml-[16px] zm-btn is-outlined active is-small button" tabIndex={0}>
                         Có
                       </button>
                     </div>
