@@ -53,7 +53,7 @@ const FollowItems = memo(({ data }) => {
                      <div className="recently_list-item_hover ">
                         <div className="recently_btn-hover recently_btn-hover-play">
                            <span>
-                              <ion-icon class="icon_play-btn" name="play-circle-outline"></ion-icon>
+                              <ion-icon class="icon_play-btn" name="play-circle-outline"/>
                            </span>
                         </div>
                      </div>

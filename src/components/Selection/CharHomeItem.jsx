@@ -7,85 +7,31 @@ import { AxiosAPI } from "../../assets/api.js";
 ChartJS.register(CategoryScale, LineController, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const CharHomeItem = memo(({ id }) => {
-   const [datas, setData] = useState(null)
-   const { data, status } = AxiosAPI.useGetHomePage()
-   const dataSelector = data?.data.items.find((e) => e.sectionType === "RTChart")
+   const [datas, setData] = useState(null);
+   const { data, status } = AxiosAPI.useGetHomePage();
+   const dataSelector = data?.data.items.find((e) => e.sectionType === "RTChart");
 
    useEffect(() => {
       if (data) {
-         setData(dataSelector)
-      }
+         setData(dataSelector);
+      };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [status])
+   }, [status]);
 
    const getEnCodeId = (num) => {
-      let item = datas?.items[`${num}`]?.encodeId
-      return item
-   }
+      let item = datas?.items[`${num}`]?.encodeId;
+      return item;
+   };
 
-   const DataChart0 = datas?.chart?.items[`${getEnCodeId(0)}`]
-   const DataChart1 = datas?.chart?.items[`${getEnCodeId(1)}`]
-   const DataChart2 = datas?.chart?.items[`${getEnCodeId(2)}`]
+   const DataChart0 = datas?.chart?.items[`${getEnCodeId(0)}`];
+   const DataChart1 = datas?.chart?.items[`${getEnCodeId(1)}`];
+   const DataChart2 = datas?.chart?.items[`${getEnCodeId(2)}`];
 
-   const labels = datas?.chart?.times.map((e) => e.hour + ":00")
-
-   const options = {
-      animations: {
-         radius: {
-            duration: 500,
-            easing: "linear",
-            loop: (context) => context.active,
-         },
-      },
-      datasetStrokeWidth: 10,
-      pointDotStrokeWidth: 10,
-      tooltipFillColor: "rgb(0,0,0)",
-      interaction: {
-         mode: "index",
-         intersect: false,
-      },
-
-      plugins: {
-         legend: {
-            display: false,
-         },
-      },
-      responsive: true,
-      tooltips: {
-         enabled: true,
-         mode: "x-axis",
-         intersect: false,
-         padding: 2,
-         caretPadding: 4,
-         usePointStyle: true,
-      },
-      hover: {
-         mode: "dataset",
-         intersect: false,
-         includeInvisible: true,
-      },
-      scales: {
-         y: {
-            min: -100,
-            max: `${datas?.chart?.maxScore}`,
-            display: false,
-         },
-         x: {
-            ticks: {
-               callback: function (val, index) {
-                  return index % 2 === 0 ? this.getLabelForValue(val) : ""
-               },
-               padding: 0,
-               textStrokeColor: "#fff",
-               color: "#96979B",
-            },
-            alignToPixels: true,
-         },
-      },
-   }
+   const labels = datas?.chart?.times.map((e) => e.hour + ":00");
 
    const data2 = {
-      labels,
+      labels: labels,
+      // labels,
       datasets: [
          {
             label: datas?.items[0]?.title,
@@ -142,8 +88,67 @@ const CharHomeItem = memo(({ id }) => {
             hoverBorderWidth: 3,
          },
       ],
-   }
-   return <Chart id={id} updateMode="resize" type="line" options={options} data={data2} />
-})
+   };
+   return <Chart
+      id={id}
+      updateMode="resize"
+      type="line"
+      options={{
+         animations: {
+            radius: {
+               duration: 500,
+               easing: "linear",
+               loop: (context) => context.active,
+            },
+         },
+         datasetStrokeWidth: 10,
+         pointDotStrokeWidth: 10,
+         tooltipFillColor: "rgb(0,0,0)",
+         interaction: {
+            mode: "index",
+            intersect: false,
+         },
 
-export default CharHomeItem
+         plugins: {
+            legend: {
+               display: false,
+            },
+         },
+         responsive: true,
+         tooltips: {
+            enabled: true,
+            mode: "x-axis",
+            intersect: false,
+            padding: 2,
+            caretPadding: 4,
+            usePointStyle: true,
+         },
+         hover: {
+            mode: "dataset",
+            intersect: false,
+            includeInvisible: true,
+         },
+         scales: {
+            y: {
+               min: -100,
+               max: `${datas?.chart?.maxScore}`,
+               display: false,
+            },
+            x: {
+               ticks: {
+                  callback: function (val, index) {
+                     return index % 2 === 0 ? this.getLabelForValue(val) : ""
+                  },
+                  padding: 0,
+                  textStrokeColor: "#fff",
+                  color: "#96979B",
+               },
+               alignToPixels: true,
+            },
+         },
+      }}
+      data={data2}
+   />
+});
+
+export default CharHomeItem;

@@ -7,7 +7,7 @@ import { fetchPlayList } from "../../assets/redux/Features/QueueFeatures.js";
 import { pushPlayListsLogged } from "../../assets/redux/Features/loggedFeatures.js";
 import { getFormartTimeDDYY } from "../../assets/functions.js";
 import { useLikeHook } from "../layout/Hook";
-import ActionIcon from "../Icon/ActionIcon";
+import { ActionIcon } from "../Icon/Icon.jsx";
 
 const AlbumPageInfo = memo(({ datas }) => {
    const playlistEncodeId = useSelector((state) => state.queueNowPlay.playlistEncodeId);

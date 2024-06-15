@@ -1,9 +1,9 @@
-import React, { memo } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
+import React, { memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { fetchPlayList } from "../../assets/redux/Features/QueueFeatures.js";
 import { setPlay, setReady } from "../../assets/redux/Features/settingPlayFeatures.js";
-import ActionIcon from "../Icon/ActionIcon"
+import { ActionIcon } from "../Icon/Icon.jsx";
 
 const FavoriteArtisItem = memo(({ item, clasName, isHub, isCenter }) => {
    const { encodeId, thumbnailM, song, artistsNames, title } = item;

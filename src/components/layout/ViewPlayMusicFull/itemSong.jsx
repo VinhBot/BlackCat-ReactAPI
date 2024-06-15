@@ -3,14 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { memo } from "react";
 import { setCurrentIndexSong, setCurrentIndexSongShuffle } from "../../../assets/redux/Features/QueueFeatures.js";
 import { setPlay, setReady } from "../../../assets/redux/Features/settingPlayFeatures.js";
-import ActionIcon from "../../Icon/ActionIcon";
-import LoadingIcon from "../../Icon/LoadingIcon";
+import { ActionIcon, LoadingIcon } from "../../Icon/Icon.jsx";
 
 const ItemSong = memo(({ data, index }) => {
-   const dispatch = useDispatch();
-
    const currentEncodeId = useSelector((state) => state.queueNowPlay.currentEncodeId);
    const { playing, isRandom, isReady } = useSelector((state) => state.setting);
+   const dispatch = useDispatch();
    let active = currentEncodeId === data?.encodeId;
 
    return (
@@ -49,7 +47,7 @@ const ItemSong = memo(({ data, index }) => {
                         onClick={() => {
                            dispatch(setReady(false))
                            if (!isRandom) {
-                              dispatch(setCurrentIndexSong(index))
+                              dispatch(setCurrentIndexSong(index));
                            }
                            if (isRandom) {
                               dispatch(setCurrentIndexSongShuffle(index))

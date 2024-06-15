@@ -10,8 +10,8 @@ import { SuggestListStyles } from "../../../assets/styledComponents";
 
 const SuggestList = memo(({ setOpen, setValue, value, refinput }) => {
    const { entities, loading, entitiesNew } = useSelector((state) => state.formsearch);
-   const dispatch = useDispatch()
-   const navigate = useNavigate()
+   const dispatch = useDispatch();
+   const navigate = useNavigate();
 
    return (
       <SuggestListStyles className="suggest__list">
@@ -42,11 +42,11 @@ const SuggestList = memo(({ setOpen, setValue, value, refinput }) => {
                         <div key={index}>
                            <div
                               onClick={() => {
-                                 dispatch(setName(e.keyword))
-                                 setOpen(false)
-                                 setValue(e.keyword)
-                                 refinput.current.value = e.keyword
-                                 navigate(`/tim-kiem/tatca/${e.keyword}`)
+                                 dispatch(setName(e.keyword));
+                                 setOpen(false);
+                                 setValue(e.keyword);
+                                 refinput.current.value = e.keyword;
+                                 navigate(`/tim-kiem/tatca/${e.keyword}`);
                               }}
                               className="suggest__item"
                            >
@@ -66,11 +66,11 @@ const SuggestList = memo(({ setOpen, setValue, value, refinput }) => {
                         <div key={index}>
                            <div
                               onClick={() => {
-                                 dispatch(setName(e.keyword))
-                                 setOpen(false)
-                                 setValue(e.keyword)
-                                 refinput.current.value = e.keyword
-                                 navigate(`/tim-kiem/tatca/${e.keyword}`)
+                                 dispatch(setName(e.keyword));
+                                 setOpen(false);
+                                 setValue(e.keyword);
+                                 refinput.current.value = e.keyword;
+                                 navigate(`/tim-kiem/tatca/${e.keyword}`);
                               }}
                               className="suggest__item"
                            >

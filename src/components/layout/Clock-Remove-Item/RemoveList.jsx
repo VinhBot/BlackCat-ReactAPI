@@ -25,6 +25,7 @@ const LoginPortal = ({ setOpen }) => {
                   <i className="icon ic-delete"></i>
                   <span>Xoá danh sách phát</span>
                </button>
+               
             </li>
          </ul>
       </LoginPortalStyyles>

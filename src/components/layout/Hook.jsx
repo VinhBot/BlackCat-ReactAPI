@@ -1,8 +1,8 @@
+import { arrayRemove, arrayUnion, doc, updateDoc, getDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import React from "react";
-
-import { AxiosAPI } from "../../assets/api.js";
+import { database } from "../../assets/firebase/firebase-config.js";
 // Hook
 export function useWindowSize() {
    // function App() {
@@ -37,89 +37,117 @@ export function useWindowSize() {
 // }
 // Hook
 // Tham số là boolean, với giá trị mặc định là "false"
-
 export const useToggle = (initialState = false) => {
    const [state, setState] = React.useState(initialState);
    const toggle = React.useCallback(() => setState((state) => !state), []);
    return [state, toggle];
 };
-
 //==============================================================================
 // Định nghĩa một hook tùy chỉnh để quản lý việc thích dựa trên mục và loại
 export const useLikeHook = (item, type) => {
    // Lấy thông tin người dùng từ trạng thái Redux
-   const users = useSelector((state) => state.auth);
+   const { uid, activeUser } = useSelector((state) => state.auth);
    // Trạng thái để theo dõi liệu mục có được thích hay không
    const [isLike, setLike] = React.useState(false);
-   // Hiệu ứng được memoize để kiểm tra xem người dùng hiện tại đã thích mục này chưa
-   React.useMemo(() => {
-      // Kiểm tra xem có người dùng đang hoạt động không
-      if (users.activeUser) {
-         // Thực hiện yêu cầu POST đến máy chủ để lấy dữ liệu người dùng
-         AxiosAPI.getUserLikeEndpoint(users.username).then((response) => {
-            const user = response.data.data;
-            // Nếu không có dữ liệu người dùng, thoát
-            if (!user) return;
-            let likeSelector;
-            // Xác định loại và tìm mục trong nội dung yêu thích của người dùng
-            if (type === 1) {
-               likeSelector = user.favouritePlaylist.find((e) => e?.encodeId === item?.encodeId);
-            } else if (type === 2) {
-               likeSelector = user.favouriteSongs.find((e) => e?.encodeId === item?.encodeId);
-            } else if (type === 3) {
-               likeSelector = user.favouriteArtist.find((e) => e?.id === item?.id);
+   // Trạng thái để lưu trữ dữ liệu người dùng
+   const [docs, setDocs] = React.useState([]);
+   // Hiệu ứng dùng để kiểm tra trạng thái thích của mục hiện tại
+   React.useEffect(() => {
+      const fetchLikeStatus = async () => {
+         if (activeUser) {
+            try {
+               // Lấy tài liệu của người dùng từ cơ sở dữ liệu
+               const docSnap = await getDoc(doc(database, 'blackcat-account', uid));
+               if (!docSnap.exists()) return;
+               const userData = docSnap.data();
+               let likeSelector = null;
+               // Kiểm tra xem mục hiện tại có được người dùng thích hay không
+               switch (type) {
+                  case 1:
+                     likeSelector = userData.favouritePlaylist.find((e) => e?.encodeId === item?.encodeId);
+                     break;
+                  case 2:
+                     likeSelector = userData.favouriteSongs.find((e) => e?.encodeId === item?.encodeId);
+                     break;
+                  case 3:
+                     likeSelector = userData.favouriteArtist.find((e) => e?.id === item?.id);
+                     break;
+                  default:
+                     break;
+               };
+               // Cập nhật trạng thái và dữ liệu
+               setDocs(userData);
+               setLike(!!likeSelector);
+            } catch (error) {
+               console.error('Lỗi tìm nạp như trạng thái:', error);
             };
-            // Cập nhật trạng thái dựa trên việc mục có được thích hay không
-            setLike(!!likeSelector);
-         }).catch((error) => {
-            // Ghi log và xử lý lỗi
-            console.error(error);
-         });
+         };
       };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [item]);
+      fetchLikeStatus();
+   }, [item, type, uid, activeUser]);
+   // Hàm chung để cập nhật trạng thái thích hoặc bỏ thích
+   const updateLikeStatus = async (updateAction, successMessage, errorMessage) => {
+      try {
+         await updateAction(doc(database, 'blackcat-account', uid));
+         toast.success(successMessage);
+      } catch (error) {
+         console.error(error);
+         toast.error(errorMessage);
+      };
+   };
    // Hàm để xử lý việc thích hoặc bỏ thích một mục
    const handleLike = () => {
-      // Kiểm tra xem có người dùng đang hoạt động không
-      if (!users.activeUser) {
-         // Hiển thị thông báo nếu người dùng chưa đăng nhập
-         return toast("Bạn cần phải đăng nhập", {
-            type: "info",
-         });
-      };
-      // Nếu có người dùng đang hoạt động
-      if (users.activeUser) {
-         // Nếu mục chưa được thích, thực hiện yêu cầu POST để thích nó
-         if (!isLike) {
-            AxiosAPI.getUserLikeEndpoint(users.username, {
-               type: type,
-               item: item
-            }).then(() => {
-               toast("Thêm vào thư viện thành công", { type: "success" });
-               setLike(true);
-            }).catch((error) => {
-               // Ghi log và xử lý lỗi
-               console.error(error);
-               toast("Lỗi thêm vào thư viện không thành công", { type: "error" });
-            });
-         };
-         // Nếu mục đã được thích, thực hiện yêu cầu POST để bỏ thích
-         if (isLike) {
-            AxiosAPI.getUserLikeEndpoint(users.username, {
-               type: type,
-               item: item
-            }).then(() => {
-               toast("Xóa khỏi thư viện thành công", { type: "info" });
-               setLike(false);
-            }).catch((error) => {
-               // Ghi log và xử lý lỗi
-               console.error(error);
-               toast("Lỗi xóa khỏi thư viện", { type: "error" });
-            });
-         };
+      if (!activeUser) return toast.info("Bạn cần phải đăng nhập");
+      if (isLike) {
+         // Nếu mục đã được thích, thực hiện bỏ thích
+         updateLikeStatus(async (colRef) => {
+            switch (type) {
+               case 1:
+                  await updateDoc(colRef, {
+                     favouritePlaylist: arrayRemove(item)
+                  });
+                  break;
+               case 2:
+                  await updateDoc(colRef, {
+                     favouriteSongs: arrayRemove(item)
+                  });
+                  break;
+               case 3:
+                  await updateDoc(colRef, {
+                     favouriteArtist: arrayRemove(docs.favouriteArtist.find((e) => e.id === item.id))
+                  });
+                  break;
+               default:
+                  break;
+            };
+            setLike(false);
+         }, "Xóa khỏi thư viện thành công", "Lỗi xóa khỏi thư viện");
+      } else {
+         // Nếu mục chưa được thích, thực hiện thêm thích
+         updateLikeStatus(async (colRef) => {
+            switch (type) {
+               case 1:
+                  await updateDoc(colRef, {
+                     favouritePlaylist: arrayUnion(item)
+                  });
+                  break;
+               case 2:
+                  await updateDoc(colRef, {
+                     favouriteSongs: arrayUnion(item)
+                  });
+                  break;
+               case 3:
+                  await updateDoc(colRef, {
+                     favouriteArtist: arrayUnion(item)
+                  });
+                  break;
+               default:
+                  break;
+            };
+            setLike(true);
+         }, "Thêm vào thư viện thành công", "Lỗi thêm vào thư viện");
       };
    };
    // Trả về trạng thái thích hiện tại và hàm để xử lý thích
    return { isLike, handleLike };
 };
-//==============================================================================

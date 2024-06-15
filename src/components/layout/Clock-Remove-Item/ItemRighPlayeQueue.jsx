@@ -4,9 +4,7 @@ import { Draggable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
 import React, { memo } from "react";
 
-import ActionIcon from "../../Icon/ActionIcon";
-import ActionPlay from "../../Icon/ActionPlay";
-import LoadingIcon from "../../Icon/LoadingIcon";
+import { ActionIcon, ActionPlay, LoadingIcon} from "../../Icon/Icon.jsx";
 
 import {
    pushSongHistoryPlayList,
@@ -28,7 +26,7 @@ const ItemRighPlayer = memo(({ data, index, items, isHistory, setToggleSilde, la
    const currentEncodeId = useSelector((state) => state.queueNowPlay.currentEncodeId);
 
    let active = data?.encodeId === currentEncodeId || data?.id === currentEncodeId;
-   let isPre = index < currentIndexSong
+   let isPre = index < currentIndexSong;
 
    if (isHistory) {
       return (
@@ -48,19 +46,19 @@ const ItemRighPlayer = memo(({ data, index, items, isHistory, setToggleSilde, la
                                  item.splice(index, 1)
                               }
 
-                              const insert = (arr, index, newItem) => [...arr.slice(0, index), newItem, ...arr.slice(index)]
+                              const insert = (arr, index, newItem) => [...arr.slice(0, index), newItem, ...arr.slice(index)];
                               const res = insert(item, currentIndexSong + 1, data)
 
                               dispatch(pushSongHistoryPlayList({ item: data, list: res, index: currentIndexSong + 1 }))
                               if (isRandom) {
                                  dispatch(pushSongHistoryPlayListShuffle({ item: data, list: res, index: currentIndexSong + 1 }))
-                              }
+                              };
 
-                              setToggleSilde((value) => !value)
-                              dispatch(setPlay(true))
+                              setToggleSilde((value) => !value);
+                              dispatch(setPlay(true));
                            }}
                         >
-                           {<ActionPlay></ActionPlay>}
+                           {<ActionPlay/>}
                         </div>
                      )}
 
@@ -70,18 +68,18 @@ const ItemRighPlayer = memo(({ data, index, items, isHistory, setToggleSilde, la
                               <>
                                  {!playing && (
                                     <span onClick={() => dispatch(setPlay(true))}>
-                                       <ActionPlay></ActionPlay>
+                                       <ActionPlay/>
                                     </span>
                                  )}
                                  {playing && (
                                     <span onClick={() => dispatch(setPlay(false))}>
-                                       <ActionIcon></ActionIcon>
+                                       <ActionIcon/>
                                     </span>
                                  )}
                               </>
                            )}
 
-                           {!isReady && <LoadingIcon notLoading></LoadingIcon>}
+                           {!isReady && <LoadingIcon notLoading/>}
                         </>
                      )}
                   </div>
@@ -170,13 +168,12 @@ const ItemRighPlayer = memo(({ data, index, items, isHistory, setToggleSilde, la
                                  onClick={() => {
                                     dispatch(setReady(false))
                                     if (!isRandom) {
-                                       dispatch(setCurrentIndexSong(index))
+                                       dispatch(setCurrentIndexSong(index));
                                     }
                                     if (isRandom) {
-                                       dispatch(setCurrentIndexSongShuffle(index))
-                                    }
-
-                                    dispatch(setPlay(true))
+                                       dispatch(setCurrentIndexSongShuffle(index));
+                                    };
+                                    dispatch(setPlay(true));
                                  }}
                               >
                                  {<ActionPlay></ActionPlay>}

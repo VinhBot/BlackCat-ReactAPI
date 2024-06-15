@@ -3,7 +3,7 @@ import React from "react";
 import Loading from "../components/loading/Loading";
 
 const RouterPages = React.memo(() => {
-   // Components 
+   // Components  
    const NewFeedPageChidlen = React.lazy(() => import('../components/Followpage/NewFeedPageChidlen'));
    const SearchPagePlaylist = React.lazy(() => import('../components/SearchPage/SearchPagePlaylist'));
    const HistroryPlayList = React.lazy(() => import('../components/HistoryPage/HistroryPlayList'));

@@ -13,7 +13,7 @@ const MyComment = memo(() => {
                </div>
                <div className="flex flex-col">
                   <h3 className="mar-b-0 title leading-none mb-2">
-                     <span className=" font-bold">Ahihi</span>
+                     <span className="font-bold">Ahihi</span>
                      <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
                      <span className="subtitle">3 ngày trước</span>
                   </h3>

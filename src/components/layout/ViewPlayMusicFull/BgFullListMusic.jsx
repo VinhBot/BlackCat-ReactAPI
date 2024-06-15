@@ -61,12 +61,12 @@ const BgFullListMusic = memo(({ isScroll }) => {
          >
             {!isRandom && listSong && listSong.length > 0 && listSong.map((e, index) => (
                <SwiperSlide key={e.encodeId}>
-                  <ItemSong index={index} data={e}></ItemSong>
+                  <ItemSong index={index} data={e}/>
                </SwiperSlide>
             ))}
             {isRandom && listSongShuffle && listSongShuffle.length > 0 && listSongShuffle.map((e, index) => (
                <SwiperSlide key={e.encodeId}>
-                  <ItemSong index={index} data={e}></ItemSong>
+                  <ItemSong index={index} data={e}/>
                </SwiperSlide>
             ))}
          </Swiper>

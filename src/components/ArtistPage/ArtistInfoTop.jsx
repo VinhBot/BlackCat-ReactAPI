@@ -16,9 +16,9 @@ const ArtistInfoTop = memo(({ data }) => {
    const playlistEncodeId = useSelector((state) => state.queueNowPlay.playlistEncodeId);
    const loading = useSelector((state) => state.queueNowPlay.loading);
    const playing = useSelector((state) => state.setting.playing);
-   let active = playlistEncodeId === data?.playlistId;
-   const { isLike, handleLike } = useLikeHook(data, 3);
    const { Portal, show, hide } = usePortal({ defaultShow: false });
+   const { isLike, handleLike } = useLikeHook(data, 3);
+   let active = playlistEncodeId === data?.playlistId;
    const handleClickBackdrop = (e) => {
       const id = e.target.id;
       if(id === "theme-overlay" || id === "portal-bio-arits") hide();
@@ -84,7 +84,7 @@ const ArtistInfoTop = memo(({ data }) => {
                         if(!active) {
                            dispatch(setReady(false))
                            dispatch(setPlay(false))
-                           await dispatch(fetchPlayList(data?.playlistId))
+                           dispatch(fetchPlayList(data?.playlistId))
                            dispatch(setPlay(true))
                            if(data?.textType === "Playlist") {
                               dispatch(pushPlayListsLogged(data))

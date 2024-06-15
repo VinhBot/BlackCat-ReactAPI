@@ -8,7 +8,7 @@ import { EventStyle } from "../../assets/styledComponents";
 const EventHomePage = memo(() => {
   const project = [
     {
-       coverH: "https://cdn.discordapp.com/attachments/1092880160799326350/1092880297713991850/music.gif",
+       coverH: "/assets/Img/EventHomePage/Event01/main.jpg",
        title: "BlackCat-Club", 
        startTime: "1672574400",
        label: "Minigame",
@@ -16,12 +16,12 @@ const EventHomePage = memo(() => {
        unsubscribeText: "Đã quan tâm", 
        totalFollow: "11",
        followers: [
-         "https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam.jpg",
-         "https://top10quangbinh.vn/wp-content/uploads/2022/10/anh-gai-xinh-che-mat-2.jpg",
-         "https://khoinguonsangtao.vn/wp-content/uploads/2022/08/hinh-anh-meo-cute-1.jpg"
+         "/assets/Img/EventHomePage/Event01/Follower/foll01.jpg",
+         "/assets/Img/EventHomePage/Event01/Follower/foll02.jpg",
+         "/assets/Img/EventHomePage/Event01/Follower/foll03.jpg"
        ]
     },{
-       coverH: "https://cdn.discordapp.com/attachments/1092880160799326350/1092880297713991850/music.gif",
+       coverH: "https://c.wallhere.com/photos/dc/0d/anime-51654.jpg!d",
        title: "BlackCat-Club", 
        startTime: "1672574400",
        label: "Sinh Nhật Sao",
@@ -34,7 +34,7 @@ const EventHomePage = memo(() => {
          "https://i.pinimg.com/originals/e4/7d/3c/e47d3cc028272905c14993deef6b68bf.jpg"
        ]
     },{
-       coverH: "https://cdn.discordapp.com/attachments/1092880160799326350/1092880297713991850/music.gif",
+       coverH: "https://e1.pxfuel.com/desktop-wallpaper/194/271/desktop-wallpaper-anime-anime-kitchen-anime-home.jpg",
        title: "BlackCat-Club", 
        startTime: "1672574400",
        label: "Phát Hành Bài Hát",
@@ -47,7 +47,7 @@ const EventHomePage = memo(() => {
          "https://toigingiuvedep.vn/wp-content/uploads/2022/03/hinh-cute-meo.jpg"
        ]
     },{
-      coverH: "https://cdn.discordapp.com/attachments/1092880160799326350/1092880297713991850/music.gif",
+      coverH: "https://w.wallha.com/ws/12/7Ot9J2ru.jpg",
       title: "BlackCat-Club", 
       startTime: "1672574400",
       label: "Phát Hành Bài Hát",
@@ -60,7 +60,7 @@ const EventHomePage = memo(() => {
         "https://toigingiuvedep.vn/wp-content/uploads/2022/03/hinh-cute-meo.jpg"
       ]
     },{
-      coverH: "https://cdn.discordapp.com/attachments/1092880160799326350/1092880297713991850/music.gif",
+      coverH: "https://nhadepso.com/wp-content/uploads/2023/01/anh-anime-phong-canh_17.jpg",
       title: "BlackCat-Club", 
       startTime: "1672574400",
       label: "Phát Hành Bài Hát",

@@ -6,6 +6,7 @@ import MyComment from "../MVpage/MyComment";
 import { PortalStyles as PortalStyle } from "../../assets/styledComponents";
 
 const PortalMVpage = ({ Portal, hide, data }) => {
+   const { like, publisher, createdTime, title, content, commend } = data;
    const [llike, setLike] = useState(false);
    const [care, setCare] = useState(false);
    const handleClickBackdrop = (e) => {
@@ -13,13 +14,12 @@ const PortalMVpage = ({ Portal, hide, data }) => {
         hide();
       };
    };
-   const { like, publisher, createdTime, title, content, commend } = data;
    let imgL, urlVideo;
    if (content.type === "album") {
-      imgL = content?.photos[0].url
+      imgL = content?.photos[0].url;
    } else if (content.type === "feedVideo") {
-      imgL = content?.thumbnail
-      urlVideo = Object.values(content.source)[0]
+      imgL = content?.thumbnail;
+      urlVideo = Object.values(content.source)[0];
    };
 
    return (
@@ -40,14 +40,7 @@ const PortalMVpage = ({ Portal, hide, data }) => {
                            )}
                            {content.type === "feedVideo" && (
                               <div className="player-wrapper">
-                                 <ReactPlayer
-                                    url={urlVideo || ""}
-                                    className="react-player outline-none"
-                                    playing
-                                    width="100%"
-                                    height="100%"
-                                    controls
-                                 />
+                                 <ReactPlayer url={urlVideo || ""} className="react-player outline-none" playing width="100%" height="100%" controls/>
                               </div>
                            )}
                         </div>
@@ -64,10 +57,7 @@ const PortalMVpage = ({ Portal, hide, data }) => {
                                        <h3 className="mar-b-0 title">
                                           <span className="name">{publisher.name}</span>
                                           <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-                                          <button
-                                             onClick={() => setCare((value) => !value)}
-                                             className={`btn-care ${care ? "is-care" : ""}`}
-                                          >
+                                          <button onClick={() => setCare((value) => !value)} className={`btn-care ${care ? "is-care" : ""}`}>
                                              {care ? "Đã quan tâm" : "Quan Tâm"}
                                           </button>
                                        </h3>
@@ -78,10 +68,7 @@ const PortalMVpage = ({ Portal, hide, data }) => {
                               </div>
                               <div className="feed-footer pb-[10px] mb-[10px] px-[15px]">
                                  <div className="actions flex gap-[20px]">
-                                    <button
-                                       onClick={() => setLike((value) => !value)}
-                                       className="zm-btn mar-r-30 button !flex items-center justify-center gap-[2px]"
-                                    >
+                                    <button onClick={() => setLike((value) => !value)} className="zm-btn mar-r-30 button !flex items-center justify-center gap-[2px]">
                                        <i className={`icon ic-${llike ? "like-full" : "like"}`} />
                                        <span>Thích</span>
                                     </button>
@@ -96,9 +83,6 @@ const PortalMVpage = ({ Portal, hide, data }) => {
                                     <span>{like + (llike ? 1 : 0)} lượt thích </span>&nbsp;&nbsp;•&nbsp;&nbsp;{" "}
                                     <span>{commend} Bình luận</span>
                                  </div>
-                                 {/* <>
-                                    <MyComment></MyComment>
-                                 </> */}
                                  <>
                                     <MyComment></MyComment>
                                  </>

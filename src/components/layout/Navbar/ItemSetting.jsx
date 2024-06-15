@@ -3,7 +3,7 @@ import Tippy from "@tippyjs/react";
 import SettingPortal from "./Portal/SettingPortal.jsx";
 
 const ItemSetting = () => {
-   const [open, setOpen] = useState(false)
+   const [open, setOpen] = useState(false);
 
    return (
       <Tippy
@@ -18,7 +18,7 @@ const ItemSetting = () => {
       >
          <div className="relative">
             <div className="setting_item setting_item-set relative" onClick={() => setOpen((value) => !value)}>
-               <i className="icon ic-settings  pointer-events-none"></i>
+               <i className="icon ic-settings pointer-events-none"></i>
                {!open && <span className="setting_item-title">Cài Đặt</span>}
             </div>
          </div>

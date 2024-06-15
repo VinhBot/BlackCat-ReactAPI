@@ -4,10 +4,8 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { fancyTimeFormat } from "../../assets/functions.js";
-import ActionPlay from "../Icon/ActionPlay";
-import LoadingIcon from "../Icon/LoadingIcon";
-import ActionIcon from "../Icon/ActionIcon";
 import { setPlay, setRandomSongs, setReady } from "../../assets/redux/Features/settingPlayFeatures.js";
+import { ActionPlay, LoadingIcon, ActionIcon } from "../Icon/Icon.jsx";
 import {
    fetchPlayList,
    playSongNotAlbum,

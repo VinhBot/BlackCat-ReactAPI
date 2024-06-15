@@ -8,29 +8,18 @@ import { ItemAritsStyles } from "../../assets/styledComponents"
 
 
 const ItemArits = memo(({ classGird, data, noneFooter, isLinkToAll }) => {
-   const navigate = useNavigate()
-   const dispatch = useDispatch()
-
-   const { isLike, handleLike } = useLikeHook(data, 3)
-
+   const { isLike, handleLike } = useLikeHook(data, 3);
+   const navigate = useNavigate();
+   const dispatch = useDispatch();
    return (
-      <ItemAritsStyles className={`mvpage-item-arits  ${classGird}`}>
-         <div
-            className={`relative want_list-item-link  cursor-pointer main-page_list-item main_page-hover ${
-               isLinkToAll ? "item-myArits-last" : ""
-            }`}
-         >
+      <ItemAritsStyles className={`mvpage-item-arits ${classGird}`}>
+         <div className={`relative want_list-item-link  cursor-pointer main-page_list-item main_page-hover ${isLinkToAll ? "item-myArits-last" : ""}`}>
             {isLinkToAll ? (
                <Link to="/mymusic/nghe-si" className="flex w-full h-full mvpage-link-arlit items-center justify-center pb-[100%]">
                   <i className="icon ic-16-Arrow-Next-1"></i>
                </Link>
             ) : (
-               <div
-                  onClick={() => {
-                     navigate(`/nghe-si/${data.alias}`)
-                  }}
-                  className="want_list-item-link shadow main-page_list-item_img !rounded-full "
-               >
+               <div onClick={() => navigate(`/nghe-si/${data.alias}`)} className="want_list-item-link shadow main-page_list-item_img !rounded-full">
                   <figure>
                      <img src={data.thumbnailM || data.thumbnail} alt="" />
                   </figure>
@@ -39,12 +28,11 @@ const ItemArits = memo(({ classGird, data, noneFooter, isLinkToAll }) => {
             {!isLinkToAll && (
                <button
                   onClick={async () => {
-                     if (!data.playlistId) return
-
-                     dispatch(setReady(false))
-                     dispatch(setPlay(false))
-                     await dispatch(fetchPlayList(data.playlistId))
-                     dispatch(setPlay(true))
+                     if (!data.playlistId) return;
+                     dispatch(setReady(false));
+                     dispatch(setPlay(false));
+                     dispatch(fetchPlayList(data.playlistId));
+                     dispatch(setPlay(true));
                   }}
                   className="zm-btn is-mvpage button"
                   tabIndex="0"
@@ -93,10 +81,9 @@ const ItemArits = memo(({ classGird, data, noneFooter, isLinkToAll }) => {
                         <button
                            onClick={async () => {
                               if (!data.playlistId) return
-
                               dispatch(setReady(false))
                               dispatch(setPlay(false))
-                              await dispatch(fetchPlayList(data.playlistId))
+                              dispatch(fetchPlayList(data.playlistId))
                               dispatch(setPlay(true))
                            }}
                            className="zm-btn is-outlined mt-[12px] mb-[15px] !flex items-center justify-center  play-btn button"

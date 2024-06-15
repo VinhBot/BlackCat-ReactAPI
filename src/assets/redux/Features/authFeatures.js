@@ -5,37 +5,44 @@ const authSlice = createSlice({
     name: "authentication",
     // Trạng thái ban đầu từ localStorage hoặc một trạng thái mặc định
     initialState: JSON.parse(localStorage.getItem("user-profile")) || {
-       profileImage: null,
-       activeUser: false,
-       isAdmin: false,
-       username: "",
-       email: "",
-       name: "",
+        emailVerified: false,
+        profileImage: null,
+        activeUser: false,
+        isAdmin: false,
+        displayName: "",
+        username: "",
+        email: "",
+        uid: "",
     },
     // Các reducers định nghĩa cách thay đổi trạng thái dựa trên các action
     reducers: {
         // Reducer "setUserInfo": cập nhật thông tin người dùng và lưu vào localStorage
         setUserInfo: (state, action) => {
-            state.profileImage = action.payload.setPhotoURL;
-            state.username = action.payload.setUserName;
+            state.emailVerified = action.payload.emailVerified;
+            state.displayName = action.payload.displayName;
+            state.profileImage = action.payload.photoURL;
+            state.username = action.payload.userName;
             state.isAdmin = action.payload.isAdmin;
-            state.email = action.payload.setEmail;
-            state.name = action.payload.setName;
+            state.email = action.payload.email;
+            state.uid = action.payload.uid;
             state.activeUser = true;
             localStorage.setItem("user-profile", JSON.stringify(state));
         },
         // Reducer "logOut": đăng xuất và đặt trạng thái về giá trị mặc định
         logOut: (state, action) => {
+            state.emailVerified = false;
             state.profileImage = null;
             state.activeUser = false;
             state.isAdmin = false;
+            state.displayName = "";
             state.username = "";
             state.email = "";
-            state.name = "";
+            state.uid = "";
             localStorage.removeItem("user-profile");
         },
     },
 });
 // Xuất các action creators và reducer
 export const { setUserInfo, logOut } = authSlice.actions;
+export const authAction = authSlice.actions;
 export default authSlice.reducer;

@@ -24,7 +24,7 @@ const ItemThemes = () => {
       <>
          <div onClick={() => (modalOpen ? close() : open())} className="setting_item setting_item-themes">
             <i className="icon !mr-0  pointer-events-none relative top-[2px] left-[1px]">
-               <svg width={20} height={20} viewBox="0 0 20 20">
+            <svg width={20} height={20} viewBox="0 0 20 20">
                   <defs>
                      <linearGradient id="j32lhg93hd" x1="62.206%" x2="18.689%" y1="70.45%" y2="39.245%">
                         <stop offset="0%" stopColor="#F81212" />

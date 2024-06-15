@@ -1,3 +1,19 @@
+// Lấy thông tin về ngày và giờ tạo tài khoản theo mốc giờ việt nam.
+export function getCurrentTime() {
+    // Tạo một đối tượng Date hiện tại.
+    const currentDate = new Date();
+    // Lấy thông tin về giờ, phút và giây.
+    const hours = currentDate.getHours().toString().padStart(2, '0');
+    const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+    const seconds = currentDate.getSeconds().toString().padStart(2, '0');
+    // Lấy thông tin về ngày, tháng và năm.
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Tháng trong JavaScript bắt đầu từ 0
+    const year = currentDate.getFullYear();
+    // Trả về chuỗi kết quả.
+    return `${hours}:${minutes}:${seconds} - ${day}/${month}/${year}`;
+};
+/*========================================================*/
 export const fancyTimeFormat = (duration, par) => {
     // Giờ, phút và giây
     var hrs = ~~(duration / 3600);
@@ -39,17 +55,8 @@ export function formatTime(seconds) {
 };
 /*========================================================*/
 export const getConterTimeRelese = (timeRelease, isAlbum = false) => {
-    const d = new Date();
-    let time = d.getTime() / 1000;
-    // if (isAlbum) {
-    //    let dateString = timeRelease
-    //    console.log(dateString)
-    //    // let dateParts = dateString?.split("/")
-    //    // let dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0])
-    //    // timeRelease = dateObject.getTime() / 1000
-    // }
-    let timeFormat = Math.ceil(time - timeRelease);
-    let day = Math.ceil(timeFormat / (3600 * 24));
+    const date = new Date();
+    let day = Math.ceil(Math.ceil(date.getTime() / 1000 - timeRelease) / (3600 * 24));
     if (day >= 7) {
         day = "1 tuần"
     } else if (day >= 14) {
@@ -60,17 +67,11 @@ export const getConterTimeRelese = (timeRelease, isAlbum = false) => {
     return day;
 };
 /*========================================================*/
-export const getFormartMiute = (time) => {
-    var minutes = Math.floor(time / 60);
-    return minutes;
-};
+export const getFormartMiute = (time) => Math.floor(time / 60);
 /*========================================================*/
 export const getFormartTimeDDYY = (time) => {
-    var date = new Date(time * 1000)
-    var year = date.getFullYear()
-    var month = ("0" + (date.getMonth() + 1)).slice(-2)
-    var day = ("0" + date.getDate()).slice(-2)
-    return `${day}/${month}/${year}`
+    var date = new Date(time * 1000);
+    return `${("0" + date.getDate()).slice(-2)}/${("0" + (date.getMonth() + 1)).slice(-2)}/${date.getFullYear()}`
 };
 /*========================================================*/
 export const scrollTop = () => {
@@ -79,12 +80,11 @@ export const scrollTop = () => {
     return;
 };
 /*========================================================*/
-export function scrollToActive(e) {
-    setTimeout(function () {
-        e?.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-            inline: "center",
-        })
-    }, 200)
+export const scrollToActive = (e) => setTimeout(() => e?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" }), 200);
+/*========================================================*/
+ // Hàm giúp đặt giá trị vào localStorage một cách an toàn
+export const setLocalStorageItem = ({ key, value }) => {
+    if (!JSON.parse(localStorage.getItem(key))) {
+        localStorage.setItem(key, JSON.stringify(value));
+    };
 };

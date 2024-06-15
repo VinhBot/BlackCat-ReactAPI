@@ -7,36 +7,36 @@ import { setText } from "../../assets/redux/Features/MvStateFeatures.js";
 import { AxiosAPI } from "../../assets/api.js"
 
 const DropDownMv = memo(() => {
-   const { id } = useParams()
-   const [datas, setData] = useState([])
-   const count = useSelector((state) => state.setTextBtn)
-   const dispatch = useDispatch()
-   const navigate = useNavigate()
-   const [open, setOpen] = useState(false)
-
+   const count = useSelector((state) => state.setTextBtn);
+   const [open, setOpen] = useState(false);
+   const [datas, setData] = useState([]);
+   const dispatch = useDispatch();
+   const navigate = useNavigate();
+   const { id } = useParams();
+   
    const fetchData = useCallback(async () => {
       const dataSelector = await AxiosAPI.getCategoryMv(id);
       setData(dataSelector);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [])
+   }, []);
 
    useLayoutEffect(() => {
-      fetchData()
+      fetchData();
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [])
+   }, []);
 
    useLayoutEffect(() => {
       if (id === "IWZ9Z08I" || id === "IWZ9Z08O" || id === "IWZ9Z08W" || id === "IWZ9Z086") {
-         dispatch(setText("Tất Cả"))
-      }
+         dispatch(setText("Tất Cả"));
+      };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [id])
+   }, [id]);
 
    const handleClick = useCallback((e) => {
-      dispatch(setText(e.title))
-      navigate(`/mv/${e.id}`, { state: true })
+      dispatch(setText(e.title));
+      navigate(`/mv/${e.id}`, { state: true });
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [])
+   }, []);
 
    return (
       <div className="main_mv-search-dropdown">
@@ -61,15 +61,11 @@ const DropDownMv = memo(() => {
             <div onClick={() => setOpen((value) => !value)} className="main_mv-search-dropdown-btn ">
                <span className="material-icons-outlined">music_note</span>
                <p>{count}</p>
-               {open ? (
-                  <span className="material-icons-outlined up">expand_less</span>
-               ) : (
-                  <span className="material-icons-outlined down">expand_more</span>
-               )}
+               {open ? (<span className="material-icons-outlined up">expand_less</span>) : (<span className="material-icons-outlined down">expand_more</span>)}
             </div>
          </Tippy>
       </div>
-   )
-})
+   );
+});
 
-export default DropDownMv
+export default DropDownMv;

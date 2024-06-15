@@ -1,5 +1,4 @@
 import { useSelector, useDispatch } from "react-redux";
-import React from "react";
 import { setting } from "../../../assets/redux/Features/settingPlayFeatures.js";
 
 const PortalSetting = () => {

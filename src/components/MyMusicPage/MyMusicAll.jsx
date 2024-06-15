@@ -1,5 +1,5 @@
-import React from "react"
-import { Link, useOutletContext } from "react-router-dom"
+import React from "react";
+import { Link, useOutletContext } from "react-router-dom";
 import EmptyContent from "../Bottom/EmptyContent"
 import { LoadingSvg } from "../loading/LoadingSvg"
 import CarouselItem from "../Selection/CarouselItem"
@@ -10,7 +10,7 @@ import SliderShow from "./SliderShow"
 
 const MyMusicAll = () => {
    const { docs } = useOutletContext();
-   if (!docs?.username) return <LoadingSvg/>
+   if (!docs?.uid) return <LoadingSvg/>;
    return (
       <>
          {docs.favouriteSongs.length <= 3 && docs.favouritePlaylist.length === 0 && docs.favouriteArtist.length === 0 && (

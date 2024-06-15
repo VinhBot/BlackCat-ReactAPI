@@ -1,21 +1,15 @@
-import React, { memo, useState, useEffect, useCallback, useLayoutEffect } from "react";
+import React, { memo, useState, useEffect, useCallback, useRef } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import scrollIntoView from "smooth-scroll-into-view-if-needed";
 import { useSelector, useDispatch } from "react-redux";
-import lodash from "lodash";
-import { setDraggItemActive, setDraggUpdateList, setListSongShuffle, setNextSong, setDraggItemActiveShuffle, setDraggUpdateListShuffle, setNextSongShuffle, fetchPlayList } from "../../../assets/redux/Features/QueueFeatures.js";
 import { setPlay, setReady } from "../../../assets/redux/Features/settingPlayFeatures.js";
+import { setDraggItemActive, setDraggUpdateList, setListSongShuffle, setNextSong, setDraggItemActiveShuffle, setDraggUpdateListShuffle, setNextSongShuffle, fetchPlayList } from "../../../assets/redux/Features/QueueFeatures.js";
 import ItemRighPlayer from "../Clock-Remove-Item/ItemRighPlayeQueue.jsx";
 import RemoveList from "../Clock-Remove-Item/RemoveList.jsx";
 import CloclAlarm from "../Clock-Remove-Item/CloclAlarm.jsx";
 
 const BottomRight = memo(() => {
-   const reorder = (list, startIndex, endIndex) => {
-     const result = Array.from(list);
-     const [removed] = result.splice(startIndex, 1);
-     result.splice(endIndex, 0, removed);
-     return result;
-   };
+   // Sử dụng hooks để lấy state từ Redux store
    const currentIndexSong = useSelector((state) => state.queueNowPlay.currentIndexSong);
    const playlistEncodeId = useSelector((state) => state.queueNowPlay.playlistEncodeId);
    const infoSongCurrent = useSelector((state) => state.queueNowPlay.infoSongCurrent);
@@ -24,58 +18,71 @@ const BottomRight = memo(() => {
    const listSong = useSelector((state) => state.queueNowPlay.listSong);
    const isToggle = useSelector((state) => state.toggleright);
    const { isRandom } = useSelector((state) => state.setting);
+   // Sử dụng useState để quản lý trạng thái local
    const [toggleSilde, setToggleSilde] = useState(false);
    const [items, setItems] = useState([]);
    const dispatch = useDispatch();
-   useLayoutEffect(() => {
-      setItems(listSong);
+   // Sử dụng useRef để lưu trữ tham chiếu không thay đổi giữa các render
+   const itemsRef = useRef([]);
+   // Hàm để sắp xếp lại các item khi thực hiện kéo thả
+   const reorder = (list, startIndex, endIndex) => {
+      const result = Array.from(list);
+      const [removed] = result.splice(startIndex, 1);
+      result.splice(endIndex, 0, removed);
+      return result;
+   };
+   // Callback được gọi khi hoàn thành việc kéo thả
+   const onDragEnd = useCallback((result) => {
+      if (!result.destination) return;
+      const reorderedItems = reorder(itemsRef.current, result.source.index, result.destination.index);
+      const indexActive = reorderedItems.find((e) => e.encodeId === currentEncodeId);
+      const setDragAction = isRandom ? setDraggItemActiveShuffle : setDraggItemActive;
+      const setUpdateListAction = isRandom ? setDraggUpdateListShuffle : setDraggUpdateList;
+      const setNextSongAction = isRandom ? setNextSongShuffle : setNextSong;
+      // Cập nhật state và dispatch action tương ứng
+      if (result.source.index === currentIndexSong) {
+         dispatch(setDragAction(result.destination.index));
+      };
+      dispatch(setNextSongAction(reorderedItems.indexOf(indexActive)));
+      dispatch(setUpdateListAction(reorderedItems));
+      setItems(reorderedItems);
+   }, [currentEncodeId, currentIndexSong, dispatch, isRandom]);
+   // Effect để cập nhật items khi danh sách bài hát thay đổi
+   useEffect(() => {
+      if (listSong.length > 0) {
+         setItems(listSong);
+         itemsRef.current = listSong;
+      };
    }, [listSong]);
-   useLayoutEffect(() => {
-      if(isRandom && listSong.length > 0) {
-         let arrNext = listSong.filter((e) => e.encodeId !== infoSongCurrent.encodeId);
-         let arrShuffle = [infoSongCurrent, ...lodash.shuffle(arrNext)];
+   // Effect để xử lý logic khi chế độ phát nhạc thay đổi
+   useEffect(() => {
+      if (isRandom && listSong.length > 0) {
+         const arrNext = listSong.filter((e) => e.encodeId !== infoSongCurrent.encodeId);
+         const arrShuffle = [infoSongCurrent, ...arrNext.sort(() => Math.random() - 0.5)];
          dispatch(setListSongShuffle(arrShuffle));
          setItems(arrShuffle);
+         itemsRef.current = arrShuffle;
       };
-      if(!isRandom) {
-         const indexCurrentSongActive = listSong.indexOf(infoSongCurrent);
+      if (!isRandom) {
          setItems(listSong);
-         dispatch(setNextSong(indexCurrentSongActive));
+         itemsRef.current = listSong;
+         dispatch(setNextSong(listSong.indexOf(infoSongCurrent)));
       };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [isRandom, playlistEncodeId]);
+   }, [isRandom, playlistEncodeId, infoSongCurrent.encodeId, dispatch, listSong]);
+   // Effect để cuộn đến vị trí của item đang chơi khi thay đổi
    useEffect(() => {
-      let node = document.querySelector(`div[data-rbd-draggable-id='${currentEncodeId}']`);
-      if (!node) return;
-      setTimeout(() => scrollIntoView(node, {
-        block: "center",
-        behavior: "smooth",
-        scrollMode: "if-needed",
-      }), 200);
-   }, [currentEncodeId, isRandom, playlistEncodeId, toggleSilde]);
-   const onDragEnd = useCallback((result) => {
-         const { destination, source } = result;
-         if(!destination) return;
-         const reorderedItems = reorder(items, source.index, destination.index);
-         let indexActive = reorderedItems.find((e) => e.encodeId === currentEncodeId);
-         if(!isRandom) {
-            if(source.index === currentIndexSong) {
-               dispatch(setDraggItemActive(destination.index));
-            };
-            setItems(reorderedItems);
-            dispatch(setNextSong(reorderedItems.indexOf(indexActive)));
-            dispatch(setDraggUpdateList(reorderedItems));
+      if (currentEncodeId) {
+         const node = document.querySelector(`div[data-rbd-draggable-id='${currentEncodeId}']`);
+         if (node) {
+            setTimeout(() => scrollIntoView(node, {
+               block: "center",
+               behavior: "smooth",
+               scrollMode: "if-needed",
+            }), 200);
          };
-         if(isRandom) {
-            if(source.index === currentIndexSong) {
-               dispatch(setDraggItemActiveShuffle(destination.index));
-            };
-            setItems(reorderedItems);
-            dispatch(setNextSongShuffle(reorderedItems.indexOf(indexActive)));
-            dispatch(setDraggUpdateListShuffle(reorderedItems));
-         };
-         // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [items, currentEncodeId, isRandom]);
+      };
+   }, [currentEncodeId]);
+   // Trả về giao diện của component
    return (
       <div className={`player_queue ${isToggle ? "player_queue-is_active" : ""}`}>
          <div className="player_queue-main">
@@ -89,52 +96,50 @@ const BottomRight = memo(() => {
                   </div>
                </div>
                <div className="queue_list-btn">
-                  <CloclAlarm/>
-                  <RemoveList/>
+                  <CloclAlarm />
+                  <RemoveList />
                </div>
             </div>
-            <div className="player_queue-container  ">
-               {!toggleSilde && currentEncodeId && (
+            <div className="player_queue-container">
+               {/* Hiển thị danh sách bài hát */}
+               {currentEncodeId && !toggleSilde && (
                   <DragDropContext onDragEnd={onDragEnd}>
                      <Droppable droppableId="droppable">
-                        {(provoied) => {
-                           return (
-                              <ul className="player_queue-listmusic" {...provoied.droppableProps} ref={provoied.innerRef}>
-                                 {items && items?.length > 0 && items?.map((e, index) => {
-                                       let lastIndex = false
-                                       if(index + 1 === items.length) {
-                                          lastIndex = true
-                                       };
-                                       return (<ItemRighPlayer lastIndex={lastIndex} key={e.encodeId || e.id} index={index} data={e}/>);
-                                    })}
-                              </ul>
-                           )
-                        }}
+                        {(provided) => (
+                           <ul className="player_queue-listmusic" {...provided.droppableProps} ref={(el) => { provided.innerRef(el) }}>
+                              {items && items.length > 0 && items.map((e, index) => (
+                                 <ItemRighPlayer lastIndex={index + 1 === items.length} key={e.encodeId || e.id} index={index} data={e} />
+                              ))}
+                              {provided.placeholder}
+                           </ul>
+                        )}
                      </Droppable>
                   </DragDropContext>
                )}
 
+               {/* Hiển thị danh sách bài hát gần đây */}
                {toggleSilde && currentEncodeId && (
                   <ul className="player_queue-listmusic">
-                     {recentSongs && recentSongs?.length > 0 && recentSongs?.map((e, index) => {
-                        return (<ItemRighPlayer setToggleSilde={setToggleSilde} items={items} key={e.encodeId || e.id} index={index} isHistory={true} data={e}/>)
-                     })}
+                     {recentSongs && recentSongs.length > 0 && recentSongs.map((e, index) => (
+                        <ItemRighPlayer setToggleSilde={setToggleSilde} items={items} key={e.encodeId || e.id} index={index} isHistory={true} data={e} />
+                     ))}
                   </ul>
                )}
 
+               {/* Hiển thị thông báo khi không có bài hát nào */}
                {!currentEncodeId && (
                   <ul className="player_queue-listmusic">
                      <div className="empty">
                         <div className="empty-img" />
                      </div>
                      <div className="empty-queue">
-                        <div className="content">Khám phá thêm các bài hát mới của BlackCat-Club(MP3)</div>
+                        <div className="content">Khám phá thêm các bài hát mới của BlackCat-Club</div>
                         <button
                            onClick={() => {
-                              dispatch(setReady(false))
-                              dispatch(setPlay(false))
-                              dispatch(fetchPlayList("ZO68OC68"))
-                              dispatch(setPlay(true))
+                              dispatch(setReady(false));
+                              dispatch(setPlay(false));
+                              dispatch(fetchPlayList("ZO68OC68"));
+                              dispatch(setPlay(true));
                            }}
                            className="empty-queue-btn"
                         >
@@ -147,7 +152,8 @@ const BottomRight = memo(() => {
             </div>
          </div>
       </div>
-   )
+   );
 });
 
 export default BottomRight;
+

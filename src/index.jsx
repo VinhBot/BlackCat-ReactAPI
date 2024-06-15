@@ -25,6 +25,3 @@ ReactDOM.createRoot(document.getElementById("blackcat-club")).render(
     </QueryClientProvider>
   </Provider>
 );
-
-// node ./node_modules/vite/bin/vite
-// node ./node_modules/.bin/vite

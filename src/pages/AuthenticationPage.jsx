@@ -2,183 +2,163 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import React, { useState } from "react";
-import { toast } from "react-toastify";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import styled from "styled-components";
 // Import file
-import { setUserInfo } from "../assets/redux/Features/authFeatures.js";
-import { SignUpStyles } from "../assets/styledComponents.js";
-import { AxiosAPI } from "../assets/api.js";
+import Reginster from "../components/Authentication/Reginster.jsx";
+import { handlerSignIn } from "../assets/firebase/firebase-config.js";
+import Login from "../components/Authentication/Login.jsx";
+const SignUpStyles = styled.div({
+    "position": "fixed",
+    "top": 0,
+    "left": 0,
+    "right": 0,
+    "bottom": 0,
+    "width": "100vw",
+    "height": "100vh",
+    "background-color": "var(--layout-bg)",
+    "z-index": 8888,
+    "transition": "all 0.3s",
+    "overflow-y": "auto",
+    ".sider": {
+        "margin-bottom": "2rem",
+        ".sider_brand-item": {
+            "font-size": "4rem",
+            "display": "flex",
+            "align-items": "center",
+            "justify-content": "center",
+            "font-family": "'Patrick Hand SC', cursive",
+            "transition": "0.2s ease-in",
+            "p": {
+                "font-size": "4rem",
+                "display": "flex",
+                "-webkit-box-align": 'center',
+                "align-items": "center",
+                "font-family": "Patrick Hand SC, cursive",
+                "transition": "0.2s ease-in",
+            },
+            "&:hover": {
+                "opacity": "0.8",
+                "cursor": "pointer",
+            },
+            "span": {
+                "font-size": "3rem",
+                "margin-left": "6px",
+                "font-family": "'Patrick Hand SC', cursive",
+            },
+            ".sider_brand-item-img": {
+                "display": "flex",
+                "align-items": "center",
+                "justify-content": "center",
+                "img": {
+                    "max-height": "42px",
+                    "filter": "grayscale(100%)",
+                    "margin-right": "10px",
+                }
+            }
+        }
+    },
+    ".authForm": {
+        "position": "relative",
+        "width": "100%",
+        "margin-left": "auto",
+        "margin-right": "auto",
+        "align-items": "stretch",
+        "-webkit-box-shadow": "0px 2px 6px 0px #1d2030",
+        "box-shadow": "0px 2px 6px 0px #1d2030",
+        ".left": {
+            "background-color": "rgb(12 14 33 / 92%)",
+            "color": "#ffffff",
+            "border-top-left-radius": "4px",
+            "border-bottom-left-radius": "4px",
+            "padding-top": "30px",
+            "padding-bottom": "40px",
+            "padding-right": "30px",
+            "padding-left": "30px",
+        },
+        ".right": {
+            "padding-top": "30px",
+            "padding-bottom": "40px",
+            "padding-right": "30px",
+            "padding-left": "30px",
+            "background-color": "#ffffff",
+            "border-top-right-radius": "4px",
+            "border-bottom-right-radius": "4px",
+            "color": "#2d385e",
+            ".text-header": {
+                "font-size": "20px",
+                "font-weight": "500",
+                "&.active": {
+                    "font-size": "30px",
+                    "font-weight": "700",
+                }
+            }
+        },
+        ".btnAuth": {
+            "padding": "8px 8px",
+            "width": "100%",
+            "border": "1px solid transparent",
+            "border-radius": "4px",
+            "transition": "all 0.2s",
+            "&.google": {
+                "background-color": "#ff6363"
+            },
+            "&:hover": {
+                "opacity": "0.8",
+            },
+        }
+    },
+    ".form-control": {
+        "background-color": "#fff",
+        "width": "100%",
+        "color": "#333333",
+        "font-size": "18px",
+        "height": "50px",
+        "margin-top": "16px",
+        "padding": "12px 22px",
+        "border-radius": "4px",
+        "border": "solid 1px #bcc2ce",
+        "outline": "none",
+        "-webkit-box-shadow": "0 3px 6px 0 rgba(0, 0, 0, 10%), 0 0 2px 0 rgba(0, 0, 0, 10%)",
+        "box-shadow": "0 3px 6px 0 rgba(0, 0, 0, 10%), 0 0 2px 0 rgba(0, 0, 0, 10%)",
+    },
+    ".btn-login": {
+        "color": "white",
+        "width": "100%",
+        "padding": "12px",
+        "margin-top": "2rem",
+        "font-size": "16px",
+        "font-weight": "500",
+        "border-radius": "4px",
+        "background-color": "#486ff2",
+        "border-color": "#486ff2",
+        "box-shadow": "0px 2px 3px #9c9c9c",
+        "&:hover": {
+            "opacity": "0.8",
+            "cursor": "pointer",
+        }
+    },
+    "@media (max-width: 719px)": {
+        ".left, .right": {
+            "padding-top": "2rem !important",
+            "padding-bottom": "2rem !important",
+        },
+        ".left": {
+            "flex-direction": "column !important",
+        },
+        ".sider": {
+            "margin-bottom": "1rem",
+        }
+    }
+});
 /*========================================================
 # Biểu mẫu đăng nhập, đăng ký
 ========================================================*/
 const AuthenticationPage = () => {
-    const clickerErr = () => toast.warning("Hiện phương thức đăng nhập này giện đang được phát triển vui lòng quay lại sau");
-    const [isSignUp, setIsSignUp] = useState(true); // State để theo dõi trạng thái đăng ký hoặc đăng nhập
-    // Hooks và các biến cần thiết
-    const dispatch = useDispatch(); // Hook để gọi các action từ Redux
-    const navigate = useNavigate(); // Hook để điều hướng trang
-    // Tạo nội dung của biểu mẫu đăng nhập và đăng xuất
-    let Content;
-    // Biểu mẫu đăng nhập
-    if(isSignUp) Content = React.memo(() => {
-        // Sử dụng useFormik hook để quản lý biểu mẫu và xác thực
-        const formik = useFormik({
-            initialValues: {
-                username: "",
-                password: "",
-            },
-            onSubmit: async (formData, formikHand) => {
-                try {
-                    // Mô phỏng việc gửi dữ liệu đến máy chủ (API) không đồng bộ
-                    formikHand.setSubmitting(true);
-                    // Mô phỏng đợi trong 1 giây
-                    setTimeout(async () => {
-                        // Xử lý logic thực tế sau khi form được gửi
-                        // Sau khi xử lý, đặt isSubmitting về false
-                        formikHand.setSubmitting(false);
-                    }, 1000);
-                } catch (error) {
-                    // Xử lý lỗi trong quá trình gửi form
-                    console.error('Lỗi khi gửi form:', error);
-                    formikHand.setSubmitting(false);
-                };
-                return AxiosAPI.getSignInForm(formData).then((response) => {
-                    const userData = response.data.result;
-                    // Thiết lập thông tin người dùng sau khi đăng nhập thành công
-                    dispatch(setUserInfo({
-                        setPhotoURL: userData.profileImage || null,
-                        setUserName: userData.username,
-                        setEmail: userData.email,
-                        setName: userData.name,
-                        isAdmin: userData.isAdmin,
-                    }));
-                    // Chuyển hướng đến trang chủ sau khi đăng nhập thành công
-                    setTimeout(() => navigate("/"), 100);
-                    toast.success("Đăng nhập thành công");
-                }).catch((error) => { // Ghi log nếu có lỗi xảy ra trong quá trình đăng nhập
-                    console.log(error);
-                    formikHand.resetForm({
-                        values: {
-                            username: formData.username,
-                            password: ""
-                        },
-                    });
-                    let errorMessage;
-                    if (error.response.status === 404) {
-                        errorMessage = "Tên tài khoản không đúng, vui lòng kiểm tra lại";
-                    } else if (error.response.status === 400) {
-                        errorMessage = "Sai mật khẩu, vui lòng kiểm tra lại";
-                    } else {
-                        errorMessage = "Đã có lỗi xảy ra, vui lòng thử lại sau";
-                    };
-                    toast.warn(errorMessage);
-                });
-            },
-            validationSchema: Yup.object({
-                // Kiểm tra và yêu cầu nhập tên người dùng
-                username: Yup.string("Nhập tên tài khoản").required("Vui lòng nhập tên tài khoản").min(3, "Tài khoản quá ngắn!").max(40, "Tài khoản quá dài!"),
-                // Kiểm tra và yêu cầu nhập mật khẩu
-                password: Yup.string("Nhập mật khẩu").required("Vui lòng nhập mật khẩu"),
-            }),
-        });
-        return (
-            <div>
-                <form onSubmit={formik.handleSubmit} name="loginForm" className="loginForm w-full">
-                    {['username', 'password'].map((field) => (
-                        <div key={field} className="form-group">
-                            <input
-                                className={`form-control ${field === "username" ? "email" : "password"}`}
-                                type={field === "password" ? "password" : "text"}
-                                name={field}
-                                value={formik.values[field]}
-                                onChange={formik.handleChange}
-                                placeholder={field === "username" ? "Tên tài khoản" : "Mật khẩu"}
-                            />
-                            {formik.errors[field] && formik.touched[field] && (
-                                <div className="mt-[6px] px-[1rem] text-red-500">
-                                    <p>{formik.errors[field]}</p>
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                    <button type="submit" className="btn-login" onClick={formik.handleSubmit} disabled={formik.isSubmitting}>
-                        {formik.isSubmitting ? "Đang xử lý..." : "Đăng nhập"}
-                    </button>
-                </form>
-            </div>
-        );
-    });
-    // Biểu mẫu đăng ký
-    if(!isSignUp) Content = React.memo(() => {
-        // Sử dụng useFormik hook để quản lý biểu mẫu và xác thực
-        const formik = useFormik({
-            initialValues: {
-                name: "",
-                username: "",
-                password: "",
-                repeatPassword: "",
-            },
-            onSubmit: async (formData, formikHand) => {
-                return AxiosAPI.getSignUpForm(formData).then((data) => {
-                    const userData = data.data.result;
-                    // Thiết lập thông tin người dùng
-                    dispatch(setUserInfo({
-                        setUserName: userData.username,
-                        setName: userData.name,
-                        isAdmin: false,
-                    }));
-                    // Chuyển hướng đến trang chủ sau khi đăng ký thành công
-                    setTimeout(() => navigate("/"), 1000);
-                }).catch((error) => { // Ghi log nếu có lỗi xảy ra trong quá trình đăng ký
-                    if (error.response.status === 400) {
-                        return toast.error("Tài khoản đã được đăng ký trước đó.");
-                    };
-                });
-            },
-            validationSchema: Yup.object({
-                // Kiểm tra và yêu cầu nhập tên
-                name: Yup.string("Nhập tên").required('Tên là bắt buộc').min(1, 'Tên quá ngắn!').max(20, 'Tên quá dài!'),
-                // Kiểm tra và yêu cầu nhập tên người dùng (username)
-                username: Yup.string('Nhập tên tài khoản').required('Tên tài khoản là bắt buộc').min(3, "Tên tài khoản quá ngắn").max(40, "Tên tài khoản quá dài"),
-                // Kiểm tra và yêu cầu nhập mật khẩu
-                password: Yup.string('Nhập mật khẩu').required('Mật khẩu là bắt buộc')
-                // Định nghĩa quy tắc mật khẩu
-                /*.matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/, {
-                  message: "Vui lòng tạo một mật khẩu mạnh hơn"
-                })*/,
-                // Kiểm tra và yêu cầu nhập lại mật khẩu
-                repeatPassword: Yup.string('Nhập lại mật khẩu').oneOf([Yup.ref('password')], 'Mật khẩu phải trùng khớp').required('Mật khẩu là bắt buộc'),
-            }),
-        });
-        // Render component chính
-        return (
-            <div>
-                <form onSubmit={formik.handleSubmit} name="loginForm" className="loginForm w-full">
-                    {['name', 'username', 'password', 'repeatPassword'].map((field) => (
-                        <div key={field} className="form-group">
-                            <input
-                                className={`form-control ${field === "username" ? "email" : "password"}`}
-                                type={field === 'password' || field === 'repeatPassword' ? 'password' : 'text'}
-                                name={field}
-                                value={formik.values[field]}
-                                onChange={formik.handleChange}
-                                placeholder={field === "name" ? "Tên" : field === "username" ? "Tên tài khoản" : field === "password" ? "Mật khẩu" : "Nhập lại mật khẩu"}
-                            />
-                            {formik.errors[field] && formik.touched[field] && (
-                                <div className="mt-[6px] px-[1rem] text-red-500">
-                                    <p>{formik.errors[field]}</p>
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                    <button type="submit" className="btn-login" onClick={formik.handleClick}>
-                        Đăng ký
-                    </button>
-                </form>
-            </div>
-        );
-    });
+    const [isSignUp, setIsSignUp] = useState(true); // State để theo dõi trạng thái đăng ký hoặc đăng nhập.
+    // Hooks và các biến cần thiết.
+    const dispatch = useDispatch(); // Hook để gọi các action từ Redux.
+    const navigate = useNavigate(); // Hook để điều hướng trang.
+    const { googleSignIn } = handlerSignIn();
     return (
         <SignUpStyles>
             <div className="gird wide">
@@ -198,14 +178,14 @@ const AuthenticationPage = () => {
                                 </div>
                                 <div className="text-center mb-[2rem] font-semibold">Đăng nhập bằng mạng xã hội để truy cập nhanh</div>
                                 <div className="flex flex-col justify-start items-center gap-[16px]">
-                                    <button onClick={clickerErr} className="btnAuth bg-[#3b5998]">Tiếp tục với Facebook</button>
+                                    <button onClick={() => googleSignIn()} className="btnAuth google">Tiếp tục với Google</button>
                                 </div>
                             </div>
                             <div className="col l-7 m-7 c-12 right">
                                 <div className="flex items-baseline justify-center ">
                                     <div className="text-header active">{isSignUp ? "Đăng Nhập" : "Đăng Ký"}</div>
                                 </div>
-                                <Content />
+                                {isSignUp ? <Login dispatch={dispatch} navigate={navigate} /> : <Reginster dispatch={dispatch} navigate={navigate} />}
                                 <div className="flex items-center justify-between mt-[20px]">
                                     <button onClick={() => setIsSignUp(!isSignUp)} className="underline">
                                         {isSignUp ? "Bạn chưa có tài khoản? Đăng ký" : "Bạn đã có tài khoản? Đăng nhập"}

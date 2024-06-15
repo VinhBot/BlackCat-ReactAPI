@@ -7,7 +7,7 @@ import EmptyContent from "../Bottom/EmptyContent";
 
 const MyMusicArtis = memo(() => {
    const { docs } = useOutletContext()
-   if (!docs?.username) return <LoadingSvg></LoadingSvg>
+   if (!docs?.uid) return <LoadingSvg></LoadingSvg>
    return (
       <>
          {docs.favouriteArtist.length === 0 && (

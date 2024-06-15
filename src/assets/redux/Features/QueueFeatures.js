@@ -143,7 +143,7 @@ export const queueNowPlay = createSlice({
          state.currentIndexSong = action.payload;
          state.infoSongCurrent = state.listSong[state.currentIndexSong];
          state.duration = state.infoSongCurrent.duration;
-         state.currentEncodeId = state.infoSongCurrent?.encodeId;
+         state.currentEncodeId = state.infoSongCurrent.encodeId;
          // set next
          state.infoSongNext = state.listSong[state.currentIndexSong + 1];
          localStorage.setItem("queue_nowplay", JSON.stringify(state));

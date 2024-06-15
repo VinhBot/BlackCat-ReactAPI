@@ -7,7 +7,7 @@ import PlayListSelector from "../Selection/PlayListSelector";
 
 const MyMusicPlayList = memo(() => {
    const { docs } = useOutletContext()
-   if (!docs?.username) return <LoadingSvg/>
+   if (!docs?.uid) return <LoadingSvg/>
    return (
       <>
          {docs.favouritePlaylist.length === 0 && (

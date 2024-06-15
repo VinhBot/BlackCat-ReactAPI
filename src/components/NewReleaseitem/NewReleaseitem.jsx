@@ -10,9 +10,8 @@ import {
 } from "../../assets/functions.js"
 
 import { toast } from "react-toastify";
-import ActionPlay from "../Icon/ActionPlay";
-import ActionIcon from "../Icon/ActionIcon";
-import LoadingIcon from "../Icon/LoadingIcon";
+
+import {ActionPlay, ActionIcon, LoadingIcon } from "../Icon/Icon.jsx";
 import { setPlay, setReady } from "../../assets/redux/Features/settingPlayFeatures.js";
 import {
   fetchPlayList,

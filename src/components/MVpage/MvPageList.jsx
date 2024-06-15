@@ -11,8 +11,8 @@ const MvPageList = memo(() => {
    const [datas, setData] = useState([]);
    const { id } = useParams();
    const page = useRef(1);
-   
-   const fetchData = async() => {
+
+   const fetchData = async () => {
       const data = await AxiosAPI.getListMv(id, page.current);
       const dataSelector = data.items;
       const tolal = data.toltal;
@@ -22,9 +22,9 @@ const MvPageList = memo(() => {
          return setLoading(false);
       };
       if (datas.length === 0) {
-         setData(dataSelector)
+         setData(dataSelector);
       } else {
-         setData((value) => [...value, ...dataSelector])
+         setData((value) => [...value, ...dataSelector]);
       };
       setLoading(true);
    };
@@ -36,39 +36,33 @@ const MvPageList = memo(() => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
-   const pageEnd = useRef()
+   const pageEnd = useRef();
    useEffect(() => {
       if (loading) {
          const observer = new IntersectionObserver((e) => {
-           if (e[0].isIntersecting) {
-             fetchData()
-           };
+            if (e[0].isIntersecting) {
+               fetchData();
+            };
          }, { threshold: 1 })
          observer?.observe(pageEnd.current);
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [loading]);
 
-   if (datas.length === 0) return <LoadingSvg/>
+   if (datas.length === 0) return <LoadingSvg />
 
-   // axios({
-   //    method: "post",
-   //    url: "https://express.vinhbot.repl.co/data",
-   //    data: { data: datas },
-   // });
-   
    return (
       <div className="">
          <DropDownMv />
          <div className="container_top100-list row transition-all">
             {datas?.map((e) => (
-               <MvItem key={uuidv4()} data={e}/>
+               <MvItem key={uuidv4()} data={e} />
             ))}
          </div>
-         <div ref={pageEnd} className="mt-[30px] "/>
-         {loading && <LoadingSvg isLoadMore/>}
+         <div ref={pageEnd} className="mt-[30px] " />
+         {loading && <LoadingSvg isLoadMore />}
       </div>
    );
 });
 
-export default MvPageList
+export default MvPageList;

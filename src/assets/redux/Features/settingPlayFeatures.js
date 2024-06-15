@@ -21,33 +21,33 @@ export const setting = createSlice({
    },
    reducers: {
       setClockOff: (state, action) => {
-         state.clockOff = action.payload
-         localStorage.setItem("blackcat_setting", JSON.stringify(state))
+         state.clockOff = action.payload;
+         localStorage.setItem("blackcat_setting", JSON.stringify(state));
       },
       setProgressInterval: (state, action) => {
-         state.progressInterval = action.payload
-         localStorage.setItem("blackcat_setting", JSON.stringify(state))
+         state.progressInterval = action.payload;
+         localStorage.setItem("blackcat_setting", JSON.stringify(state));
       },
       setIsVolume: (state, action) => {
-         state.isVolume = action.payload
-         localStorage.setItem("blackcat_setting", JSON.stringify(state))
+         state.isVolume = action.payload;
+         localStorage.setItem("blackcat_setting", JSON.stringify(state));
       },
       toogleMuted: (state) => {
-         state.muted = !state.muted
-         localStorage.setItem("blackcat_setting", JSON.stringify(state))
+         state.muted = !state.muted;
+         localStorage.setItem("blackcat_setting", JSON.stringify(state));
       },
       setReady: (state, action) => {
-         state.isReady = action.payload
-         localStorage.setItem("blackcat_setting", JSON.stringify(state))
+         state.isReady = action.payload;
+         localStorage.setItem("blackcat_setting", JSON.stringify(state));
       },
       setPlay: (state, action) => {
-         state.playing = action.payload
-         localStorage.setItem("blackcat_setting", JSON.stringify(state))
+         state.playing = action.payload;
+         localStorage.setItem("blackcat_setting", JSON.stringify(state));
       },
 
       setVolume: (state, action) => {
-         state.volume = action.payload
-         localStorage.setItem("blackcat_setting", JSON.stringify(state))
+         state.volume = action.payload;
+         localStorage.setItem("blackcat_setting", JSON.stringify(state));
       },
 
       setRandomSongs: (state, action) => {
@@ -76,14 +76,13 @@ export const setting = createSlice({
          localStorage.setItem("blackcat_setting", JSON.stringify(state))
       },
       setSizeText: (state, action) => {
-         state.text = action.payload
-
+         state.text = action.payload;
          localStorage.setItem("blackcat_setting", JSON.stringify(state))
       },
    },
 
    extraReducers: (builer) => { },
-})
+});
 
 export const {
    setAciteTheme,

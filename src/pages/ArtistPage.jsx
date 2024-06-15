@@ -1,11 +1,43 @@
-import React, { useState, useLayoutEffect } from "react";
 import { NavLink, Outlet, useParams } from "react-router-dom";
+import React, { useState, useLayoutEffect } from "react";
+import styled from "styled-components";
 
 import ArtistInfoTop from "../components/ArtistPage/ArtistInfoTop.jsx";
 import {  LoadingSvg } from "../components/loading/LoadingSvg.jsx";
-import { ArtistPageStyles } from "../assets/styledComponents.js";
 import { scrollTop } from "../assets/functions.js";
 import { AxiosAPI } from "../assets/api.js";
+
+const ArtistPageStyles = styled.div`
+   .avatar {
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      overflow: hidden;
+   }
+   .content-detail {
+      max-height: 70px;
+      overflow-y: auto;
+      font-size: 14px;
+      line-height: 1.64;
+      margin-bottom: 10px;
+      span {
+         display: inline-block;
+         color: var(--text-item-hover);
+         font-size: 12px;
+         font-weight: 700;
+         line-height: 1.92;
+         cursor: pointer;
+      }
+   }
+   .artist-name {
+      color: var(--text-primary);
+      font-size: 40px;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: -0.08px;
+      margin-bottom: 5px;
+   }
+`;
 
 const ArtistPage = () => {
    const { name } = useParams();
@@ -25,8 +57,8 @@ const ArtistPage = () => {
       scrollTop();
       fetchData();
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, []);
-   if(datas?.length === 0) return <LoadingSvg/>
+   }, [scrollTop, fetchData]);
+   if(datas?.length === 0) return <LoadingSvg/>;
    return (
       <ArtistPageStyles className=" mt-5 ">
          <ArtistInfoTop data={datas}/>
@@ -41,7 +73,7 @@ const ArtistPage = () => {
               ))}                                                    
             </ul>
          </div>
-         <Outlet context={datas} />
+         <Outlet context={datas} />   
       </ArtistPageStyles>
    );
 };

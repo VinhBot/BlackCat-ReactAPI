@@ -5,8 +5,8 @@ import BottomPlayer from "./Bottom/BottomPlayer.jsx";
 import BottomRight from "./Bottom/BottomRight.jsx";
 
 const BottomPlay = memo(() => {
-   const isOpen = useSelector((state) => state.toggleOpenMain.isOpen);
    const isOpenClass = useSelector((state) => state.toggleOpenMain.isOpenClass);
+   const isOpen = useSelector((state) => state.toggleOpenMain.isOpen);
    return (
       <div className={`playing-bar ${isOpenClass ? "active" : ""}`}>
          <BottomPlayer/>

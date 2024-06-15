@@ -4,9 +4,7 @@ export const setTextBtn = createSlice({
    name: "setTextBtn",
    initialState: "Tất Cả",
    reducers: {
-      setText: (state, action) => {
-         return action.payload
-      },
+      setText: (state, action) => action.payload,
    },
 });
 

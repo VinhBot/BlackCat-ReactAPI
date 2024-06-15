@@ -7,7 +7,7 @@ import ItemChartList from "../TopChartPage/ItemChartList";
 
 const MyMusicSong = () => {
    const { docs } = useOutletContext();
-   if (!docs?.username) return <LoadingSvg/>;
+   if (!docs?.uid) return <LoadingSvg/>;
    return (
       <div>
          {docs.favouriteSongs.length === 0 && (<EmptyContent icon="favorite-song" text={"Chưa có mục yêu thích trong thư viện"} textBtn={"Khám phá ngay"} />)}

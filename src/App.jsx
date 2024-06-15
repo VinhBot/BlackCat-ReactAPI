@@ -1,13 +1,19 @@
-import React, { memo, useEffect, useLayoutEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import { ToastContainer } from "react-toastify";
+import React from "react";
+
 import { setPlaying } from "./assets/redux/Features/settingPlayFeatures.js";
+import { auth, database } from "./assets/firebase/firebase-config.js";
+import { authAction } from "./assets/redux/Features/authFeatures.js";
+import { setLocalStorageItem } from "./assets/functions.js";
 import Siderleft from "./components/layout/Siderleft.jsx";
 import BottomPlay from "./components/layout/Bottom.jsx";
 import Header from "./components/layout/Header.jsx";
 import RouterPage from "./router/RouterPage";
 // Component được đánh dấu là memo để tối ưu hoá render
-const App = memo(() => {
+const App = React.memo(() => {
     // Sử dụng useSelector để lấy state từ Redux
     const queueNowPlaySelector = useSelector((state) => state.queueNowPlay);
     const timeSelector = useSelector((state) => state.currentTimes);
@@ -18,14 +24,28 @@ const App = memo(() => {
     const users = useSelector((state) => state.auth);
     // Sử dụng useDispatch để gửi các action đến Redux
     const dispatch = useDispatch();
-    // Hàm giúp đặt giá trị vào localStorage một cách an toàn
-    const setLocalStorageItem = ({ key, value }) => {
-        if (!JSON.parse(localStorage.getItem(key))) {
-            localStorage.setItem(key, JSON.stringify(value));
-        };
-    };
+    // Sử dụng useEffect để thực hiện các thao tác khi component được mount lên
+    React.useEffect(() => {
+        // Thiết lập một listener để theo dõi sự thay đổi trong trạng thái xác thực của người dùng.
+        const unregisterAuthObserver = onAuthStateChanged(auth, async (user) => {
+            if (user && user.email.endsWith('@gmail.com')) {
+                const userData = await getDoc(doc(database, "blackcat-account", user.uid)).then((data) => data.data());
+                dispatch(authAction.setUserInfo({
+                    emailVerified: userData.emailVerified,
+                    displayName: user.displayName,
+                    isAdmin: userData.isAdmin,
+                    photoURL: user.photoURL,
+                    userName: user.email,
+                    email: user.email,
+                    uid: user.uid,
+                }));
+            };
+        });
+        // Hủy bỏ listener khi component bị unmount.
+        return () => unregisterAuthObserver();
+    }, [auth, dispatch]);
     // Sử dụng useEffect để lắng nghe sự kiện bàn phím và thực hiện các tác vụ tương ứng
-    useEffect(() => {
+    React.useEffect(() => {
         const keyboardShortcuts = (e) => {
             const isInput = Array.from(document.querySelectorAll("input")).some((input) => input === document.activeElement);
             if (isInput) return;
@@ -48,7 +68,7 @@ const App = memo(() => {
         // eslint-disable-next-line
     }, []);
     // Sử dụng useLayoutEffect để cập nhật giao diện người dùng dựa trên theme
-    useLayoutEffect(() => {
+    React.useLayoutEffect(() => {
         const rootElement = document.documentElement;
         rootElement.setAttribute("data-theme", theme.dataTheme);
         rootElement.classList.toggle("theme-bg-image", theme.bgImg);
@@ -62,7 +82,7 @@ const App = memo(() => {
         // eslint-disable-next-line
     }, [theme]);
     // Sử dụng useLayoutEffect để đặt giá trị ban đầu cho localStorage
-    useLayoutEffect(() => {
+    React.useLayoutEffect(() => {
         setLocalStorageItem({ key: "queue_nowplay", value: queueNowPlaySelector });
         setLocalStorageItem({ key: "blackcat_logged", value: loggedSelector });
         setLocalStorageItem({ key: "blackcat_setting", value: settingSelector });
@@ -71,11 +91,11 @@ const App = memo(() => {
         // eslint-disable-next-line
     }, []);
     // Sự kiện chặn f12 và contextmenu
-    useEffect(() => {
+    React.useEffect(() => {
         const handleKeyDown = (e) => {
-            if (e.key === 'F12' || e.keyCode === 123) {
-                e.preventDefault();
-            };
+            // if (e.key === "F12" || e.keyCode === 123) {
+            //     e.preventDefault();
+            // };
         };
         const handleContextMenu = (e) => {
             e.preventDefault();

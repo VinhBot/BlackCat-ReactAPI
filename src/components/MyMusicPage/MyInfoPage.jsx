@@ -1,103 +1,114 @@
 import React, { memo, useEffect, useState, Fragment, useRef } from "react";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
+import { updatePassword } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { setUserInfo } from "../../assets/redux/Features/authFeatures.js";
-import { UpdateProfileStyled } from "../../assets/styledComponents";
-import PlayListSelector from "../Selection/PlayListSelector";
-import { AxiosAPI } from "../../assets/api.js";
+import { database, auth } from "../../assets/firebase/firebase-config.js";
+import { authAction } from "../../assets/redux/Features/authFeatures.js";
+import { UpdateProfileStyled } from "../../assets/styledComponents.js";
+import PlayListSelector from "../Selection/PlayListSelector.jsx";
 
 const MyInfoPage = memo(() => {
-    // Sử dụng Redux hook để lấy thông tin người dùng từ trạng thái Redux
-    const userInfo = useSelector((state) => state.auth);
-    // Sử dụng Redux hook để gửi các action đến Redux store
-    const dispatch = useDispatch();
-    // Sử dụng useRef để tạo tham chiếu đến input file
-    const inputRef = useRef();
+    const userInfo = useSelector((state) => state.auth); // Sử dụng Redux hook để lấy thông tin người dùng từ trạng thái Redux
+    const dispatch = useDispatch(); // Sử dụng Redux hook để gửi các action đến Redux store
+    const inputRef = useRef(); // Sử dụng useRef để tạo tham chiếu đến input file
     // Khởi tạo các trạng thái cho trang đổi mật khẩu và xem trước hình ảnh
-    const [changePasswordPage, setChangePasswordPage] = useState(false); // trạng thái đổi mật khẩu
     const [previewImage, setPreviewImage] = useState(userInfo.profileImage); // Trạng thái xem trước hình ảnh
+    const [changePasswordPage, setChangePasswordPage] = useState(false); // trạng thái đổi mật khẩu
     const [image, setImage] = useState(); // Trạng thái cho hình ảnh đã chọn
     // profileSetup
     const updateProfile = useFormik({
         initialValues: {
-            profileImage: userInfo.profileImage,
-            name: userInfo.name,
-            email: userInfo.email || "",
+            profileImage: userInfo.profileImage, // ảnh đại diện
+            displayName: userInfo.displayName, // tên người dùng
+            username: userInfo.username, // Tên tài khoản đăng nhập
+            email: userInfo.email || "", // email người dùng
         },
         onSubmit: async (formData, formikHand) => {
             try {
-                // Mô phỏng việc gửi dữ liệu đến máy chủ (API) không đồng bộ
-                formikHand.setSubmitting(true);
-                // Mô phỏng đợi trong 1 giây
-                setTimeout(async () => {
-                    // Xử lý logic thực tế sau khi form được gửi
-                    // Sau khi xử lý, đặt isSubmitting về false
-                    formikHand.setSubmitting(false);
-                }, 1000);
+                formikHand.setSubmitting(true); // Mô phỏng việc gửi dữ liệu đến máy chủ (API) không đồng bộ.
+                setTimeout(async () => formikHand.setSubmitting(false), 1000); // Mô phỏng đợi trong 1 giây và xử lý logic thực tế sau khi form được gửi, sau khi xử lý, đặt isSubmitting về false
             } catch (error) {
                 // Xử lý lỗi trong quá trình gửi form
                 console.error('Lỗi khi gửi form:', error);
                 formikHand.setSubmitting(false);
             };
             // Tìm ra các giá trị thay đổi
-            const changedValues = {};
-            for (const key in formData) {
-                if (formData[key] !== userInfo[key]) {
-                    changedValues[key] = formData[key];
-                };
-            };
+            const changedValues = Object.keys(formData).reduce((acc, key) => {
+                if (formData[key] !== userInfo[key]) acc[key] = formData[key];
+                return acc;
+            }, {});
             // Kiểm tra xem có giá trị thay đổi nào không
             if (Object.keys(changedValues).length > 0) {
                 // Gửi yêu cầu PATCH chỉ với các giá trị đã thay đổi
-                return AxiosAPI.updateProfile(userInfo.username, changedValues).then((updateData) => {
-                    // Dispatch hành động Redux để cập nhật lại profile
-                    dispatch(setUserInfo({
-                        setUserName: userInfo.username,
-                        setPhotoURL: formData.profileImage,
-                        setEmail: formData.email,
-                        setName: formData.name,
-                    }));
-                    toast.success(updateData.data.message);
-                }).catch((error) => { // Ghi log nếu có lỗi xảy ra trong quá trình cập nhật
-                    console.log(error);
-                    toast.error("Lỗi cập nhật thông tin người dùng");
-                });
-            } else { // Không có giá trị thay đổi, trả về Promise đã được giải quyết ngay lập tức
+                await updateDoc(doc(database, "blackcat-account", userInfo.uid), changedValues);
+                dispatch(authAction.setUserInfo({
+                    displayName: formData.displayName,
+                    photoURL: formData.profileImage,
+                    userName: userInfo.username,
+                    email: formData.email,
+                    uid: userInfo.uid,
+                }));
+            } else {
+                // Không có giá trị thay đổi, trả về Promise đã được giải quyết ngay lập tức
                 return Promise.resolve();
             };
+            toast.success("Đã cập nhật thành công!");
         },
+        // Chọn schema xác thực tùy thuộc vào trạng thái đăng ký
         validationSchema: Yup.object({
-            name: Yup.string().required("Vui lòng nhập tên").max(30, "Tên không dài quá 30 kí tự").min(3, "Tên không ngắn quá 3 ký tự"),
+            displayName: Yup.string().required("Vui lòng nhập tên").max(30, "Tên không dài quá 30 kí tự").min(3, "Tên không ngắn quá 3 ký tự"),
             email: Yup.string().required("Vui lòng nhập email vào ô này").max(40, "Email dài quá 40 kí tự").email("Email bạn cung cấp không đúng định dạng"),
-            profileImage: Yup.string('Chọn ảnh').nullable(),
-        }), // Chọn schema xác thực tùy thuộc vào trạng thái đăng ký
+            profileImage: Yup.string("Chọn ảnh").nullable(),
+        }),
     });
+    // Chỉnh sửa lại mật khẩu.
     const setPassword = useFormik({
         initialValues: {
             password: "",
             passwordNew: "",
             passcordNewCheck: ""
         },
-        onSubmit: async (formData, formikHand) => { 
-            toast.warning("Tính năng đổi mật khẩu đang được phát triển xin vui lòng quay lại sau....");
-            
+        onSubmit: async (formData, actions) => {
             try {
-                // Mô phỏng việc gửi dữ liệu đến máy chủ (API) không đồng bộ
-                formikHand.setSubmitting(true);
-                // Mô phỏng đợi trong 1 giây
-                setTimeout(async () => {
-                    // Xử lý logic thực tế sau khi form được gửi
-                    // Sau khi xử lý, đặt isSubmitting về false
-                    formikHand.setSubmitting(false);
-                }, 1000);
+                formikHand.setSubmitting(true); // Mô phỏng việc gửi dữ liệu đến máy chủ (API) không đồng bộ.
+                setTimeout(async () => formikHand.setSubmitting(false), 1000); // Mô phỏng đợi trong 1 giây và xử lý logic thực tế sau khi form được gửi, sau khi xử lý, đặt isSubmitting về false
+                // Thực hiện lấy dữ liệu và điền nó vào mẫu.
+                await getDoc(doc(database, "blackcat-account", userInfo.uid)).then((docSnap) => {
+                    if (formData.password !== docSnap.data().password) {
+                        toast.error("Mật Khẩu Không Chích Xác");
+                        setTimeout(() => actions.resetForm({
+                            values: {
+                                password: "",
+                            }
+                        }), 1000);
+                        return;
+                    };
+
+                    try {
+                        updatePassword(auth.currentUser, formData.passwordNew);
+                        toast.success("Cập Nhật Thành Công");
+                        actions.resetForm({
+                            values: {
+                                password: "",
+                                passwordNew: "",
+                                passwordNewCheck: "",
+                            },
+                        });
+                    } catch (error) {
+                        toast("Cập Nhật Thất Bại", {
+                            type: "error",
+                        });
+                    };
+                });
             } catch (error) {
                 // Xử lý lỗi trong quá trình gửi form
                 console.error('Lỗi khi gửi form:', error);
-                formikHand.setSubmitting(false);
+                actions.setSubmitting(false);
             };
-        }, 
+        },
         validationSchema: Yup.object({
             password: Yup.string().required("Vui lòng nhập mật khẩu cũ vào ô này").max(30, "Mật khẩu không dài quá 30 kí tự").min(3, "Độ dài tối thiểu 3 ký tự"),
             passwordNew: Yup.string().required("Vui lòng nhập mật khẩu mới vào ô này").max(30, "Mật khẩu không dài quá 30 kí tự").min(3, "Độ dài tối thiểu 3 ký tự"),
@@ -107,24 +118,17 @@ const MyInfoPage = memo(() => {
     // Hiệu ứng xử lý xem trước hình ảnh và cập nhật trường formik
     useEffect(() => {
         if (image) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                updateProfile.setFieldValue("profileImage", reader.result.toString());
-                setPreviewImage(reader.result.toString());
+            const reader = new FileReader(); // Tạo đối tượng FileReader
+            reader.onloadend = () => { // Xử lý khi kết thúc việc đọc file
+                updateProfile.setFieldValue("profileImage", reader.result.toString()); // Cập nhật trường profileImage trong formik
+                setPreviewImage(reader.result.toString()); // Cập nhật trạng thái xem trước hình ảnh
             };
-            reader.readAsDataURL(image);
+            reader.readAsDataURL(image); // Đọc file dưới dạng Data URL
         } else {
-            updateProfile.setFieldValue("profileImage", userInfo.profileImage);
+            updateProfile.setFieldValue("profileImage", userInfo.profileImage); // Nếu không có hình ảnh được chọn, giữ nguyên ảnh đại diện hiện tại
         };
-    }, [image]);
-    // Khai báo hàm xử lý sự kiện khi người dùng chọn xóa ảnh
-    const handleDeleteImage = (event) => {
-        // Lấy file từ sự kiện
-        const file = event.target.files[0];
-        // Kiểm tra xem file có tồn tại và là loại ảnh hay không
-        // Nếu là ảnh, gán file cho biến hình ảnh (setImage), ngược lại gán giá trị null
-        setImage(file && file.type.substr(0, 5) === "image" ? file : null);
-    };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [image]); // useEffect sẽ chạy lại khi giá trị của image thay đổi
     const progress = 0;
     // Render form EditProfile
     return (
@@ -145,7 +149,7 @@ const MyInfoPage = memo(() => {
                             <label htmlFor="">Ảnh Đại Diện</label>
                             <div className="text-center mb-10">
                                 <label className="cursor-pointer flex items-center justify-center border border-dashed w-full min-h-[200px] rounded-lg w-[200px] h-[200px] !rounded-full min-h-0 mx-auto relative overflow-hidden group">
-                                    <input type="file" ref={inputRef} className="hidden-input" accept="image/*" onChange={handleDeleteImage} />
+                                    <input type="file" ref={inputRef} className="hidden-input" accept="image/*" onChange={(event) => setImage(event.target.files[0].type.substring(0, 5) === "image" ? event.target.files[0] : null)} />
                                     {progress !== 0 && !previewImage && (
                                         <div className="absolute z-10 w-16 h-16 border-8 border-green-500 rounded-full loading border-t-transparent animate-spin"></div>
                                     )}
@@ -168,11 +172,11 @@ const MyInfoPage = memo(() => {
                                     {!previewImage && (<div className="absolute bottom-0 left-0 w-10 h-1 transition-all bg-green-400 image-upload-progress" style={{ width: `${Math.ceil(progress)}%` }}></div>)}
                                 </label>
                             </div>
-                            {["name", "email"].map((field) => (
+                            {["displayName", "email"].map((field) => (
                                 <div key={field} className="form-group mb-[16px]">
-                                    <label htmlFor={field}>{field === "name" ? "Tên Hiển Thị" : "Email"}</label>
+                                    <label htmlFor={field}>{field === "displayName" ? "Tên Hiển Thị" : "Email"}</label>
                                     <input
-                                        type={field === "email" ? "email" : "name"}
+                                        type={field === "email" ? "email" : "text"}
                                         className={`form-control ${field}`}
                                         name={field}
                                         placeholder={field === "email" ? `${userInfo.email ? userInfo.email : "Không có email"}` : "Name"}

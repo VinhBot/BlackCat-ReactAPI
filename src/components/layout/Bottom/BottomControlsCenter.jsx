@@ -3,9 +3,9 @@ import Tippy from "@tippyjs/react";
 import { useDispatch, useSelector } from "react-redux";
 import BottomControlllPLayIng from "./BottomControlllPLayIng";
 import { setLoopSongs, setPlay, setPlaying, setRandomSongs, setReady } from "../../../assets/redux/Features/settingPlayFeatures.js";
-import LoadingIcon from "../../Icon/LoadingIcon";
 import { setCurrentIndexSong, setCurrentIndexSongShuffle } from "../../../assets/redux/Features/QueueFeatures.js";
 import { scrollToActive } from "../../../assets/functions.js";
+import { LoadingIcon } from "../../Icon/Icon.jsx";
 
 const BottomControlsCenter = () => {
    const dispatch = useDispatch();
@@ -17,24 +17,18 @@ const BottomControlsCenter = () => {
    return (
       <div className="player_controls-center">
          <div className="player_top">
-            <div
-               onClick={() => {
-                  dispatch(setRandomSongs());
-               }}
-               id="randomMusic"
-               className={`player_btn playing_random  ${isRandom ? "active" : ""}`}
-            >
+            <div onClick={() => dispatch(setRandomSongs())} id="randomMusic" className={`player_btn playing_random  ${isRandom ? "active" : ""}`}>
                <i className="icon ic-shuffle"></i>
                <div className="playing_title-hover">{isRandom ? "Tắt" : "Bật"} phát ngẫu nhiên</div>
             </div>
             <div
                onClick={() => {
                   if (isRandom) {
-                     dispatch(setCurrentIndexSongShuffle(currentIndexSong - 1))
-                  }
+                     dispatch(setCurrentIndexSongShuffle(currentIndexSong - 1));
+                  };
                   if (!isRandom) {
-                     dispatch(setCurrentIndexSong(currentIndexSong - 1))
-                  }
+                     dispatch(setCurrentIndexSong(currentIndexSong - 1));
+                  };
                   dispatch(setReady(false));
                   if (!playing) {
                      dispatch(setPlay(true));

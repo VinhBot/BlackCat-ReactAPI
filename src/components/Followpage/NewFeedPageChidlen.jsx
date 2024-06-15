@@ -81,4 +81,4 @@ const NewFeedPageChidlen = () => {
   );
 };
 
-export default NewFeedPageChidlen
+export default NewFeedPageChidlen;
