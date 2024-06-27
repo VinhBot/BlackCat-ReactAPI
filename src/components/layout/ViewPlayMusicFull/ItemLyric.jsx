@@ -18,28 +18,28 @@ const ItemLyric = memo(({ data, index }) => {
       }, 50)
    }, [])
 
-   let text = ""
-   let e = data.words
-   let startTime = formatTime(e[0].startTime / 1000)
-   let endTime = formatTime(e[e.length - 1].endTime / 1000)
+   let text = "";
+   let e = data.words;
+   let startTime = formatTime(e[0].startTime / 1000);
+   let endTime = formatTime(e[e.length - 1].endTime / 1000);
 
-   let active = currentTime >= startTime && currentTime < endTime
-   let over = currentTime > endTime
+   let active = currentTime >= startTime && currentTime < endTime;
+   let over = currentTime > endTime;
 
    data.words.forEach((e) => {
-      text += e.data + " "
-   })
+      text += e.data + " ";
+   });
 
    if (active) {
-      scrollActive()
-   }
+      scrollActive();
+   };
 
    return (
       <li ref={liRef} className={`item ${active ? "is-active" : ""} ${over ? "is-over" : ""}`}>
          {" "}
          {text}{" "}
       </li>
-   )
-})
+   );
+});
 
-export default ItemLyric
+export default ItemLyric;

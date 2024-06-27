@@ -35,9 +35,7 @@ const ClockAlarm = React.memo(() => {
         dispatch(setClockOff(false));
         dispatch(setPlay(false));
       }, parseInt(values.hours) * 60 * 60 * 1000 + parseInt(values.minute) * 60 * 1000);
-
       hide();
-
       toast(`Nhạc sẽ dừng sau ${values.hours} Giờ, ${values.minute} Phút`, {
         type: "success",
         autoClose: "default",

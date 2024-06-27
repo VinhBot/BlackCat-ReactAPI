@@ -9,7 +9,7 @@ import BgFullLyrics from "./BgFullLyrics";
 import BgSwiperFull from "./BgSwiperFull";
 import BtnSetting from "./BtnSetting";
 
-const ViewPlayMusicMain = () => {
+const ViewPlayMusicMain = memo(() => {
    const infoSongCurrent = useSelector((state) => state.queueNowPlay.infoSongCurrent);
    const currentEncodeId = useSelector((state) => state.queueNowPlay.currentEncodeId);
    const infoCurrenAlbum = useSelector((state) => state.queueNowPlay.infoCurrenAlbum);
@@ -28,7 +28,7 @@ const ViewPlayMusicMain = () => {
       var timeout;
       const hidden = () => {
          clearTimeout(timeout);
-         timeout = setTimeout(function () {
+         timeout = setTimeout(function() {
             setTimeout(() => {
                setIsScroll(true);
                playingBar.classList.add("play_hidden");
@@ -102,7 +102,7 @@ const ViewPlayMusicMain = () => {
                         <span className="material-icons-outlined btn-bottom">close_fullscreen</span>
                      </button>
                   </div>
-                  <BtnSetting></BtnSetting>
+                  <BtnSetting/>
                   <div className="nowplaying-header_setting-item">
                      <button
                         onClick={() => {
@@ -148,6 +148,6 @@ const ViewPlayMusicMain = () => {
          </div>
       </div>
    )
-}
+});
 
-export default memo(ViewPlayMusicMain);
+export default ViewPlayMusicMain;
