@@ -2,7 +2,7 @@ import { arrayRemove, arrayUnion, doc, updateDoc, getDoc } from "firebase/firest
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import React from "react";
-import { database } from "../../assets/firebase/firebase-config.js";
+import { database } from "../../assets/firebase-config.js";
 // Hook
 export function useWindowSize() {
    // function App() {

@@ -17,11 +17,7 @@ const RaidoItem = memo(({ item, className1 }) => {
             </div>
             <div className="recently_list-item_hover">
                <div className="recently_btn-hover recently_btn-hover-play">
-                  <span
-                     onClick={() => {
-                        return toast("Radio đang phát triển, vui lòng thông cảm!", { type: "info" });
-                     }}
-                  >
+                  <span onClick={() => toast.info("Radio đang phát triển, vui lòng thông cảm!")}>
                      <ion-icon class="icon_play-btn" name="play-circle-outline"></ion-icon>
                   </span>
                </div>

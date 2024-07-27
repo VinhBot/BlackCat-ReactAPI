@@ -50,33 +50,31 @@ const VideoPopUp = () => {
       dispatch(setPlayingAction(false));
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
-   if (datas?.length === 0 || !datas) {
-      return (
-         <div className="zm-video-modal  is-loading">
-            <div className="relative  w-full h-full">
-               <div className="mv_play-main">
-                  <LoadingSvg />
-               </div>
+   if (datas?.length === 0 || !datas) return (
+      <div className="zm-video-modal is-loading">
+         <div className="relative w-full h-full">
+            <div className="mv_play-main">
+               <LoadingSvg />
             </div>
          </div>
-      );
-   };
- 
+      </div>
+   );
+
    return (
-      <div className="zm-video-modal ">
-         <div className="relative  w-full h-full">
+      <div className="zm-video-modal">
+         <div className="relative w-full h-full">
             <div className="mv_play-main">
-               <div className="video-wrapper  h-full relative">
+               <div className="video-wrapper h-full relative">
                   <div className="cover-bg" style={{ backgroundImage: `url("${datas?.thumbnailM || null}")` }} />
-                  <div className="blur-bg"></div>
-                  <div className="video-container pt-3 ">
-                     <div className=" w-[95vw] mx-auto">
+                  <div className="blur-bg"/>
+                  <div className="video-container pt-3">
+                     <div className="w-[95vw] mx-auto">
                         <div className="video_header flex items-center justify-between w-full">
                            <div className="video_header-favourite flex items-center gap-[16px]">
                               <div className="video_header-left mr-[10px]">
                                  <div className="todaychoice_list-item-title">
                                     <div className="main_mv-avatr">
-                                       <img src={datas?.artists[0].thumbnail || datas?.artists[0].thumbnailM} alt="" />
+                                       <img src={datas?.artists[0].thumbnail || datas?.artists[0].thumbnailM} alt="Preview Avatar" />
                                     </div>
                                     <div className="main_mv-info-title">
                                        <div className="main_title-text" href="#">
@@ -93,7 +91,7 @@ const VideoPopUp = () => {
                                                    <Link to={`/nghe-si/${e.alias}/`}>{e.name}</Link>
                                                    {prara}
                                                 </span>
-                                             )
+                                             );
                                           })}
                                        </div>
                                     </div>
@@ -103,7 +101,6 @@ const VideoPopUp = () => {
                                  <button className="zm-btn zm-tooltip-btn is-hover-circle button" tabIndex={0}>
                                     <i className="icon ic-like" />
                                  </button>
-
                                  <button className="zm-btn zm-tooltip-btn is-hover-circle button" tabIndex={0}>
                                     <i className="icon ic-more" />
                                  </button>
@@ -114,7 +111,6 @@ const VideoPopUp = () => {
                                  <button className="btn-minimize zm-btn zm-tooltip-btn is-hover-circle button" tabIndex={0}>
                                     <i className="icon ic-minimize"></i>
                                  </button>
-
                                  <button onClick={() => handleClose()} className="zm-btn zm-tooltip-btn is-hover-circle button" tabIndex={0}>
                                     <i className="icon ic-close"></i>
                                  </button>
@@ -142,9 +138,7 @@ const VideoPopUp = () => {
                                  <div className="video-queue rounded-xl h-full overflow-auto max-h-full">
                                     <div className="video-queue-list p-[1.6rem]">
                                        <PlayListSelector classAdd={"!mt-0"} title="Danh Sách Phát">
-                                          {datas.recommends.map((e) => {
-                                             return <VideoPlayItems key={e.encodeId} data={e} />
-                                          })}
+                                          {datas.recommends.map((e) => <VideoPlayItems key={e.encodeId} data={e} />)}
                                        </PlayListSelector>
                                     </div>
                                  </div>
@@ -156,9 +150,7 @@ const VideoPopUp = () => {
                         <div className="video-footer ">
                            <div className="main_mv main-page-item active">
                               <div className="main_mv-container ">
-                                 {datas?.artists?.map((e, index) => {
-                                    return <MvDataList key={index} item={e} />
-                                 })}
+                                 {datas?.artists?.map((e, index) => <MvDataList key={index} item={e} />)}
                               </div>
                            </div>
                         </div>
@@ -168,7 +160,7 @@ const VideoPopUp = () => {
             </div>
          </div>
       </div>
-   )
-}
+   );
+};
 
-export default VideoPopUp
+export default VideoPopUp;

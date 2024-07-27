@@ -44,40 +44,33 @@ export const setting = createSlice({
          state.playing = action.payload;
          localStorage.setItem("blackcat_setting", JSON.stringify(state));
       },
-
       setVolume: (state, action) => {
          state.volume = action.payload;
          localStorage.setItem("blackcat_setting", JSON.stringify(state));
       },
-
       setRandomSongs: (state, action) => {
          state.isRandom = !state.isRandom
          localStorage.setItem("blackcat_setting", JSON.stringify(state))
       },
-
       setLoopSongs: (state, action) => {
          state.isLoop = !state.isLoop
          localStorage.setItem("blackcat_setting", JSON.stringify(state))
       },
-
       setPlaying: (state) => {
          state.playing = !state.playing
-         localStorage.setItem("blackcat_setting", JSON.stringify(state))
+         localStorage.setItem("blackcat_setting", JSON.stringify(state));
       },
-
       setPlayingAction: (state, action) => {
          state.playing = action.payload
          localStorage.setItem("blackcat_setting", JSON.stringify(state))
       },
-
       setAciteTheme: (state, action) => {
-         state.isBgFull = action.payload
-
-         localStorage.setItem("blackcat_setting", JSON.stringify(state))
+         state.isBgFull = action.payload;
+         localStorage.setItem("blackcat_setting", JSON.stringify(state));
       },
       setSizeText: (state, action) => {
          state.text = action.payload;
-         localStorage.setItem("blackcat_setting", JSON.stringify(state))
+         localStorage.setItem("blackcat_setting", JSON.stringify(state));
       },
    },
 

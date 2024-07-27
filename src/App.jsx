@@ -5,11 +5,11 @@ import { ToastContainer } from "react-toastify";
 import React from "react";
 
 import { setPlaying } from "./assets/redux/Features/settingPlayFeatures.js";
-import { auth, database } from "./assets/firebase/firebase-config.js";
-import { authAction } from "./assets/redux/Features/authFeatures.js";
+import { auth, database } from "./assets/firebase-config.js";
 import { setLocalStorageItem } from "./assets/functions.js";
 import Siderleft from "./components/layout/Siderleft.jsx";
 import BottomPlay from "./components/layout/Bottom.jsx";
+import { authAction } from "./assets/redux/stores.js";
 import Header from "./components/layout/Header.jsx";
 import RouterPage from "./router/RouterPage";
 // Component được đánh dấu là memo để tối ưu hoá render

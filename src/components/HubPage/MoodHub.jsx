@@ -7,7 +7,7 @@ const MoodHub = ({ data }) => {
    return (
       <PlayListSelector classAdd2={"!flex-wrap transition-all"} title={"Tâm Trạng Và Hoạt Động"}>
          {data && data.length > 0 && data.slice(0, numRender).map((e, index) => (
-            <FavoriteArtisItem key={index} clasName="col l-3 !mb-6 m-4 c-6" isHub item={e}></FavoriteArtisItem>
+            <FavoriteArtisItem key={index} clasName="col l-3 !mb-6 m-4 c-6" isHub item={e}/>
          ))}
          {numRender === 8 && (
             <div className="flex items-center justify-center w-full mt-2">

@@ -1,6 +1,6 @@
 import { Navigation, Autoplay, Pagination, Scrollbar } from "swiper/modules";
-import React, { memo, useState, useEffect } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import React, { memo, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { SlideStyle } from "../../assets/styledComponents";
 
@@ -29,6 +29,7 @@ const datas = [
 
 const SliderHomePage = memo(() => {
     const [displayImages, setDisplayImages] = useState(false);
+
     useEffect(() => {
         const delayImages = async () => {
             await new Promise(resolve => setTimeout(resolve, 2000));
@@ -36,13 +37,17 @@ const SliderHomePage = memo(() => {
         };
         delayImages();
     }, []);
+
+    const minSlidesForLoop = 3;
+    const slides = datas.length < minSlidesForLoop ? [...datas, ...datas.slice(0, minSlidesForLoop - datas.length)] : datas;
+     
     return (
         <SlideStyle>
             <div className="gallery mr-[-15px] ml-[-15px]">
                 <div className="gallery-container slider_list min-h-[160px]">
                     <Swiper
                         modules={[Autoplay, Scrollbar, Navigation, Pagination]}
-                        loop={true}
+                        loop={slides.length >= minSlidesForLoop}
                         speed={600}
                         spaceBetween={50}
                         centeredSlides={true}
@@ -69,7 +74,7 @@ const SliderHomePage = memo(() => {
                             },
                         }}
                     >
-                        {displayImages && datas.length > 0 ? datas.map((e) => (
+                        {displayImages && slides.length > 0 ? slides.map((e) => (
                             <SwiperSlide key={e.banner}>
                                 <div className="gallery-item">
                                     <div className="zm-card cursor-pointer">

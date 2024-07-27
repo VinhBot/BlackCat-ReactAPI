@@ -1,12 +1,12 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
+import { signOut } from "firebase/auth";
 import { toast } from "react-toastify";
 import Tippy from "@tippyjs/react";
-
-import { handlerSignIn } from "../../../assets/firebase/firebase-config.js";
-import { logOut } from "../../../assets/redux/Features/authFeatures.js";
+import { authAction } from "../../../assets/redux/stores.js";
 import { LoginPortalStyyles } from "../../../assets/styledComponents";
+import { auth } from "../../../assets/firebase-config.js";
 
 const ItemLogin = ({ isTitle = true, width = 38, height = 38 }) => {
    const activeUser = useSelector((state) => state.auth.activeUser);
@@ -15,11 +15,13 @@ const ItemLogin = ({ isTitle = true, width = 38, height = 38 }) => {
    const { pathname } = useLocation();
    const navigate = useNavigate();
    const dispatch = useDispatch();
-   const { handleSignOut: SignOut } = handlerSignIn();
    const handleSignOut = async () => {
-      dispatch(logOut());
+      dispatch(authAction.logOut());
       setOpen(false);
-      SignOut();
+      signOut(auth).then(() => {
+         // Đăng xuất người dùng và cập nhật trạng thái.
+         console.log("Đã đăng xuất người dùng.")
+      }).catch((error) => console.error(error));
       if (pathname.search("mymusic") > 0) {
          navigate("/");
       };

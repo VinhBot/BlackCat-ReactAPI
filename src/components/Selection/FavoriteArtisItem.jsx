@@ -19,13 +19,10 @@ const FavoriteArtisItem = memo(({ item, clasName, isHub, isCenter }) => {
          <div className={`favorite_list-item ${active ? "active" : ""} ${isHub ? "is-hub" : ""} ${clasName}`}>
             <div
                onClick={(e) => {
-                  if (isHub) {
-                     navigate(`/hub/detail/${encodeId}`)
-                  }
-
+                  if (isHub) navigate(`/hub/detail/${encodeId}`);
                   if (e.target.className.includes("recently_list-item_hover")) {
                      navigate(`/album/${encodeId}`)
-                  }
+                  };
                }}
                className="main-page_list-item main_page-hover cursor-pointer"
             >
@@ -39,18 +36,13 @@ const FavoriteArtisItem = memo(({ item, clasName, isHub, isCenter }) => {
                            {active && (
                               <>
                                  {!playing && (
-                                    <span
-                                       className="playlist"
-                                       onClick={(e) => {
-                                          dispatch(setPlay(true))
-                                       }}
-                                    >
+                                    <span className="playlist" onClick={(e) => dispatch(setPlay(true))}>
                                        <ion-icon class="icon_play-btn" name="play-circle-outline"></ion-icon>
                                     </span>
                                  )}
                                  {playing && (
                                     <span onClick={() => dispatch(setPlay(false))}>
-                                       <ActionIcon></ActionIcon>
+                                       <ActionIcon/>
                                     </span>
                                  )}
                               </>
@@ -61,7 +53,7 @@ const FavoriteArtisItem = memo(({ item, clasName, isHub, isCenter }) => {
                                     navigate(`/album/${encodeId}`)
                                     dispatch(setReady(false))
                                     dispatch(setPlay(false))
-                                    await dispatch(fetchPlayList(encodeId))
+                                    dispatch(fetchPlayList(encodeId))
                                     dispatch(setPlay(true))
                                  }}
                               >
@@ -77,8 +69,7 @@ const FavoriteArtisItem = memo(({ item, clasName, isHub, isCenter }) => {
                      <>
                         <p className="favorite_content-name">{artistsNames}</p>
                         <div className="favorite_content-list flex justify-center items-center gap-[10px]">
-                           {song &&
-                              song.items.map((e, index) => {
+                           {song && song.items.map((e, index) => {
                                  if (index > 2) return
 
                                  return (
@@ -95,13 +86,12 @@ const FavoriteArtisItem = memo(({ item, clasName, isHub, isCenter }) => {
                         <p className={`favorite_content-name ${isCenter ? "text-center" : ""}`}>{title}</p>
                         <div className="favorite_content-list flex justify-center items-center gap-[10px] ">
                            {item.playlists && item.playlists.map((e, index) => {
-                                 if (index > 2) return
-
+                                 if (index > 2) return;
                                  return (
                                     <div key={index} className="favorite_content-img">
                                        <img src={e.thumbnail} alt={e.title} />
                                     </div>
-                                 )
+                                 );
                               })}
                         </div>
                      </>
@@ -111,7 +101,7 @@ const FavoriteArtisItem = memo(({ item, clasName, isHub, isCenter }) => {
             </div>
          </div>
       </>
-   )
-})
+   );
+});
 
-export default memo(FavoriteArtisItem)
+export default FavoriteArtisItem;

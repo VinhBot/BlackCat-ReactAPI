@@ -56,19 +56,11 @@ const AlbumPageInfo = memo(({ datas }) => {
                      <span>
                         {activeAlbum && (
                            <>
-                              {!playing && (
-                                 <span onClick={() => dispatch(setPlay(true))}>
-                                    <ion-icon class="icon_play-btn" name="play-circle-outline"></ion-icon>
-                                 </span>
-                              )}
-                              {playing && (
-                                 <span onClick={() => dispatch(setPlay(false))}>
-                                    <ActionIcon></ActionIcon>
-                                 </span>
-                              )}
+                              {!playing && (<span onClick={() => dispatch(setPlay(true))}><ion-icon class="icon_play-btn" name="play-circle-outline"/></span>)}
+                              {playing && (<span onClick={() => dispatch(setPlay(false))}><ActionIcon/></span>)}
                            </>
                         )}
-                        {!activeAlbum && <ion-icon class="icon_play-btn" name="play-circle-outline"></ion-icon>}
+                        {!activeAlbum && <ion-icon class="icon_play-btn" name="play-circle-outline"/>}
                      </span>
                   </div>
                </div>
@@ -84,7 +76,6 @@ const AlbumPageInfo = memo(({ datas }) => {
                      if (index === datas.artists.length - 1) {
                         prara = "";
                      };
-
                      return (
                         <span key={uuidv4()}>
                            <Link className="is-ghost" to={`/nghe-si/${e.alias}/`}>
@@ -92,7 +83,7 @@ const AlbumPageInfo = memo(({ datas }) => {
                            </Link>
                            {prara}
                         </span>
-                     )
+                     );
                   })}
                </div>
                <div className="like">

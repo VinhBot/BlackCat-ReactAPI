@@ -26,4 +26,4 @@ const ItemSetting = () => {
    )
 }
 
-export default ItemSetting
+export default ItemSetting;

@@ -36,9 +36,7 @@ export const themeToggle = createSlice({
             document.documentElement.classList.remove("theme-bg-image");
          };
          if (action.payload.dataStyle) {
-            const alo = action.payload.dataStyle.map((e) => {
-               return e;
-            });
+            const alo = action.payload.dataStyle.map((e) => e);
             document.documentElement.setAttribute("style", alo.join(" ; "));
          } else {
             document.documentElement.removeAttribute("style");

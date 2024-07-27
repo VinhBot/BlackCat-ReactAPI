@@ -42,7 +42,5 @@ const authSlice = createSlice({
         },
     },
 });
-// Xuất các action creators và reducer
-export const { setUserInfo, logOut } = authSlice.actions;
-export const authAction = authSlice.actions;
-export default authSlice.reducer;
+
+export default authSlice;

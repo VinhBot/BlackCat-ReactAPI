@@ -5,10 +5,11 @@ import { updatePassword } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { database, auth } from "../../assets/firebase/firebase-config.js";
-import { authAction } from "../../assets/redux/Features/authFeatures.js";
+
+import { database, auth } from "../../assets/firebase-config.js";
 import { UpdateProfileStyled } from "../../assets/styledComponents.js";
 import PlayListSelector from "../Selection/PlayListSelector.jsx";
+import { authAction } from "../../assets/redux/stores.js";
 
 const MyInfoPage = memo(() => {
     const userInfo = useSelector((state) => state.auth); // Sử dụng Redux hook để lấy thông tin người dùng từ trạng thái Redux
@@ -73,8 +74,8 @@ const MyInfoPage = memo(() => {
         },
         onSubmit: async (formData, actions) => {
             try {
-                formikHand.setSubmitting(true); // Mô phỏng việc gửi dữ liệu đến máy chủ (API) không đồng bộ.
-                setTimeout(async () => formikHand.setSubmitting(false), 1000); // Mô phỏng đợi trong 1 giây và xử lý logic thực tế sau khi form được gửi, sau khi xử lý, đặt isSubmitting về false
+                actions.setSubmitting(true); // Mô phỏng việc gửi dữ liệu đến máy chủ (API) không đồng bộ.
+                setTimeout(async () => actions.setSubmitting(false), 1000); // Mô phỏng đợi trong 1 giây và xử lý logic thực tế sau khi form được gửi, sau khi xử lý, đặt isSubmitting về false
                 // Thực hiện lấy dữ liệu và điền nó vào mẫu.
                 await getDoc(doc(database, "blackcat-account", userInfo.uid)).then((docSnap) => {
                     if (formData.password !== docSnap.data().password) {

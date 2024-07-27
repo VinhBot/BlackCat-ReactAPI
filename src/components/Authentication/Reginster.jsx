@@ -4,8 +4,8 @@ import { setDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import React from "react";
-import { authAction } from "../../assets/redux/Features/authFeatures.js";
-import { auth, database } from "../../assets/firebase/firebase-config";
+import { authAction } from "../../assets/redux/stores.js";
+import { auth, database } from "../../assets/firebase-config.js";
 import { getCurrentTime } from "../../assets/functions";
 
 const Reginster = React.memo(({ dispatch, navigate }) => {
@@ -34,7 +34,7 @@ const Reginster = React.memo(({ dispatch, navigate }) => {
             repeatPassword: string("Nhập lại mật khẩu").oneOf([yupRef("password")], "Mật khẩu phải trùng khớp").required("Mật khẩu là bắt buộc"),
             // Kiểm tra và chấp nhận ảnh đại diện (có thể để trống)
             // profileImage: string("Chọn ảnh").nullable(),
-        }), 
+        }),
         // Hàm xử lý khi submit form
         onSubmit: async (formData, actions) => {
             try {
@@ -88,30 +88,28 @@ const Reginster = React.memo(({ dispatch, navigate }) => {
     });
     // Render component chính
     return (
-        <div>
-            <form onSubmit={formik.handleSubmit} name="loginForm" className="loginForm w-full">
-                {['displayName', 'username', 'password', 'repeatPassword'].map((field) => (
-                    <div key={field} className="form-group">
-                        <input
-                            className={`form-control ${field === "username" ? "email" : "password"}`}
-                            type={field === 'password' || field === 'repeatPassword' ? 'password' : 'text'}
-                            name={field}
-                            value={formik.values[field]}
-                            onChange={formik.handleChange}
-                            placeholder={field === "displayName" ? "Tên người dùng" : field === "username" ? "Tên tài khoản" : field === "password" ? "Mật khẩu" : "Nhập lại mật khẩu"}
-                        />
-                        {formik.errors[field] && formik.touched[field] && (
-                            <div className="mt-[6px] px-[1rem] text-red-500">
-                                <p>{formik.errors[field]}</p>
-                            </div>
-                        )}
-                    </div>
-                ))}
-                <button type="submit" className="btn-login" disabled={formik.isSubmitting}>
-                    {formik.isSubmitting ? "Đang xử lý..." : "Đăng ký"}
-                </button>
-            </form>
-        </div>
+        <form onSubmit={formik.handleSubmit} name="loginForm" className="loginForm w-full">
+            {['displayName', 'username', 'password', 'repeatPassword'].map((field) => (
+                <div key={field} className="form-group">
+                    <input
+                        className={`form-control ${field === "username" ? "email" : "password"}`}
+                        type={field === 'password' || field === 'repeatPassword' ? 'password' : 'text'}
+                        name={field}
+                        value={formik.values[field]}
+                        onChange={formik.handleChange}
+                        placeholder={field === "displayName" ? "Tên người dùng" : field === "username" ? "Tên tài khoản" : field === "password" ? "Mật khẩu" : "Nhập lại mật khẩu"}
+                    />
+                    {formik.errors[field] && formik.touched[field] && (
+                        <div className="mt-[6px] px-[1rem] text-red-500">
+                            <p>{formik.errors[field]}</p>
+                        </div>
+                    )}
+                </div>
+            ))}
+            <button type="submit" className="btn-login" disabled={formik.isSubmitting}>
+                {formik.isSubmitting ? "Đang xử lý..." : "Đăng ký"}
+            </button>
+        </form>
     );
 });
 

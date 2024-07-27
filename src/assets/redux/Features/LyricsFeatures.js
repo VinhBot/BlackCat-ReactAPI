@@ -18,16 +18,16 @@ export const lyrics = createSlice({
     },
     reducers: {
         setIsSeek: (state, action) => {
-            state.isSeek = action.payload
-            localStorage.setItem("blackbat_lyrics", JSON.stringify(state))
+            state.isSeek = action.payload;
+            localStorage.setItem("blackbat_lyrics", JSON.stringify(state));
         },
     },
     extraReducers: (builer) => {
         builer.addCase(fetchDataLyrics.pending, (state, action) => {
-            state.isLoading = true
+            state.isLoading = true;
         });
         builer.addCase(fetchDataLyrics.rejected, (state, action) => {
-            state.isLoading = false
+            state.isLoading = false;
         });
         builer.addCase(fetchDataLyrics.fulfilled, (state, action) => {
             state.defaultIBGUrls = action.payload.defaultIBGUrls;
@@ -40,7 +40,7 @@ export const lyrics = createSlice({
             localStorage.setItem("blackbat_lyrics", JSON.stringify(state));
         });
     },
-})
+});
 
 export const { setIsSeek } = lyrics.actions;
 export default lyrics.reducer;

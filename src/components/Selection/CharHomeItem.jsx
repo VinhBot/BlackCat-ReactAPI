@@ -17,25 +17,14 @@ const CharHomeItem = memo(({ id }) => {
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [status]);
-
-   const getEnCodeId = (num) => {
-      let item = datas?.items[`${num}`]?.encodeId;
-      return item;
-   };
-
-   const DataChart0 = datas?.chart?.items[`${getEnCodeId(0)}`];
-   const DataChart1 = datas?.chart?.items[`${getEnCodeId(1)}`];
-   const DataChart2 = datas?.chart?.items[`${getEnCodeId(2)}`];
-
-   const labels = datas?.chart?.times.map((e) => e.hour + ":00");
-
+   
+   const getEnCodeId = (num) => datas?.items[`${num}`]?.encodeId;
    const data2 = {
-      labels: labels,
-      // labels,
+      labels: datas?.chart?.times.map((e) => e.hour + ":00"),
       datasets: [
          {
             label: datas?.items[0]?.title,
-            data: DataChart0?.map((e) => e.counter),
+            data: datas?.chart?.items[`${getEnCodeId(0)}`]?.map((e) => e.counter),
             borderColor: "#4A90E2",
             backgroundColor: "#fff",
             fill: false,
@@ -53,7 +42,7 @@ const CharHomeItem = memo(({ id }) => {
          },
          {
             label: datas?.items[1]?.title,
-            data: DataChart1?.map((e) => e.counter),
+            data: datas?.chart?.items[`${getEnCodeId(1)}`]?.map((e) => e.counter),
             borderColor: "#27BD9C",
             backgroundColor: "#fff",
             fill: false,
@@ -71,7 +60,7 @@ const CharHomeItem = memo(({ id }) => {
          },
          {
             label: datas?.items[2]?.title,
-            data: DataChart2?.map((e) => e.counter),
+            data: datas?.chart?.items[`${getEnCodeId(2)}`]?.map((e) => e.counter),
             borderColor: "#A64250",
             backgroundColor: "#fff",
             fill: false,

@@ -10,7 +10,11 @@ import setting from "./Features/settingPlayFeatures.js";
 import setOpenMainMv from "./Features/toggleMainMvFeatures.js";
 import toggleRight from "./Features/toggleRightFeatures.js";
 import setTextBtn from "./Features/MvStateFeatures.js";
-import auth from "./Features/authFeatures.js";
+import authSlice from "./Features/authFeatures.js";
+/**
+ * authAction
+ */
+export const authAction = authSlice.actions;
 
 const store = configureStore({
    reducer: {
@@ -25,7 +29,7 @@ const store = configureStore({
       setOpenMainMv: setOpenMainMv,
       toggleright: toggleRight,
       setTextBtn: setTextBtn,
-      auth: auth
+      auth: authSlice.reducer,
    },
 });
 

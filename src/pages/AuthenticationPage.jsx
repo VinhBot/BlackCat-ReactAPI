@@ -5,8 +5,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 // Import file
 import Reginster from "../components/Authentication/Reginster.jsx";
-import { handlerSignIn } from "../assets/firebase/firebase-config.js";
+import googleSignIn from "../components/Authentication/google.js";
 import Login from "../components/Authentication/Login.jsx";
+import { toast } from "react-toastify";
 const SignUpStyles = styled.div({
     "position": "fixed",
     "top": 0,
@@ -15,7 +16,6 @@ const SignUpStyles = styled.div({
     "bottom": 0,
     "width": "100vw",
     "height": "100vh",
-    "background-color": "var(--layout-bg)",
     "z-index": 8888,
     "transition": "all 0.3s",
     "overflow-y": "auto",
@@ -137,6 +137,18 @@ const SignUpStyles = styled.div({
             "cursor": "pointer",
         }
     },
+    ".login_text": {
+        "text-align": "center",
+        "margin-bottom": "2rem",
+        "font-weight": "600",
+    },
+    ".button_login": {
+        "display": "flex",
+        "flex-direction": "column",
+        "justify-content": "flex-start",
+        "align-items": "center",
+        "gap": "16px"
+    },
     "@media (max-width: 719px)": {
         ".left, .right": {
             "padding-top": "2rem !important",
@@ -148,7 +160,7 @@ const SignUpStyles = styled.div({
         ".sider": {
             "margin-bottom": "1rem",
         }
-    }
+    },
 });
 /*========================================================
 # Biểu mẫu đăng nhập, đăng ký
@@ -158,7 +170,6 @@ const AuthenticationPage = () => {
     // Hooks và các biến cần thiết.
     const dispatch = useDispatch(); // Hook để gọi các action từ Redux.
     const navigate = useNavigate(); // Hook để điều hướng trang.
-    const { googleSignIn } = handlerSignIn();
     return (
         <SignUpStyles>
             <div className="gird wide">
@@ -176,9 +187,10 @@ const AuthenticationPage = () => {
                                         </p>
                                     </div>
                                 </div>
-                                <div className="text-center mb-[2rem] font-semibold">Đăng nhập bằng mạng xã hội để truy cập nhanh</div>
-                                <div className="flex flex-col justify-start items-center gap-[16px]">
-                                    <button onClick={() => googleSignIn()} className="btnAuth google">Tiếp tục với Google</button>
+                                <div className="login_text">Đăng nhập bằng mạng xã hội để truy cập nhanh</div>
+                                <div className="button_login">
+                                    <button onClick={() => googleSignIn({ dispatch, navigate })} className="btnAuth google">Tiếp tục với Google</button>
+                                    <button onClick={() => toast.error("Hiện đang được phát triển vui lòng thử lại sau.")} className="btnAuth" style={{ backgroundColor: "blue" }}>Tiếp tục với Facebook</button>
                                 </div>
                             </div>
                             <div className="col l-7 m-7 c-12 right">
@@ -187,7 +199,7 @@ const AuthenticationPage = () => {
                                 </div>
                                 {isSignUp ? <Login dispatch={dispatch} navigate={navigate} /> : <Reginster dispatch={dispatch} navigate={navigate} />}
                                 <div className="flex items-center justify-between mt-[20px]">
-                                    <button onClick={() => setIsSignUp(!isSignUp)} className="underline">
+                                    <button onClick={() => setIsSignUp(!isSignUp)} className="underline text-blue-600">
                                         {isSignUp ? "Bạn chưa có tài khoản? Đăng ký" : "Bạn đã có tài khoản? Đăng nhập"}
                                     </button>
                                 </div>

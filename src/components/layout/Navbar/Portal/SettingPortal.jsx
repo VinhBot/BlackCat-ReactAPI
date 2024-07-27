@@ -38,7 +38,6 @@ const SettingPortal = () => {
    const project = [
       { name: "Quản lý", icons: "icon ic-20-info", path: "/profile" },
       { name: "Facebook", icons: "icon ic-20-Report", path: "https://www.facebook.com/blackcat.288203/?locale=vi_VN" },
-      // { name: "", icons: "", path: "" },
    ];
    return (
       <SettingPortalStyles className="setting-portal">

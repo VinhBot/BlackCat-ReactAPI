@@ -2,7 +2,7 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState, memo } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
-import { database } from "../assets/firebase/firebase-config.js";
+import { database } from "../assets/firebase-config.js";
 
 const MyMusicPage = memo(() => {
    const users = useSelector((state) => state.auth);

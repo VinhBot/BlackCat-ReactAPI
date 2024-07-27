@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery as reactQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 export const AxiosAPI = {
@@ -7,11 +7,11 @@ export const AxiosAPI = {
       return this.request({ method: "get", url: `/api/listmv?id=${id}&page=${page}&count=19` }).then((result) => result.data.data);
    },
    // 
-   getVideoMv: function(id) {
+   getVideoMv: function (id) {
       return this.request({ method: "get", url: `/api/mv/${id}` }).then((result) => result.data.data);
    },
    // 
-   getSuggestedAlbum: function(id) {
+   getSuggestedAlbum: function (id) {
       return this.request({ method: "get", url: `/api/suggestedplaylists/${id}` }).then((result) => result.data.data);
    },
    // Lấy thông tin
@@ -63,11 +63,11 @@ export const AxiosAPI = {
       return this.request({ method: "post", url: "/user/signup", data: formData, });
    },
    // 
-   getAllDataUser: function(username) {
+   getAllDataUser: function (username) {
       return this.request({ method: "get", url: `/user/finduser/${username}` }).then((result) => result.data.data);
    },
-    // Phương pháp lấy endpoint theo lượt thích của người dùng
-    getUserLikeEndpoint: function (username, { type, item } = {}) {
+   // Phương pháp lấy endpoint theo lượt thích của người dùng
+   getUserLikeEndpoint: function (username, { type, item } = {}) {
       return this.request({ method: "post", url: `/user/${username}/like`, data: { type, item } });
    },
    // cập nhật trang cá nhân 
@@ -76,7 +76,7 @@ export const AxiosAPI = {
    },
    // Lấy thông tin của trang chủ zing
    useGetHomePage: function () {
-      return useQuery({
+      return reactQuery({
          queryKey: ["getHotKey"],
          queryFn: () => this.request({ method: "get", url: "/api/home" }).then((data) => data.data),
          keepPreviousData: true
@@ -84,7 +84,7 @@ export const AxiosAPI = {
    },
    // Lấy thông tin NewSongRelease 
    getNewSongRelease: function () {
-      return useQuery({
+      return reactQuery({
          queryKey: ["getNewSongRelease"],
          queryFn: () => this.request({ method: "get", url: "/api/newreleasechart" }).then((data) => data.data),
          keepPreviousData: true
@@ -92,23 +92,21 @@ export const AxiosAPI = {
    },
    // Lấy thông tin chart 
    useGetHomeChart: function () {
-      return useQuery({
+      return reactQuery({
          queryKey: ["getChartPage"],
          queryFn: () => this.request({ method: "get", url: "/api/homechart", }).then((data) => data.data),
          keepPreviousData: true
       });
    },
    // Lấy thông tin Top100page
-   getTop100page: function () {
-      return useQuery({
-         queryKey: ["getTop100Page"],
-         queryFn: () => this.request({ method: "get", url: "/api/top100", }).then((data) => data.data),
-         keepPreviousData: true
-      });
-   },
+   getTop100page: () => reactQuery({
+      queryKey: ["getTop100Page"],
+      queryFn: () => this.request({ method: "get", url: "/api/top100", }).then((data) => data.data),
+      keepPreviousData: true
+   }),
    // Lấy thông tin GetRadioPage
    useGetRadioPage: function () {
-      return useQuery({
+      return reactQuery({
          queryKey: ["getRadioPagSe"],
          queryFn: () => this.request({ method: "get", url: "/api/radio" }).then((data) => data.data),
          keepPreviousData: true

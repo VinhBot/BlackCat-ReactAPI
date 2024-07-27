@@ -57,15 +57,7 @@ const NavForm = () => {
                <button type="submit" className="header_btn-search">
                   <i className="icon ic-search"></i>
                </button>
-               <input
-                  type="search"
-                  ref={refinput}
-                  // value={value}
-                  onChange={handleUpdateQuery}
-                  onFocus={handleFocus}
-                  className="header_search"
-                  placeholder="Tìm kiếm bài hát, nghệ sĩ, lời bài hát..."
-               />
+               <input type="search" ref={refinput} onChange={handleUpdateQuery} onFocus={handleFocus} className="header_search" placeholder="Tìm kiếm bài hát, nghệ sĩ, lời bài hát..." />
                {refinput?.current?.value?.length > 2 && open && (
                   <button
                      onClick={() => {

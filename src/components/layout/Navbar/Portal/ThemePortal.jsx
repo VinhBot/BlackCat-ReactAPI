@@ -65,29 +65,6 @@ const themes = [
       ],
    },
    {
-      title: "Hình nền cho Mobile",
-      items: [
-         {
-            name: "girl reading book",
-            itemS: "https://cdn.discordapp.com/attachments/1055150050357022843/1129149883635474483/IMG_20230714_033817.jpg",
-            dataTheme: "green-light",
-            bgImg: "https://cdn.discordapp.com/attachments/1055150050357022843/1129149794468757604/Picsart_23-07-14_03-37-50-688.png",
-            bgPlaying: false,
-            bgHeader: false,
-            dataStyle: false,
-         },
-         {
-            name: "cute girl",
-            itemS: "https://cdn.discordapp.com/attachments/1055150050357022843/1129148598790144071/IMG_20230714_033259.jpg",
-            dataTheme: "dark",
-            bgImg: "https://cdn.discordapp.com/attachments/1055150050357022843/1129147206218301570/Picsart_23-07-14_03-27-13-397.png",
-            bgPlaying: false,
-            bgHeader: false,
-            dataStyle: false,
-         }
-      ]
-   },
-   {
       title: "Hình nền cho Máy tính",
       items: [
          {
@@ -98,11 +75,12 @@ const themes = [
             bgPlaying: false,
             bgHeader: false,
             dataStyle: false,
-         }, {
-            name: "keping genshin",
+         },
+         {
+            name: "Code-Chill",
             itemS: "https://gamelandvn.com/wp-content/uploads/anh/2020/11/keqing-thumbnail.jpg",
             dataTheme: "blue",
-            bgImg: "https://cdn.discordapp.com/attachments/765620139126554644/826026547746963506/image0.gif",
+            bgImg: "/assets/Img/Theme/Gif/Code-Chill/codechill.gif",
             bgPlaying: "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1//images/theme/xone-header.jpg",
             bgHeader: "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1//images/theme/xone-header.jpg",
             dataStyle: false,

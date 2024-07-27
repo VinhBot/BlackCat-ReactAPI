@@ -3,7 +3,6 @@ import React from "react";
 import Loading from "../components/loading/Loading";
 
 const RouterPages = React.memo(() => {
-   // Components  
    const NewFeedPageChidlen = React.lazy(() => import('../components/Followpage/NewFeedPageChidlen'));
    const SearchPagePlaylist = React.lazy(() => import('../components/SearchPage/SearchPagePlaylist'));
    const HistroryPlayList = React.lazy(() => import('../components/HistoryPage/HistroryPlayList'));
@@ -25,7 +24,6 @@ const RouterPages = React.memo(() => {
    const ArtistALl = React.lazy(() => import('../components/ArtistPage/ArtistALl'));
    const MvPageList = React.lazy(() => import('../components/MVpage/MvPageList'));
    const ArtistMv = React.lazy(() => import('../components/ArtistPage/ArtistMv'));
-   // pages
    const AuthenticationPage = React.lazy(() => import('../pages/AuthenticationPage'));
    const ZingChartPage = React.lazy(() => import('../pages/ZingChartPage'));
    const NewMusicPage = React.lazy(() => import('../pages/NewMusicPage'));

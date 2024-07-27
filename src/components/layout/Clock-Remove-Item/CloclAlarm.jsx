@@ -12,7 +12,7 @@ const ClockAlarm = React.memo(() => {
   const clockOff = useSelector((state) => state.setting.clockOff);
   const { Portal, show, hide } = usePortal({ defaultShow: false });
   const dispatch = useDispatch();
-  
+
   const handleClickBackdrop = (e) => {
     if (e.target.id === "theme-overlay" || e.target.id === "portal-bio-arits" || e.target.id === "close-block" || e.target?.parentElement?.id === "close-block") {
       hide();
@@ -21,8 +21,8 @@ const ClockAlarm = React.memo(() => {
   let TimeOut;
   const formik = useFormik({
     initialValues: {
-      hours: "00",
-      minute: "00",
+      hours: "",
+      minute: "",
     },
     validationSchema: yup.object({
       hours: yup.number().required("Vui lòng nhập số giờ"),

@@ -7,9 +7,8 @@ import { setPlay, setReady } from "../../assets/redux/Features/settingPlayFeatur
 import { OutstandingItemsStyles } from "../../assets/styledComponents";
 
 const OutstandingItems = memo(({ data, classGrid, type, isSearch, setOpen }) => {
-   const navigate = useNavigate()
-   const dispatch = useDispatch()
-
+   const navigate = useNavigate();
+   const dispatch = useDispatch();
    if (isSearch) {
       return (
          <OutstandingItemsStyles className={`${classGrid || null} ${isSearch ? "is-item-search" : null} media-hover`}>
@@ -18,25 +17,20 @@ const OutstandingItems = memo(({ data, classGrid, type, isSearch, setOpen }) => 
                   if (data?.type === 4) {
                      navigate(`/nghe-si/${data?.aliasName}`)
                      setOpen(false)
-                  }
-
+                  };
                   if (data?.type === 1) {
                      dispatch(setReady(false))
                      dispatch(setPlay(false))
                      dispatch(playSongNotAlbumById(data))
                      dispatch(setPlay(true))
                      setOpen(false)
-                  }
+                  };
                }}
                className="media artist-item "
             >
                <div className="media-left mr-[10px]">
                   {isSearch && (
-                     <div
-                        className={`${
-                           isSearch ? "w-[50px] h-[50px]" : "w-[80px] h-[80px]"
-                        } want_list-item-link main-page_list-item main_page-hover`}
-                     >
+                     <div className={`${isSearch ? "w-[50px] h-[50px]" : "w-[80px] h-[80px]"} want_list-item-link main-page_list-item main_page-hover`}>
                         <div className="want_list-item-link  cursor-pointer main-page_list-item_img">
                            <img src={data?.thumbnail || data?.avatar || data?.thumb} alt="" />
                         </div>
@@ -65,11 +59,7 @@ const OutstandingItems = memo(({ data, classGrid, type, isSearch, setOpen }) => 
                         <div className="subtitle">
                            <span className="followers">
                               Nghệ sĩ •{" "}
-                              {data?.followers > 1000000
-                                 ? data?.followers.toString().slice(0, -6) + "M"
-                                 : data?.followers > 10000
-                                 ? data?.followers.toString().slice(0, -3) + "K"
-                                 : data.followers}{" "}
+                              {data?.followers > 1000000 ? data?.followers.toString().slice(0, -6) + "M" : data?.followers > 10000 ? data?.followers.toString().slice(0, -3) + "K" : data.followers}{" "}
                               quan tâm
                            </span>
                         </div>
@@ -165,10 +155,7 @@ const OutstandingItems = memo(({ data, classGrid, type, isSearch, setOpen }) => 
             >
                {type === "Nghệ sĩ" && (
                   <div
-                     className={`${
-                        isSearch ? "w-[50px] h-[50px]" : "w-[80px] h-[80px]"
-                     } want_list-item-link cursor-pointer main-page_list-item main_page-hover`}
-                  >
+                     className={`${isSearch ? "w-[50px] h-[50px]" : "w-[80px] h-[80px]"} want_list-item-link cursor-pointer main-page_list-item main_page-hover`}>
                      <div className="want_list-item-link main-page_list-item_img">
                         <img src={data?.thumbnail || data?.avatar || data?.thumb} alt="" />
                      </div>
@@ -183,12 +170,7 @@ const OutstandingItems = memo(({ data, classGrid, type, isSearch, setOpen }) => 
                   </div>
                )}
                {type !== "Nghệ sĩ" && !isSearch && (
-                  <div
-                     // to={`/album/${data?.encodeId}`}
-                     className={`${
-                        isSearch ? "w-[40px] h-[40px]" : "w-[80px] h-[80px]"
-                     } want_list-item-link cursor-pointer main-page_list-item main_page-hover`}
-                  >
+                  <div className={`${isSearch ? "w-[40px] h-[40px]" : "w-[80px] h-[80px]"} want_list-item-link cursor-pointer main-page_list-item main_page-hover`}>
                      <div className="want_list-item-link main-page_list-item_img">
                         <img src={data?.thumbnail || data?.avatar || data?.thumb} alt="" />
                      </div>
@@ -203,15 +185,10 @@ const OutstandingItems = memo(({ data, classGrid, type, isSearch, setOpen }) => 
                   </div>
                )}
                {isSearch && (
-                  <div
-                     className={`${
-                        isSearch ? "w-[40px] h-[40px]" : "w-[80px] h-[80px]"
-                     } want_list-item-link cursor-pointer main-page_list-item main_page-hover`}
-                  >
+                  <div className={`${isSearch ? "w-[40px] h-[40px]" : "w-[80px] h-[80px]"} want_list-item-link cursor-pointer main-page_list-item main_page-hover`}>
                      <div className="want_list-item-link main-page_list-item_img">
                         <img src={data?.thumbnail || data?.avatar || data?.thumb} alt="" />
                      </div>
-
                      <div className="recently_list-item_hover ">
                         <div className="recently_btn-hover recently_btn-hover-play">
                            <span>
@@ -227,20 +204,13 @@ const OutstandingItems = memo(({ data, classGrid, type, isSearch, setOpen }) => 
                {type === "Nghệ sĩ" && (
                   <>
                      <div className="title title-hover">
-                        <div
-                           className="is-ghost"
-                           //  to={`/nghe-si${data?.link}`}
-                        >
+                        <div className="is-ghost">
                            <span>{data?.name}</span>
                         </div>
                      </div>
                      <div className="subtitle">
                         <span className="followers">
-                           {data?.totalFollow > 1000000
-                              ? data?.totalFollow.toString().slice(0, -6) + "M"
-                              : data?.totalFollow > 10000
-                              ? data?.totalFollow.toString().slice(0, -3) + "K"
-                              : data.totalFollow}{" "}
+                           {data?.totalFollow > 1000000 ? data?.totalFollow.toString().slice(0, -6) + "M" : data?.totalFollow > 10000 ? data?.totalFollow.toString().slice(0, -3) + "K" : data.totalFollow}{" "}
                            quan tâm
                         </span>
                      </div>
@@ -289,7 +259,7 @@ const OutstandingItems = memo(({ data, classGrid, type, isSearch, setOpen }) => 
             </div>
          </div>
       </OutstandingItemsStyles>
-   )
-})
+   );
+});
 
-export default OutstandingItems
+export default OutstandingItems;
